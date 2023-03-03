@@ -9,12 +9,12 @@ const NavBar = () => {
         </Link>
         <ul className="flex font-montserrat">
           <li>
-            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="#about">
+            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="/#about">
               ABOUT
             </Link>
           </li>
           <li>
-            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="#sponsors">
+            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="/#sponsors">
               SPONSORS
             </Link>
           </li>
