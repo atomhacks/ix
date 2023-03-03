@@ -1,3 +1,4 @@
+/*
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
@@ -121,7 +122,6 @@ export default function CreateSubmission() {
                         </span>
                       </div>
                     </div>
-                    {/* Using conditional rendering messes up the spacing*/}
                     <CheckIcon className={`w-8 h-8 mr-4 ${checked ? "visible" : "invisible"}`} />
                   </>
                 )}
@@ -143,3 +143,4 @@ export default function CreateSubmission() {
 }
 
 CreateSubmission.Layout = Layout;
+*/

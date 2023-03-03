@@ -3,6 +3,8 @@ import prisma from "../../../lib/prisma";
 import { filterBody, wrongMethod, unauthorized, missingFields } from "../../../lib/server";
 
 // TODO: server side validation of OSIS and image (link)
+
+/*
 export default async function handler(req, res) {
   if (req.method != "PUT") {
     return wrongMethod(res);
@@ -30,4 +32,4 @@ export default async function handler(req, res) {
     },
   });
   return res.status(201).json(updateUser);
-}
+} */

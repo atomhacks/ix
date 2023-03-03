@@ -20,12 +20,11 @@ export default function Dashboard({ user }) {
   console.log(user);
   return (
     <>
-      {!initialized && <Setup setInitialized={setInitialized} />}
+      {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
       <div className="pt-4 pl-4">
         <h1 className="text-6xl font-bold">Dashboard</h1>
-        <div className="mt-24">
-          <h1 className="text-5xl font-bold font-montserrat">Submissions</h1>
-          {user.submissionId ? (
+          <p className="text-lg">The dashboard will be ready soon</p>
+          {/* {user.submissionId ? (
             <Link href={`/dashboard/submissions/${user.submissionId}`} className="inline-block">
               <div className="p-4 mt-4 rounded-lg w-80 h-36 bg-neutral-900">
                 <h2 className="mb-2 text-2xl font-bold text-teal-300">{user.submission.title}</h2>
@@ -40,14 +39,13 @@ export default function Dashboard({ user }) {
                 </button>
               </Link>
             </div>
-          )}
+          )} */}
           {/* <Image src={user.image} alt="Profile Picture" width={96} height={96} />
           <h1>
             {user.name} - {user.osis}
           </h1>
           <h1>Email: {user.email}</h1>
           <h1>Experience: {user.experience}</h1> */}
-        </div>
       </div>
     </>
   );

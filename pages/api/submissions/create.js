@@ -1,3 +1,4 @@
+/*
 import prisma from "../../../lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { duplicateEntry, filterBodyAndValidate, missingFields, unauthorized, wrongMethod } from "../../../lib/server";
@@ -44,3 +45,4 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Unknown Error" });
   }
 }
+*/
