@@ -12,7 +12,7 @@ import Bg from "../public/atomhackspic.jpg";
 import About from "../components/landing/about.js";
 import Sponsors from "../components/landing/sponsor.js";
 
-export default function Index({ user }) {
+export default function Index() {
   const { data: session } = useSession();
   const years = useMotionValue(1);
   const yearsRender = useTransform(years, (latest) => ordinal_suffix_of(Math.round(latest)));
