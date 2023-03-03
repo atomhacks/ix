@@ -26,10 +26,10 @@ const About = () => {
       </div>
       <div className="container gap-20 mx-auto font-montserrat">
         {content.map((c, i) => (
-          <div className="grid grid-cols-2 my-24 md:my-12 md:grid-cols-1" key={i}>
+          <div className="grid grid-cols-2 px-24 my-24 md:px-0 md:my-12 md:grid-cols-1" key={i}>
             {i % 2 === 0 ? (
               <>
-                <div className="relative md:px-4">
+                <div className="relative px-4 md:px-4">
                   <div className="md:hidden md:px-4 md:-inset-0.5 absolute transition duration-200 opacity-75 -inset-1 bg-gradient-to-r from-green-500 to-yellow-500 rounded-xl blur-md group-hover:opacity-100 group-hover:duration-200" />
                   <Image className="relative shadow-2xl rounded-2xl" src={c.img} alt="" />
                 </div>
