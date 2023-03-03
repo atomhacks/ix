@@ -1,18 +1,15 @@
-import { useRouter } from "next/router";
-import { PlusIcon } from "@heroicons/react/24/solid";
+
 
 import { getUser, redirect } from "../../lib/server";
 import Link from "next/link";
-import Layout from "../../components/dashboard/Layout";
-import { useEffect } from "react";
 
 export default function Dashboard({ user }) {
-  const router = useRouter();
+  // const router = useRouter();
   // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
-  const setInitialized = (val) => {
-    _setInitialized(val);
-    router.replace(router.asPath);
-  };
+  // const setInitialized = (val) => {
+  //   _setInitialized(val);
+  //   router.replace(router.asPath);
+  // };
 
   return (
     <>

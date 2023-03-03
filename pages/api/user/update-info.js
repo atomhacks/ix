@@ -1,6 +1,3 @@
-import { getToken } from "next-auth/jwt";
-import prisma from "../../../lib/prisma";
-import { filterBody, wrongMethod, unauthorized, missingFields } from "../../../lib/server";
 
 // TODO: server side validation of OSIS and image (link)
 

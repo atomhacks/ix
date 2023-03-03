@@ -84,22 +84,22 @@ export default function SetupPage() {
     }
   };
   return (
-    <div className="min-h-screen bg-neutral-800 font-montserrat text-white">
-      <div className="mt-2 text-neutral-300 max-w-screen-lg pt-4 pl-4 mx-auto">
+    <div className="min-h-screen text-white bg-neutral-800 font-montserrat">
+      <div className="max-w-screen-lg pt-4 pl-4 mx-auto mt-2 text-neutral-300">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
-            <h1 className="text-6xl font-bold mt-4">Atomhacks IX Registration</h1>
+            <h1 className="mt-4 text-6xl font-bold">Atomhacks IX Registration</h1>
             <div className="space-y-4">
-              <p>It's that time of the year again — IT'S ATOMHACKS SEASON!</p>
+              <p>It&apos;s that time of the year again — IT&apos;S ATOMHACKS SEASON!</p>
 
               <p>
-                Our ninth annual hackathon is here! It's an amazing opportunity for everyone to unite and build
+                Our ninth annual hackathon is here! It&apos;s an amazing opportunity for everyone to unite and build
                 something they have never thought of before. It will be a creative outlet for people to plug themselves
                 in and start creating!
               </p>
 
               <p>
-                NO PRIOR KNOWLEDGE NEEDED. If you don't know how to code, it's no problem at all. We welcome you to come
+                NO PRIOR KNOWLEDGE NEEDED. If you don&apos;t know how to code, it&apos;s no problem at all. We welcome you to come
                 and learn through our amazing workshops. We have prizes for beginner coders, so come on down and create
                 something with your friends, have fun, and take home a grand prize. There will also be swag and free
                 lunch and dinner for everyone participating!
@@ -302,7 +302,7 @@ export default function SetupPage() {
             <button
               type="submit"
               disabled={isValid() ? false : true}
-              className="inline-flex justify-center mt-4 mb-8 px-4 py-2 text-sm font-medium text-white transition duration-200 bg-teal-500 border border-transparent rounded-md hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:bg-teal-600"
+              className="inline-flex justify-center px-4 py-2 mt-4 mb-8 text-sm font-medium text-white transition duration-200 bg-teal-500 border border-transparent rounded-md hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:bg-teal-600"
             >
               Submit
             </button>
