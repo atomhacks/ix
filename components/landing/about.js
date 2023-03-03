@@ -22,7 +22,7 @@ const About = () => {
   return (
     <div id="about" className="flex flex-col py-24 border-b-8 border-yellow-500">
       <div className="flex items-center justify-center">
-        <span className="py-6 border-b-4 border-green-500 text-7xl font-morro">ABOUT</span>
+        <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">ABOUT</span>
       </div>
       <div className="container gap-20 mx-auto font-montserrat">
         {content.map((c, i) => (
