@@ -14,12 +14,12 @@ export default function Dashboard({ user }) {
   return (
     <>
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
-      <div className="flex flex-col items-center justify-center min-h-screen text-white bg-zinc-800">
-        <h1 className="mb-2 text-6xl font-bold">Dashboard</h1>
-        <p className="text-2xl">The dashboard will be available when the hackathon begins!</p>
+      <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat bg-zinc-800">
+        <h1 className="mb-2 text-6xl font-bold md:text-4xl">Dashboard</h1>
+        <p className="text-2xl text-center md:my-2 md:text-base">The dashboard will be available when the hackathon begins!</p>
         {!user.initialized ? (
           <div>
-            <h1 className="mt-2 text-sm">
+            <h1 className="mt-2 text-xs text-center">
               (By the way, you haven&apos;t fully registered for the event yet. You can do so by going{" "}
               <div className="inline underline ">
                 <Link href="/dashboard/setup" passHref>

@@ -88,8 +88,8 @@ export default function SetupPage() {
       <div className="max-w-screen-lg pt-4 pl-4 mx-auto mt-2 text-neutral-300">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
-            <h1 className="mt-4 text-6xl font-bold">Atomhacks IX Registration</h1>
-            <div className="space-y-4">
+            <h1 className="mt-4 text-6xl font-bold md:text-4xl">Atomhacks IX Registration</h1>
+            <div className="px-2 space-y-4 md:text-sm">
               <p>It&apos;s that time of the year again — IT&apos;S ATOMHACKS SEASON!</p>
 
               <p>
@@ -230,6 +230,7 @@ export default function SetupPage() {
             type="text"
             id="discord"
             name="discord"
+            autoComplete="off"
             value={discord}
             onInput={(e) => setDiscord(e.target.value)}
           />
