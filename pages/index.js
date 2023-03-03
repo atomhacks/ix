@@ -16,6 +16,7 @@ function Index() {
   const { data: session } = useSession();
   const years = useMotionValue(1);
   const yearsRender = useTransform(years, (latest) => ordinal_suffix_of(Math.round(latest)));
+  console.log(session)
 
   useEffect(() => {
     const animation = animate(years, 9, { duration: 2 });
@@ -50,7 +51,7 @@ function Index() {
             </div>
 
             {/* Right side of page */}
-            <div className="flex flex-col items-start justify-start ml-6 basis-1/2">
+            <div className="flex flex-col items-start justify-start ml-6 basis-1/2 font-montserrat">
               <h1 className="mb-2 text-5xl font-thin">
                 Bronx Science&apos;s <motion.b className="text-green-500">{yearsRender}</motion.b>
                 <br />

@@ -4,6 +4,7 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { getUser, redirect } from "../../lib/server";
 import Link from "next/link";
 import Layout from "../../components/dashboard/Layout";
+import { useEffect } from "react";
 
 export default function Dashboard({ user }) {
   const router = useRouter();
@@ -16,10 +17,23 @@ export default function Dashboard({ user }) {
   return (
     <>
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
-      <div className="pt-4 pl-4">
-        <h1 className="text-6xl font-bold">Dashboard</h1>
-          <p className="text-lg">The dashboard will be ready soon</p>
-          {/* {user.submissionId ? (
+      <div className="flex flex-col items-center justify-center min-h-screen text-white bg-zinc-800">
+        <h1 className="mb-2 text-6xl font-bold">Dashboard</h1>
+        <p className="text-2xl">The dashboard will be available when the hackathon begins!</p>
+        {!user.initialized ? (
+          <div>
+            <h1 className="mt-2 text-sm">
+              (By the way, you haven&apos;t fully registered for the event yet. You can do so by going{" "}
+              <div className="inline underline ">
+                <Link href="/dashboard/setup" passHref>
+                  here!
+                </Link>
+              </div>
+              )
+            </h1>
+          </div>
+        ) : null}
+        {/* {user.submissionId ? (
             <Link href={`/dashboard/submissions/${user.submissionId}`} className="inline-block">
               <div className="p-4 mt-4 rounded-lg w-80 h-36 bg-neutral-900">
                 <h2 className="mb-2 text-2xl font-bold text-teal-300">{user.submission.title}</h2>
@@ -35,7 +49,7 @@ export default function Dashboard({ user }) {
               </Link>
             </div>
           )} */}
-          {/* <Image src={user.image} alt="Profile Picture" width={96} height={96} />
+        {/* <Image src={user.image} alt="Profile Picture" width={96} height={96} />
           <h1>
             {user.name} - {user.osis}
           </h1>
@@ -47,7 +61,7 @@ export default function Dashboard({ user }) {
 }
 
 // wishing i had app directory rn
-Dashboard.Layout = Layout;
+// Dashboard.Layout = Layout;
 
 export async function getServerSideProps({ req }) {
   const user = await getUser(req);
