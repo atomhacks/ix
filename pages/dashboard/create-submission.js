@@ -1,4 +1,3 @@
-/*
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
@@ -58,18 +57,18 @@ export default function CreateSubmission() {
   };
 
   return (
-    <div className="flex grow justify-center items-center bg-neutral-800 mx-8 px-4 py-2 rounded-lg max-w-screen-xl">
-      <div className="flex basis-1/2 items-end justify-end mr-12 flex-col">
+    <div className="flex items-center justify-center max-w-screen-xl px-4 py-2 mx-8 rounded-lg grow bg-neutral-800">
+      <div className="flex flex-col items-end justify-end mr-12 basis-1/2">
         <h1 className="text-4xl">Create a submission</h1>
         <h2 className="text-neutral-400">None of these options are permanant</h2>
       </div>
-      <div className="flex basis-1/2 items-start justify-start ml-6 text-neutral-300 mt-2">
+      <div className="flex items-start justify-start mt-2 ml-6 basis-1/2 text-neutral-300">
         <form onSubmit={handleSubmit}>
           <label className="block text-base text-neutral-400" htmlFor="title">
             Title *
           </label>
           <input
-            className="mt-1 mb-4 block text-lg p-2 rounded-md bg-neutral-700 focus:outline-none shadow-lg focus:ring focus:border-teal-600 focus:ring-teal-500"
+            className="block p-2 mt-1 mb-4 text-lg rounded-md shadow-lg bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
             type="text"
             id="title"
             name="title"
@@ -78,7 +77,7 @@ export default function CreateSubmission() {
             Description
           </label>
           <textarea
-            className="mt-1 mb-4 block text-m p-2 rounded-lg bg-neutral-700 focus:outline-none shadow-lg focus:ring focus:border-teal-600 focus:ring-teal-500"
+            className="block p-2 mt-1 mb-4 rounded-lg shadow-lg text-m bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
             type="text"
             id="description"
             name="description"
@@ -126,10 +125,10 @@ export default function CreateSubmission() {
               </Switch>
             ))}
           </div>
-          <div className="mt-4 py-2">
+          <div className="py-2 mt-4">
             <button
               type="submit"
-              className="transition duration-200 inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-teal-500 border border-transparent rounded-md hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
               Next
             </button>
@@ -141,4 +140,3 @@ export default function CreateSubmission() {
 }
 
 CreateSubmission.Layout = Layout;
-*/
