@@ -53,8 +53,6 @@ export default function CreateSubmission() {
     });
     if (res.status == 201) {
       const json = await res.json();
-      console.log(json);
-      console.log("submission created");
       router.push(`/dashboard/submissions/${json.id}`);
     }
   };

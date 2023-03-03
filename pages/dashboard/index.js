@@ -1,23 +1,18 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
-import Setup from "../../components/dashboard/Setup";
 import { getUser, redirect } from "../../lib/server";
 import Link from "next/link";
 import Layout from "../../components/dashboard/Layout";
 
 export default function Dashboard({ user }) {
   const router = useRouter();
-  // conditional hooks are not allowed :(
-  const [initialized, _setInitialized] = useState(user.initialized);
   // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
   const setInitialized = (val) => {
     _setInitialized(val);
     router.replace(router.asPath);
   };
 
-  console.log(user);
   return (
     <>
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}

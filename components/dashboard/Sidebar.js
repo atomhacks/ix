@@ -27,9 +27,7 @@ export default function Sidebar() {
     }).then((res) => {
       if (res.status == 200) {
         res.json().then((user) => {
-          console.log(user);
           if (user.submissionId) {
-            console.log("yeah");
             setRoutes(
               routes.map((route, index) => {
                 if (index == 1) {

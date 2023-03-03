@@ -72,7 +72,6 @@ export default function SetupPage() {
       shouldMatchTeam: shouldMatch,
       teamMembers: team.split(", ").map((name) => name.trim()),
     });
-    console.log(body);
     const res = await fetch("/api/user/init", {
       method: "POST",
       headers: {
