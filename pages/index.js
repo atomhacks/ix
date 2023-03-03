@@ -12,7 +12,7 @@ import Bg from "../public/atomhackspic.jpg";
 import About from "../components/landing/about.js";
 import Sponsors from "../components/landing/sponsor.js";
 
-function Index() {
+export default function Index({ user }) {
   const { data: session } = useSession();
   const years = useMotionValue(1);
   const yearsRender = useTransform(years, (latest) => ordinal_suffix_of(Math.round(latest)));
@@ -25,9 +25,9 @@ function Index() {
   }, [years]);
 
   return (
-    <div className="overflow-hidden text-white ">
-      <div className="absolute top-0 left-0 !w-full !h-full bg-black opacity-[.82] border-b-8 border-green-500" />
-      <div className="top-0 left-0 overflow-hidden !w-full !h-full absolute">
+    <div className="text-white ">
+      <div className="absolute top-0 left-0 !w-full !h-full md:opacity-100 md:min-h-screen bg-black opacity-[.82] border-b-8 border-green-500" />
+      <div className="top-0 left-0 overflow-hidden !w-full !h-full absolute md:hidden">
         <Image
           layout="responsive"
           src={Bg}
@@ -42,7 +42,7 @@ function Index() {
       <div className="z-50 text-white opacity-100">
         <ShapeRain count={10} />
         <Parallax y={[20, -20]}>
-          <div className="flex grow items-center  justify-center min-h-[calc(100vh-64px)] ">
+          <div className="flex grow items-center md:flex-col  justify-center min-h-[calc(100vh-64px)] ">
             {/* Left side of page */}
             <div className="flex items-end justify-end mr-12 basis-1/2">
               <div className={styles.logo}>
@@ -86,5 +86,3 @@ function Index() {
     </div>
   );
 }
-
-export default Index;

@@ -3,8 +3,8 @@ import Link from "next/link";
 const NavBar = () => {
   return (
     <div className="fixed top-0 left-0 z-10 items-center w-full h-16 border-b border-black bg-neutral-900">
-      <div className="flex items-center justify-center m-auto font-bold text-white">
-        <Link className="p-3 mr-auto text-4xl text-white font-morro justify-self-start" href="/">
+      <div className="flex items-center justify-center m-auto font-bold text-white md:text-xs">
+        <Link className="p-3 mr-auto text-4xl text-white font-morro justify-self-start md:none" href="/">
           ATOM HACKS IX
         </Link>
         <ul className="flex font-montserrat">

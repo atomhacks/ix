@@ -69,6 +69,15 @@ module.exports = {
       backgroundSize: {
         oversize: "200% 200%",
       },
+      screens: {
+        '2xl': { max: '2000px' },
+        xl: { max: '1500px' },
+        lg: { max: '985px' },
+        md: { max: '889px' },
+        sm: { max: '519px' },
+        xs: { max: '459px' },
+        '2xs': { max: '401px' },
+      },
     },
   },
   variants: {
