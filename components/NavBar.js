@@ -4,7 +4,7 @@ const NavBar = () => {
   return (
     <div className="fixed top-0 left-0 z-50 items-center w-full h-16 border-b border-black md:z-50 bg-neutral-900">
       <div className="flex items-center justify-center m-auto mx-4 font-bold text-white md:text-xs">
-        <Link className="p-3  mr-auto md:text-[14px] text-4xl text-white font-morro justify-self-start md:none" href="/">
+        <Link className="p-3 mr-auto 2xs:text-[10px] md:text-[14px] text-4xl text-white font-morro justify-self-start md:none" href="/">
           ATOM HACKS
         </Link>
         <ul className="flex font-montserrat">

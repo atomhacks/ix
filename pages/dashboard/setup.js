@@ -85,11 +85,11 @@ export default function SetupPage() {
   };
   return (
     <div className="min-h-screen text-white bg-neutral-800 font-montserrat">
-      <div className="max-w-screen-lg pt-4 pl-4 mx-auto mt-2 text-neutral-300">
+      <div className="max-w-screen-lg pt-4 p-4 mx-auto mt-2 text-neutral-300">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <h1 className="mt-4 text-6xl font-bold md:text-4xl">Atomhacks IX Registration</h1>
-            <div className="px-2 space-y-4 md:text-sm">
+            <div className="space-y-4 md:text-sm">
               <p>It&apos;s that time of the year again — IT&apos;S ATOMHACKS SEASON!</p>
 
               <p>
