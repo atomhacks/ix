@@ -1,7 +1,6 @@
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
-import Gallery from "../components/landing/gallery";
 import bucket from "../lib/bucket";
 import { useState, Fragment } from "react";
 
@@ -36,9 +35,7 @@ function GalleryPage({ photos }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="transform overflow-hidden rounded-2xl flex justify-center items-center shadow-xl transition-all">
-                  {selectedImage && (
-                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} />
-                  )}
+                  {selectedImage && <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} />}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

@@ -1,5 +1,3 @@
-
-
 import { getUser, redirect } from "../../lib/server";
 import Link from "next/link";
 
@@ -16,7 +14,9 @@ export default function Dashboard({ user }) {
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
       <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat bg-zinc-800">
         <h1 className="mb-2 text-6xl font-bold md:text-4xl">Dashboard</h1>
-        <p className="text-2xl text-center md:my-2 md:text-base">The dashboard will be available when the hackathon begins!</p>
+        <p className="text-2xl text-center md:my-2 md:text-base">
+          The dashboard will be available when the hackathon begins!
+        </p>
         {!user.initialized ? (
           <div>
             <h1 className="mt-2 text-xs text-center">

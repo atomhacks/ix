@@ -1,4 +1,3 @@
-
 // TODO: server side validation of OSIS and image (link)
 
 /*

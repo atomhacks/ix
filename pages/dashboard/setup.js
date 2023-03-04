@@ -80,7 +80,7 @@ export default function SetupPage() {
       body,
     });
     if (res.status == 201) {
-      router.push("/dashboard/success")
+      router.push("/dashboard/success");
     }
   };
   return (
@@ -99,10 +99,10 @@ export default function SetupPage() {
               </p>
 
               <p>
-                NO PRIOR KNOWLEDGE NEEDED. If you don&apos;t know how to code, it&apos;s no problem at all. We welcome you to come
-                and learn through our amazing workshops. We have prizes for beginner coders, so come on down and create
-                something with your friends, have fun, and take home a grand prize. There will also be swag and free
-                lunch and dinner for everyone participating!
+                NO PRIOR KNOWLEDGE NEEDED. If you don&apos;t know how to code, it&apos;s no problem at all. We welcome
+                you to come and learn through our amazing workshops. We have prizes for beginner coders, so come on down
+                and create something with your friends, have fun, and take home a grand prize. There will also be swag
+                and free lunch and dinner for everyone participating!
               </p>
 
               <p>
@@ -318,7 +318,7 @@ export async function getServerSideProps({ req }) {
   const user = await getUser(req);
   if (!user) return redirect("/api/auth/signin");
   if (user.initialized) {
-    return redirect("/dashboard/already")
+    return redirect("/dashboard/already");
   }
 
   return {
