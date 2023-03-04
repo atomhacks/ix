@@ -3,6 +3,11 @@ import Link from "next/link";
 
 const list = [
   {
+    name: "Bronx Science Alumni Foundation",
+    path: "alumni-foundation.png",
+    link: "https://alumni.bxscience.edu/",
+  },
+  {
     name: "Taskade",
     path: "taskade-logo.png",
     link: "https://www.taskade.com/",
