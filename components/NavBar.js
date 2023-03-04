@@ -2,31 +2,27 @@ import Link from "next/link";
 
 const NavBar = () => {
   return (
-    <div className="fixed top-0 left-0 z-50 items-center w-full h-16 border-b border-black md:z-50 bg-neutral-900">
-      <div className="flex items-center justify-center m-auto mx-4 font-bold text-white md:text-xs">
-        <Link
-          className="p-3 mr-auto 2xs:text-[10px] md:text-[14px] text-4xl text-white font-morro justify-self-start md:none"
-          href="/"
-        >
-          ATOM HACKS
-        </Link>
-        <ul className="flex font-montserrat">
-          <li>
-            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="/#about">
-              ABOUT
-            </Link>
-          </li>
-          <li>
-            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="/#sponsors">
-              SPONSORS
-            </Link>
-          </li>
-          <li>
-            <Link className="p-4 duration-300 md:p-2 hover:text-gray-500" href="/gallery">
-              GALLERY
-            </Link>
-          </li>
-        </ul>
+    <div className="fixed top-0 left-0 z-50 w-full h-16 border-b border-black md:z-50 bg-neutral-900">
+      <div className="flex justify-between items-center font-bold text-white mx-4 my-2 md:text-xs">
+        <div className="font-morro text-4xl md:text-[14px] md:none">
+          {" "}
+          <Link className=" text-white" href="/">
+            ATOM HACKS
+          </Link>
+        </div>
+        <div className="flex font-montserrat text-1xl">
+          <Link className="px-4 md:px-2 duration-300 hover:text-gray-500" href="/#about">
+            ABOUT
+          </Link>
+
+          <Link className="px-4 md:px-2 duration-300 hover:text-gray-500" href="/#sponsors">
+            SPONSORS
+          </Link>
+
+          <Link className="px-4 md:px-2 duration-300 hover:text-gray-500" href="/gallery">
+            GALLERY
+          </Link>
+        </div>
       </div>
     </div>
   );

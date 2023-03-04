@@ -33,18 +33,18 @@ const About = () => {
                   <div className="md:hidden md:px-4 md:-inset-0.5 absolute transition duration-200 opacity-75 -inset-1 bg-gradient-to-r from-green-500 to-yellow-500 rounded-xl blur-md group-hover:opacity-100 group-hover:duration-200" />
                   <Image className="relative shadow-2xl rounded-2xl" src={c.img} alt="" />
                 </div>
-                <div className="my-auto ml-24 text-right md:mt-4 md:ml-0">
+                <div className="my-auto ml-24 text-right md:my-4 md:ml-0">
                   <h1 className="px-8 py-3 text-xl border-r-8 border-green-500 md:text-base"> {c.text}</h1>
                 </div>
               </>
             ) : (
               <>
-                <div className="my-auto mr-24 text-left md:mb-4 md:ml-0 ">
-                  <h1 className="px-8 py-3 text-xl border-l-8 border-yellow-500 md:text-base"> {c.text}</h1>
-                </div>{" "}
-                <div className="relative md:px-4">
+                <div className="relative px-4 md:px-4 order-2">
                   <div className="absolute transition duration-200 opacity-75 md:hidden md:px-4 -inset-1 bg-gradient-to-r from-green-500 to-yellow-500 rounded-xl blur-md group-hover:opacity-100 group-hover:duration-200" />
                   <Image className="relative shadow-2xl rounded-2xl" src={c.img} alt="" />
+                </div>{" "}
+                <div className="my-auto mr-24 text-left md:my-4 md:ml-0 order-1 md:order-3">
+                  <h1 className="px-8 py-3 text-xl border-l-8 border-yellow-500 md:text-base"> {c.text}</h1>
                 </div>{" "}
               </>
             )}

@@ -46,14 +46,14 @@ export default function Index() {
           <Parallax y={[20, -20]}>
             <div className="flex grow items-center md:flex-col justify-center min-h-[calc(100vh-64px)] ">
               {/* Left side of page */}
-              <div className="flex items-end justify-end py-2 my-1 mr-12 md:m-0 md:items-center md:justify-center basis-1/2">
+              <div className="flex items-end justify-end py-2 my-1 mx-12 md:m-0 md:items-center md:justify-center basis-1/2">
                 <div className={styles.logo}>
                   <Image className="w-64 h-72 md:w-52 md:h-56" src={Logo} alt="AtomHacks"></Image>
                 </div>
               </div>
 
               {/* Right side of page */}
-              <div className="flex flex-col items-start justify-start ml-6 md:py-8 md:mt-4 basis-1/2 font-montserrat">
+              <div className="flex flex-col items-start justify-start mx-6 md:py-8 md:mt-4 basis-1/2 font-montserrat">
                 <h1 className="mb-2 text-5xl font-thin md:text-2xl">
                   Bronx Science&apos;s <motion.b className="text-green-500">{yearsRender}</motion.b>
                   <br />
@@ -61,8 +61,7 @@ export default function Index() {
                 </h1>
                 <h1 className="py-2 text-xl font-semibold">March 18th, 2023</h1>
                 <p className="mb-4 font-medium break-words">
-                  Explore, build, innovate. Come join us for 12 full hours <br /> of creativity, excitement, and
-                  building!
+                  Explore, build, innovate. Come join us for 12 full hours of creativity, excitement, and building!
                 </p>
                 {session ? (
                   <Link href="/dashboard">
