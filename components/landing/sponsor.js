@@ -32,6 +32,11 @@ const list = [
     path: "xyz-logo.png",
     link: "https://www.taskade.com/",
   },
+  {
+    name: "Wolfram Alpha",
+    path: "wolfram-logo.svg",
+    link: "https://www.wolframalpha.com/",
+  },
 ];
 
 const Sponsors = () => {
