@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "atomhacks.nyc3.cdn.digitaloceanspaces.com"],
   },
+  experimental: {
+    appDir: true,
+  }
 };
 
 module.exports = nextConfig;

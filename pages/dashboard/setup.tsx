@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import { RadioGroup } from "@headlessui/react";
 
 import { redirect, getUser } from "../../lib/server";
+import { GetServerSideProps } from "next";
+
 
 export default function SetupPage() {
   const router = useRouter();
@@ -11,9 +13,9 @@ export default function SetupPage() {
   const [year, setYear] = useState("");
   const [confirmation, setConfirmation] = useState("NO");
   const [discord, setDiscord] = useState("");
-  const [hasTeam, setHasTeam] = useState(undefined);
+  const [hasTeam, setHasTeam] = useState<boolean | null>(null);
   const [team, setTeam] = useState("");
-  const [shouldMatch, setShouldMatch] = useState(undefined);
+  const [shouldMatch, setShouldMatch] = useState<boolean | null>(null);
   const experienceLevels = ["None", "Beginner", "Intermediate", "Advanced"];
   const graduationYears = ["2023", "2024", "2025", "2026"];
   const confirmations = ["YES", "NO"];
@@ -22,20 +24,20 @@ export default function SetupPage() {
   const isValid = () => {
     return (
       experience &&
-      !isNaN(year) &&
+      !isNaN(+year) &&
       confirmation == "YES" &&
       osis.length == 9 &&
-      !isNaN(osis) &&
+      !isNaN(+osis) &&
       validUsername(discord) &&
       validTeamSetup()
     );
   };
 
   const validTeamSetup = () => {
-    if (hasTeam === undefined) {
+    if (hasTeam === null) {
       return false;
     }
-    if (hasTeam === false && shouldMatch === undefined) {
+    if (hasTeam === false && shouldMatch === null) {
       return false;
     }
     if (hasTeam === true && team.length == 0) {
@@ -44,7 +46,7 @@ export default function SetupPage() {
     return true;
   };
 
-  const validUsername = (username) => {
+  const validUsername = (username: string) => {
     if (username.length == 0) {
       return false;
     }
@@ -53,7 +55,7 @@ export default function SetupPage() {
   };
 
   // to be updated
-  const handleSubmit = async (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!isValid()) {
       return;
@@ -126,7 +128,7 @@ export default function SetupPage() {
             value={osis}
             id="osis"
             name="osis"
-            onInput={(e) => setOsis(e.target.value)}
+            onInput={(e) => setOsis((e.target as HTMLInputElement).value)}
             autoComplete="OSIS"
           />
           <RadioGroup value={experience} onChange={setExperience}>
@@ -141,7 +143,6 @@ export default function SetupPage() {
                   }
                   key={index}
                   id={experience.toLowerCase()}
-                  name="experience"
                   value={experience.toUpperCase()}
                 >
                   <span>{experience}</span>
@@ -161,7 +162,6 @@ export default function SetupPage() {
                   }
                   key={index}
                   id={year.toLowerCase()}
-                  name="year"
                   value={+year}
                 >
                   <span>{year}</span>
@@ -192,7 +192,6 @@ export default function SetupPage() {
                   }
                   key={index}
                   id={option.toLowerCase()}
-                  name="confirmation"
                   value={option}
                 >
                   <span>{option}</span>
@@ -232,7 +231,7 @@ export default function SetupPage() {
             name="discord"
             autoComplete="off"
             value={discord}
-            onInput={(e) => setDiscord(e.target.value)}
+            onInput={(e) => setDiscord((e.target as HTMLInputElement).value)}
           />
           <RadioGroup value={hasTeam} onChange={setHasTeam}>
             <RadioGroup.Label>
@@ -247,7 +246,6 @@ export default function SetupPage() {
                   }
                   key={index}
                   id={option ? "yes" : "no"}
-                  name="hasTeam"
                   value={option}
                 >
                   <span>{option ? "Yes" : "No"}</span>
@@ -267,7 +265,7 @@ export default function SetupPage() {
                 id="team"
                 name="team"
                 value={team}
-                onInput={(e) => setTeam(e.target.value)}
+                onInput={(e) => setTeam((e.target as HTMLInputElement).value)}
               />
             </>
           )}
@@ -289,7 +287,6 @@ export default function SetupPage() {
                       }
                       key={index}
                       id={option ? "yes" : "no"}
-                      name="shouldMatch"
                       value={option}
                     >
                       <span>{option ? "Yes" : "No"}</span>
@@ -314,7 +311,7 @@ export default function SetupPage() {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const user = await getUser(req);
   if (!user) return redirect("/api/auth/signin");
   if (user.initialized) {

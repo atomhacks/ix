@@ -5,8 +5,8 @@ const bucket = new S3Client({
   forcePathStyle: false,
   region: "us-east-1",
   credentials: {
-    accessKeyId: process.env.SPACES_KEY,
-    secretAccessKey: process.env.SPACES_SECRET,
+    accessKeyId: process.env.SPACES_KEY!,
+    secretAccessKey: process.env.SPACES_SECRET!,
   },
 });
 

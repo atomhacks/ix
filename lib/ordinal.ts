@@ -1,6 +1,6 @@
 //https://stackoverflow.com/a/13627586
 
-function ordinal_suffix_of(i) {
+function ordinal_suffix_of(i: number) {
   var j = i % 10,
     k = i % 100;
   if (j == 1 && k != 11) {

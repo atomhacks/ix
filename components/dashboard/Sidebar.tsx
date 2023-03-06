@@ -1,12 +1,13 @@
+'use client';
+
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from "react";
 import styles from "./styles/Sidebar.module.css";
 
 export default function Sidebar() {
-  const router = useRouter();
   const { data, status } = useSession();
   let [routes, setRoutes] = useState([
     {
@@ -45,11 +46,11 @@ export default function Sidebar() {
       }
     });
   }, []);
-  const isActive = (path) => router.asPath === path;
+  const isActive = (path: string) => usePathname() === path;
 
   return (
     <div
-      className={`${styles.sidebar} h-[calc(100vh-56px)] w-56 shadow-lg bg-neutral-900 text-neutral-200 fixed flex space-y-4 flex-col text-lg`}
+      className={`${styles.sidebar} h-[calc(100vh-56px)] w-56 bg-neutral-900 text-neutral-200 fixed flex space-y-4 flex-col text-lg`}
     >
       <ul className="flex flex-col h-full">
         <div className="p-4">
@@ -64,7 +65,7 @@ export default function Sidebar() {
               </h1>
             </Link>
           </li>
-          <span class="block w-full p-px bg-neutral-800 mb-4"></span>
+          <span className="block w-full p-px bg-neutral-800 mb-4"></span>
           <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
@@ -83,8 +84,8 @@ export default function Sidebar() {
         {status == "authenticated" && (
           <div className="mt-auto">
             <li className="flex items-center p-2">
-              {data.user.image && <Image src={data.user.image} className="mr-2 rounded-full" width={48} height={48} />}
-              <h1 className="text-xl">{data.user.name}</h1>
+              {data.user!.image && <Image src={data.user!.image} className="mr-2 rounded-full" width={48} height={48} alt="Profile Picture" />}
+              <h1 className="text-xl">{data.user!.name}</h1>
             </li>
             <li>
               <button className="w-full text-xl font-bold bg-black h-14" onClick={() => signOut({ callbackUrl: "/" })}>

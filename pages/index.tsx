@@ -2,15 +2,15 @@ import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link.js";
 import { useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { ordinal_suffix_of } from "../lib/ordinal.js";
+import { ordinal_suffix_of } from "../lib/ordinal";
 import Image from "next/image";
 import Logo from "../public/assets/logo.png";
-import ShapeRain from "../components/effects/ShapeRain.js";
+import ShapeRain from "../components/effects/ShapeRain";
 import { Parallax } from "react-scroll-parallax";
 import styles from "../styles/Home.module.css";
 import Bg from "../public/atomhackspic.jpg";
-import About from "../components/landing/about.js";
-import Sponsors from "../components/landing/sponsor.js";
+import About from "../components/landing/about";
+import Sponsors from "../components/landing/sponsor";
 
 export default function Index() {
   const { data: session } = useSession();
@@ -43,7 +43,7 @@ export default function Index() {
         </div>
         <div className="z-40 text-white opacity-100 md:z-40">
           <ShapeRain count={10} />
-          <Parallax y={[20, -20]}>
+          <Parallax translateY={[20, -20]}>
             <div className="flex grow items-center md:flex-col justify-center min-h-[calc(100vh-64px)] ">
               {/* Left side of page */}
               <div className="flex items-end justify-end py-2 my-1 mx-12 md:m-0 md:items-center md:justify-center basis-1/2">

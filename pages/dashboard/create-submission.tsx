@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
@@ -7,6 +7,8 @@ import Layout from "../../components/dashboard/Layout";
 // TODO: form validation - handle duplicate titles
 export default function CreateSubmission() {
   const [selectedTracks, selectTrack] = useState(["GENERAL"]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const router = useRouter();
 
   const tracks = [
@@ -31,10 +33,8 @@ export default function CreateSubmission() {
     },
   ];
 
-  const handleSubmit = async (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const title = e.target.title.value;
-    const description = e.target.description.value;
     if (!title || !description) return;
 
     const body = JSON.stringify({
@@ -72,17 +72,18 @@ export default function CreateSubmission() {
             type="text"
             id="title"
             name="title"
+            onInput={(e) => setTitle((e.target as HTMLInputElement).value)}
           />
           <label className="block text-base text-neutral-400" htmlFor="description">
             Description
           </label>
           <textarea
             className="block p-2 mt-1 mb-4 rounded-lg shadow-lg text-m bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
-            type="text"
             id="description"
             name="description"
-            rows="10"
-            cols="55"
+            rows={10}
+            cols={55}
+            onInput={(e) => setDescription((e.target as HTMLInputElement).value)}
           />
           <p className="mb-2 text-neutral-400">Which track(s) would you like to compete in?</p>
           <div id="tracks" className="space-y-2">

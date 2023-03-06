@@ -1,9 +1,13 @@
-/*
 import prisma from "../../../lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { duplicateEntry, filterBodyAndValidate, missingFields, unauthorized, wrongMethod } from "../../../lib/server";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+const fields = ["title", "description", "members", "tracks", "media"] as const;
+const req_fields = ["title", "description"] as const;
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method != "POST") {
     return wrongMethod(res);
   }
@@ -14,8 +18,7 @@ export default async function handler(req, res) {
   }
 
   // https://stackoverflow.com/questions/61190495/how-to-create-object-from-another-without-undefined-properties
-  const fields = ["title", "description", "members", "tracks", "media"];
-  const body = filterBodyAndValidate(req.body, fields, ["title", "description"]);
+  const body = filterBodyAndValidate(req.body, fields, req_fields);
   if (!body) {
     return missingFields(res);
   }
@@ -34,15 +37,16 @@ export default async function handler(req, res) {
       },
       include: {
         members: true,
-      }
+      },
     });
     return res.status(201).json(submission);
   } catch (error) {
     console.log(error);
-    if (error.code == "P2002") {
-      return duplicateEntry(res);
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code == "P2002") {
+        return duplicateEntry(res);
+      }
     }
     return res.status(400).json({ message: "Unknown Error" });
   }
 }
-*/

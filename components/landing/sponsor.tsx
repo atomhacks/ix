@@ -50,9 +50,15 @@ const Sponsors = () => {
       </h1>
       <div className="flex flex-wrap items-center justify-center">
         {list.map((sponsor, i) => (
-          <div className={`mx-24 my-8 flex justify-center ${i == 0 && 'basis-full'}`} key={i}>
+          <div className={`mx-24 my-8 flex justify-center ${i == 0 && "basis-full"}`} key={i}>
             <Link href={sponsor.link} passHref>
-              <Image width={i == 0 ? 600 : 250} height={250} key={i} src={`/assets/sponsors/${sponsor.path}`} />
+              <Image
+                width={i == 0 ? 600 : 250}
+                height={250}
+                key={i}
+                src={`/assets/sponsors/${sponsor.path}`}
+                alt={`${sponsor.name} Logo`}
+              />
             </Link>
           </div>
         ))}

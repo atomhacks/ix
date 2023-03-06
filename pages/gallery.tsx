@@ -3,14 +3,19 @@ import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
 import bucket from "../lib/bucket";
 import { useState, Fragment } from "react";
+import { GetStaticProps } from "next";
 
-function GalleryPage({ photos }) {
-  const [selectedImage, setSelectedImage] = useState(null);
+type GalleryPageProps = {
+  photos: string[][];
+};
+
+function GalleryPage({ photos }: GalleryPageProps) {
+  const [selectedImage, setSelectedImage] = useState("");
 
   return (
     <div className="bg-zinc-900 p-8 text-white font-montserrat">
-      <Transition appear show={selectedImage != null} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage(null)}>
+      <Transition appear show={!selectedImage} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage("")}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -35,7 +40,9 @@ function GalleryPage({ photos }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="transform overflow-hidden rounded-2xl flex justify-center items-center shadow-xl transition-all">
-                  {selectedImage && <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} />}
+                  {selectedImage && (
+                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt="Gallery Photo" />
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -54,6 +61,7 @@ function GalleryPage({ photos }) {
               src={photo}
               width={620}
               height={200}
+              alt="Gallery Photo"
               key={i}
               onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
@@ -70,6 +78,7 @@ function GalleryPage({ photos }) {
               src={photo}
               width={620}
               height={200}
+              alt="Gallery Photo"
               key={i}
               onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
@@ -81,15 +90,20 @@ function GalleryPage({ photos }) {
   );
 }
 
-export async function getStaticProps() {
-  const items_2022 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }));
-  const items_2019 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }));
+export const getStaticProps: GetStaticProps = async () => {
+  const { Contents: items_2022 } = await bucket.send(
+    new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }),
+  );
+  const { Contents: items_2019 } = await bucket.send(
+    new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }),
+  );
+  if (!items_2022 || !items_2019) return { props: { photos: [] } };
   const photos = [
-    items_2022.Contents.slice(1)
-      .filter((item) => item.Key.endsWith("JPG"))
+    items_2022.slice(1)
+      .filter((item) => item.Key!.endsWith("JPG"))
       .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-    items_2019.Contents.slice(1)
-      .filter((item) => item.Key.endsWith("JPG"))
+    items_2019.slice(1)
+      .filter((item) => item.Key!.endsWith("JPG"))
       .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
   ];
 
@@ -99,6 +113,6 @@ export async function getStaticProps() {
     },
     revalidate: 600,
   };
-}
+};
 
 export default GalleryPage;

@@ -1,7 +1,17 @@
 import { getUser, redirect } from "../../lib/server";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
+import { Prisma } from "@prisma/client";
 
-export default function Dashboard({ user }) {
+type Props = {
+  user: Prisma.UserGetPayload<{
+    include: {
+      submission: true;
+    };
+  }>;
+};
+
+export default function Dashboard({ user }: Props) {
   // const router = useRouter();
   // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
   // const setInitialized = (val) => {
@@ -12,7 +22,7 @@ export default function Dashboard({ user }) {
   return (
     <>
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
-      <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat bg-zinc-800">
+      <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat">
         <h1 className="mb-2 text-6xl font-bold md:text-4xl">Dashboard</h1>
         <p className="text-2xl text-center md:my-2 md:text-base">
           The dashboard will be available when the hackathon begins!
@@ -60,11 +70,11 @@ export default function Dashboard({ user }) {
 // wishing i had app directory rn
 // Dashboard.Layout = Layout;
 
-export async function getServerSideProps({ req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const user = await getUser(req);
   if (!user) return redirect("/api/auth/signin");
 
   return {
     props: { user },
   };
-}
+};
