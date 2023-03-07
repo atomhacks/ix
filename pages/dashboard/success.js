@@ -1,4 +1,5 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 export default function Success() {
   return (
@@ -10,6 +11,7 @@ export default function Success() {
         <h1 className="text-3xl font-bold">Success!</h1>
         <p className="text-xl text-center">You are now registered for Atomhacks IX</p>
         <p className="text-xl text-center">Look out for any emails and see you on March 18th!</p>
+        <Link href="/dashboard">Return to dashboard</Link>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ export default function Sidebar() {
         });
       }
     });
-  }, []);
+  }, [routes]);
   const isActive = (path) => router.asPath === path;
 
   return (
@@ -83,7 +83,9 @@ export default function Sidebar() {
         {status == "authenticated" && (
           <div className="mt-auto">
             <li className="flex items-center p-2">
-              {data.user.image && <Image src={data.user.image} className="mr-2 rounded-full" width={48} height={48} />}
+              {data.user.image && (
+                <Image src={data.user.image} className="mr-2 rounded-full" width={48} height={48} alt={""} />
+              )}
               <h1 className="text-xl">{data.user.name}</h1>
             </li>
             <li>
