@@ -11,9 +11,9 @@ export default function SetupPage() {
   const [year, setYear] = useState("");
   const [confirmation, setConfirmation] = useState("NO");
   const [discord, setDiscord] = useState("");
-  const [hasTeam, setHasTeam] = useState(undefined);
+  const [hasTeam, setHasTeam] = useState(null);
   const [team, setTeam] = useState("");
-  const [shouldMatch, setShouldMatch] = useState(undefined);
+  const [shouldMatch, setShouldMatch] = useState(null);
   const experienceLevels = ["None", "Beginner", "Intermediate", "Advanced"];
   const graduationYears = ["2023", "2024", "2025", "2026"];
   const confirmations = ["YES", "NO"];
@@ -34,10 +34,10 @@ export default function SetupPage() {
   };
 
   const validTeamSetup = () => {
-    if (hasTeam === undefined) {
+    if (hasTeam === null) {
       return false;
     }
-    if (hasTeam === false && shouldMatch === undefined) {
+    if (hasTeam === false && shouldMatch === null) {
       return false;
     }
     if (hasTeam === true && team.length == 0) {
@@ -67,8 +67,8 @@ export default function SetupPage() {
       year,
       discordHandle: discord,
       hasTeam,
-      shouldMatchTeam: hasTeam ? undefined : shouldMatch,
-      teamMembers: hasTeam ? team.split(", ").map((name) => name.trim()) : undefined,
+      shouldMatchTeam: hasTeam ? null : shouldMatch,
+      teamMembers: hasTeam ? team.split(", ").map((name) => name.trim()) : null,
     });
     const res = await fetch("/api/user/init", {
       method: "POST",

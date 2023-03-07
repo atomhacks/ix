@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   const body = filterBodyAndValidate(req.body, fields, requiredFields);
-  console.log("New User: ", body)
+  console.log("User Registered: ", body);
   if (!body) {
     return missingFields(res);
   }
@@ -30,8 +30,13 @@ export default async function handler(req, res) {
       experience: body.experience,
       initialized: true,
       formInfo: {
-        create: {
-          ...body,
+        upsert: {
+          create: {
+            ...body,
+          },
+          update: {
+            ...body,
+          },
         },
       },
     },
