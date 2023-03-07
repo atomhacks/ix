@@ -35,7 +35,9 @@ function GalleryPage({ photos }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="transform overflow-hidden rounded-2xl flex justify-center items-center shadow-xl transition-all">
-                  {selectedImage && <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} />}
+                  {selectedImage && (
+                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt={""} />
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -57,6 +59,7 @@ function GalleryPage({ photos }) {
               key={i}
               onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt={""}
             />
           ))}
         </div>
@@ -73,6 +76,7 @@ function GalleryPage({ photos }) {
               key={i}
               onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt={""}
             />
           ))}
         </div>

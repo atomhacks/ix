@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import Link from "next/link.js";
+//import Link from "next/link.js";
 import { useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { ordinal_suffix_of } from "../lib/ordinal.js";
@@ -16,7 +16,6 @@ export default function Index() {
   const { data: session } = useSession();
   const years = useMotionValue(1);
   const yearsRender = useTransform(years, (latest) => ordinal_suffix_of(Math.round(latest)));
-  console.log(session);
 
   useEffect(() => {
     const animation = animate(years, 9, { duration: 2 });
@@ -25,7 +24,7 @@ export default function Index() {
   }, [years]);
 
   return (
-    <div className="text-white ">
+    <div className="text-white">
       <div className="absolute top-0 left-0 !w-full !h-full md:opacity-100 md:min-h-screen bg-black opacity-[.82] border-b-8 border-green-500" />
       <div className="flex items-center justify-center">
         {" "}
@@ -44,7 +43,7 @@ export default function Index() {
         <div className="z-40 text-white opacity-100 md:z-40">
           <ShapeRain count={10} />
           <Parallax y={[20, -20]}>
-            <div className="flex grow items-center md:flex-col justify-center min-h-[calc(100vh-64px)] ">
+            <div className="flex grow items-center md:flex-col justify-center min-h-screen">
               {/* Left side of page */}
               <div className="flex items-end justify-end py-2 my-1 mx-12 md:m-0 md:items-center md:justify-center basis-1/2">
                 <div className={styles.logo}>
@@ -63,20 +62,12 @@ export default function Index() {
                 <p className="mb-4 font-medium break-words">
                   Explore, build, innovate. Come join us for 12 full hours of creativity, excitement, and building!
                 </p>
-                {session ? (
-                  <Link href="/dashboard">
-                    <button className="relative font-bold border-yellow-400 border-2 rounded-lg bg-transparent py-2.5 px-5 uppercase transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-yellow-400 before:transition-transform before:duration-300 before:content-[''] before:hover:scale-x-100">
-                      CONTINUE TO DASHBOARD
-                    </button>
-                  </Link>
-                ) : (
-                  <button
-                    className="relative font-bold border-green-500 border-2 rounded-lg bg-transparent py-2.5 px-5 uppercase transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-green-500 before:transition-transform before:duration-300 before:content-[''] before:hover:scale-x-100"
-                    onClick={() => signIn("google", { callbackUrl: "/dashboard/setup" })}
-                  >
-                    REGISTER
-                  </button>
-                )}
+                <button
+                  className="relative font-bold border-green-500 border-2 rounded-lg bg-transparent py-2.5 px-5 uppercase transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-green-500 before:transition-transform before:duration-300 before:content-[''] before:hover:scale-x-100"
+                  onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                >
+                  {session ? "Sign In" : "Sign Up"}
+                </button>
               </div>
             </div>
           </Parallax>
