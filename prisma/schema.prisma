@@ -10,23 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ExamplePerson {
-  id    String        @id @default(cuid())
-  name  String
-  email String
-  posts ExamplePost[]
-  role  Role          @default(COMPETITOR)
-}
-
-model ExamplePost {
-  id       String        @id
-  posterId String
-  name     String
-  content  String
-  likes    Int
-  poster   ExamplePerson @relation(fields: [posterId], references: [id])
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
