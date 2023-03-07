@@ -1,5 +1,9 @@
 import { getUser, redirect } from "../../lib/server";
+
+import { signIn } from "next-auth/react";
+
 import Link from "next/link";
+//import Image from "next/image"
 
 export default function Dashboard({ user }) {
   // const router = useRouter();
@@ -30,6 +34,12 @@ export default function Dashboard({ user }) {
             </h1>
           </div>
         ) : null}
+        <button
+          className="relative font-bold border-green-500 border-2 rounded-lg bg-transparent py-2.5 px-5 uppercase transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-green-500 before:transition-transform before:duration-300 before:content-[''] before:hover:scale-x-100"
+          onClick={() => signIn("discord", { callbackUrl: "/sucess" })}
+        >
+          Join Discord
+        </button>
         {/* {user.submissionId ? (
             <Link href={`/dashboard/submissions/${user.submissionId}`} className="inline-block">
               <div className="p-4 mt-4 rounded-lg w-80 h-36 bg-neutral-900">
