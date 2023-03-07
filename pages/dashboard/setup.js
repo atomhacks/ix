@@ -23,9 +23,11 @@ export default function SetupPage() {
     return (
       experience &&
       !isNaN(year) &&
+      !isNaN(parseFloat(year)) &&
       confirmation == "YES" &&
       osis.length == 9 &&
       !isNaN(osis) &&
+      !isNaN(parseFloat(osis)) &&
       validUsername(discord) &&
       validTeamSetup()
     );
@@ -59,18 +61,14 @@ export default function SetupPage() {
       return;
     }
 
-    if (hasTeam === true) {
-      setShouldMatch(null);
-    }
-
     const body = JSON.stringify({
       osis,
       experience,
       year,
       discordHandle: discord,
       hasTeam,
-      shouldMatchTeam: shouldMatch,
-      teamMembers: team.split(", ").map((name) => name.trim()),
+      shouldMatchTeam: hasTeam ? undefined : shouldMatch,
+      teamMembers: hasTeam ? team.split(", ").map((name) => name.trim()) : undefined,
     });
     const res = await fetch("/api/user/init", {
       method: "POST",

@@ -2,6 +2,9 @@ import { getToken } from "next-auth/jwt";
 import prisma from "../../../lib/prisma";
 import { wrongMethod, unauthorized, missingFields, filterBodyAndValidate } from "../../../lib/server";
 
+const requiredFields = ["osis", "experience", "year", "discordHandle", "hasTeam"];
+const fields = [...requiredFields, "shouldMatchTeam", "teamMembers"];
+
 export default async function handler(req, res) {
   if (req.method != "POST") {
     return wrongMethod(res);
@@ -12,8 +15,8 @@ export default async function handler(req, res) {
     return unauthorized(res);
   }
 
-  const fields = ["osis", "experience", "year", "discordHandle", "hasTeam", "shouldMatchTeam", "teamMembers"];
-  const body = filterBodyAndValidate(req.body, fields, fields);
+  const body = filterBodyAndValidate(req.body, fields, requiredFields);
+  console.log("New User: ", body)
   if (!body) {
     return missingFields(res);
   }
