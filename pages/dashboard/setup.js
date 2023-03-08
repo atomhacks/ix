@@ -69,7 +69,7 @@ export default function SetupPage({ user }) {
       discordHandle: discord,
       hasTeam,
       shouldMatchTeam: hasTeam ? null : shouldMatch,
-      teamMembers: hasTeam ? team.split(", ").map((name) => name.trim()) : null,
+      teamMembers: hasTeam ? team.split(", ").map((name) => name.trim()) : undefined,
     });
     const res = await fetch("/api/user/init", {
       method: "POST",
