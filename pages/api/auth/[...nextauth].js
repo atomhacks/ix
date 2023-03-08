@@ -8,10 +8,6 @@ import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 // import GitHubProvider from "next-auth/providers/github";
 
-const url = `https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`;
-
-const body = [];
-
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {},
@@ -59,49 +55,30 @@ export const authOptions = {
     },
   },
   events: {
-    async signIn({ account }) {
+    async signIn({ user, account }) {
       if (account.provider === "discord") {
-        const res = await fetch(url, {
+        await fetch(`https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`, {
           method: "PUT",
-          body: JSON.stringify(body),
+          body: JSON.stringify([]),
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
           },
         });
-        if (res.ok) {
-          const url = `https://discord.com/api/v10/users/@me/applications/${process.env.DISCORD_ID}/role-connection`;
-          const accessToken = account.access_token;
-          const body = {
-            platform_name: "atomhacks.org",
-          };
-          const response = await fetch(url, {
-            method: "PUT",
-            body: JSON.stringify(body),
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          });
-          if (!response.ok) {
-            throw new Error(`Error pushing discord metadata: [${response.status}] ${response.statusText}`);
-          }
-        } else {
-          //throw new Error(`Error pushing discord metadata schema: [${response.status}] ${response.statusText}`);
-          const data = await res.text();
-          console.log(data);
-        }
+        await fetch(`https://discord.com/api/v10/users/@me/applications/${process.env.DISCORD_ID}/role-connection`, {
+          method: "PUT",
+          body: JSON.stringify({
+            platform_name: "Name",
+            platform_username: user.name,
+          }),
+          headers: {
+            Authorization: `Bearer ${account.access_token}`,
+            "Content-Type": "application/json",
+          },
+        });
       }
     },
   },
 };
 
 export default NextAuth(authOptions);
-
-/*
-
-Here's the plan:
-
-
-
-*/
