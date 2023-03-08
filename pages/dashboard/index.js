@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import DiscordImage from "../../public/icons/discord.png";
-import { ListBulletIcon } from "@heroicons/react/24/outline";
+import { ListBulletIcon, ExclamationCircleIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Dashboard({ user }) {
   // const router = useRouter();
@@ -24,7 +24,7 @@ export default function Dashboard({ user }) {
           <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">DASHBOARD</span>
         </div>
         <h1 className="p-4 text-xl md:text-base text-center">
-          Please make sure that you complete all the tasks before the event.
+          Please make sure that you complete all the tasks before the event begins.
         </h1>
         <div className="flex flex-col justify-around items-center gap-4">
           <Link
@@ -38,7 +38,15 @@ export default function Dashboard({ user }) {
               {" "}
               <ListBulletIcon alt="Form"></ListBulletIcon>
             </div>
-            <h1 className="text-4xl md:text-sm text-center grow">Fill out the form</h1>
+            <h1 className="text-4xl md:text-sm text-center grow">Complete the form</h1>
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              {!user.initialized ? (
+                <ExclamationCircleIcon alt="Incomplete"></ExclamationCircleIcon>
+              ) : (
+                <CheckCircleIcon alt="Completed"></CheckCircleIcon>
+              )}
+            </div>
           </Link>
           <button
             className={`p-4 flex w-1/2 md:w-4/5 flex-row font-bold border-2 rounded-lg bg-transparent items-center ${
@@ -51,7 +59,15 @@ export default function Dashboard({ user }) {
               {" "}
               <Image className="object-contain h-10 w-10 md:h-5 md:w-5" src={DiscordImage} alt="Discord"></Image>
             </div>
-            <h1 className="text-4xl md:text-sm text-center grow">Verify your Discord account</h1>
+            <h1 className="text-4xl md:text-sm text-center grow">Verify Discord account</h1>
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              {!user.accounts.find((account) => account.provider === "discord") ? (
+                <ExclamationCircleIcon alt="Incomplete"></ExclamationCircleIcon>
+              ) : (
+                <CheckCircleIcon alt="Completed"></CheckCircleIcon>
+              )}
+            </div>
           </button>
 
           {/*<h1 className="mt-2 text-xs text-center">
