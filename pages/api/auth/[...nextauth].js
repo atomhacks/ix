@@ -57,6 +57,9 @@ export const authOptions = {
   events: {
     async signIn({ user, account }) {
       if (account.provider === "discord") {
+        if (!user.initialized) {
+          return;
+        }
         await fetch(`https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`, {
           method: "PUT",
           body: JSON.stringify([]),
