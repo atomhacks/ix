@@ -44,7 +44,7 @@ export default function Index({ user }) {
             className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
               !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
             }`}
-            onClick={() => signIn("discord", { callbackUrl: "/api/discord/invite" })}
+            onClick={() => signIn("discord", { callbackUrl: "/discord/invite" })}
           >
             {" "}
             <div className="object-contain h-10 w-10 md:h-5 md:w-5">
