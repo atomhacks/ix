@@ -1,9 +1,10 @@
 import { getToken } from "next-auth/jwt";
-import prisma from "../../../lib/prisma";
 import { wrongMethod, unauthorized, missingFields, filterBodyAndValidate } from "../../../lib/server";
 
-const requiredFields = ["osis", "experience", "year", "discordHandle", "hasTeam"];
-const fields = [...requiredFields, "shouldMatchTeam", "teamMembers"];
+import prisma from "../../../lib/prisma";
+
+const requiredFields = ["osis", "experience", "year"];
+const fields = [...requiredFields, "hasTeam", "shouldMatchTeam", "teamMembers"];
 
 export default async function handler(req, res) {
   if (req.method != "POST") {
@@ -16,7 +17,6 @@ export default async function handler(req, res) {
   }
 
   const body = filterBodyAndValidate(req.body, fields, requiredFields);
-  console.log("User Registered: ", body);
   if (!body) {
     return missingFields(res);
   }
@@ -26,9 +26,6 @@ export default async function handler(req, res) {
       id: jwt.sub,
     },
     data: {
-      osis: body.osis,
-      experience: body.experience,
-      initialized: true,
       formInfo: {
         upsert: {
           create: {
