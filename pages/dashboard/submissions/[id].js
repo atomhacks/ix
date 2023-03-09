@@ -1,4 +1,3 @@
-import Layout from "../../../components/dashboard/Layout";
 import { getSubmission } from "../../../lib/server";
 
 export default function Submission({ submission }) {
@@ -9,8 +8,6 @@ export default function Submission({ submission }) {
     </div>
   );
 }
-
-Submission.Layout = Layout;
 
 export async function getServerSideProps({ req, query: { id } }) {
   const submission = await getSubmission(req, id);

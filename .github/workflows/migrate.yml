@@ -14,4 +14,6 @@ jobs:
         uses: bahmutov/npm-install@v1.8.28
 
       - name: Migrate Prisma
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma migrate deploy
