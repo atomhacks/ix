@@ -56,10 +56,11 @@ export const authOptions = {
   },
   events: {
     async signIn({ user, account }) {
+      if (!user) {return}
+      if (!user.accounts.find((account) => account.provider === "google")) {
+        return;
+      }
       if (account.provider === "discord") {
-        if (!user.accounts.find((account) => account.provider === "google")) {
-          return;
-        }
         await fetch(`https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`, {
           method: "PUT",
           body: JSON.stringify([]),
