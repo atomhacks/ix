@@ -1,14 +1,26 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import prisma from "../../../lib/prisma";
+
+import NextAuth, { NextAuthOptions } from "next-auth";
+
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import DiscordProvider from "next-auth/providers/discord";
+import { Account, User } from "@prisma/client";
+// import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  pages: {},
   providers: [
     GoogleProvider({
       clientId: process.env.CLIENT_ID!,
       clientSecret: process.env.CLIENT_SECRET!,
+    }),
+    DiscordProvider({
+      clientId: process.env.DISCORD_ID!,
+      clientSecret: process.env.DISCORD_SECRET!,
+      authorization: { params: { scope: "identify guilds role_connections.write" } },
     }),
   ],
   session: {
@@ -22,10 +34,45 @@ export const authOptions: NextAuthOptions = {
       if (account.provider === "google") {
         return (profile as GoogleProfile).email_verified && (profile as GoogleProfile).email.endsWith("@bxscience.edu");
       }
-      // TODO: actual error handling
-      // some form of redirecting back to landing page with a red box
-      // saying they used a non bxsci email
+      if (account.provider === "discord") {
+        return true;
+      }
+      /*
+      if (account.provider === "github") {
+        return true;
+      }
+      */
       return false;
+    },
+  },
+  events: {
+    async signIn({ user, account }) {
+      
+      if (!user || !account) {return}
+      if (!(user as User & { accounts: Account[] }).accounts.find((account) => account.provider === "google")) {
+        return;
+      }
+      if (account.provider === "discord") {
+        await fetch(`https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`, {
+          method: "PUT",
+          body: JSON.stringify([]),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+          },
+        });
+        await fetch(`https://discord.com/api/v10/users/@me/applications/${process.env.DISCORD_ID}/role-connection`, {
+          method: "PUT",
+          body: JSON.stringify({
+            platform_name: "Name",
+            platform_username: user.name,
+          }),
+          headers: {
+            Authorization: `Bearer ${account.access_token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
     },
   },
 };

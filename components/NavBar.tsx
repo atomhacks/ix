@@ -5,8 +5,8 @@ import Link from "next/link";
 const NavBar = () => {
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-16 border-b border-black md:z-50 bg-neutral-900">
-      <div className="flex justify-between items-center font-bold text-white px-4 py-2 md:text-xs">
-        <div className="font-morro text-4xl md:text-[14px] md:none">
+      <div className="flex justify-between items-center font-bold text-white mx-4 my-2 md:text-xs">
+        <div className="font-morro text-4xl md:text-sm md:none">
           {" "}
           <Link className=" text-white" href="/">
             ATOM HACKS

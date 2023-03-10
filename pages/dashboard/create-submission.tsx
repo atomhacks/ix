@@ -2,7 +2,7 @@ import { FormEventHandler, useState } from "react";
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
-import Layout from "../../components/dashboard/Layout";
+import { redirect, getUser } from "../../lib/server";
 
 // TODO: form validation - handle duplicate titles
 export default function CreateSubmission() {
@@ -140,4 +140,11 @@ export default function CreateSubmission() {
   );
 }
 
-CreateSubmission.Layout = Layout;
+export async function getServerSideProps({ req }) {
+  const user = await getUser(req);
+  if (!user) return redirect("/");
+
+  return {
+    props: { user },
+  };
+}

@@ -1,10 +1,10 @@
-name: Lint
+name: Migrate
 
 on: ["push"]
 
 jobs:
-  lint:
-    name: Lint
+  migrate:
+    name: Migrate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -13,5 +13,7 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1.8.28
 
-      - name: Lint code
-        run: npm run lint
+      - name: Migrate Prisma
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx prisma migrate deploy

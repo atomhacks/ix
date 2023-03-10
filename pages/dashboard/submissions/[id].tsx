@@ -1,6 +1,5 @@
 import { Submission } from "@prisma/client";
 import { GetServerSideProps } from "next";
-import Layout from "../../../components/dashboard/Layout";
 import { getSubmission } from "../../../lib/server";
 
 type Props = {
@@ -15,8 +14,6 @@ export const SubmissionPage: React.FC<Props> = ({ submission }) => {
     </div>
   );
 }
-
-// SubmissionPage.Layout = Layout;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, query: { id } }) => {
   if (!id || Array.isArray(id)) {

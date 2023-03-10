@@ -1,4 +1,7 @@
 import { getUser, redirect } from "../../lib/server";
+
+import { signIn } from "next-auth/react";
+
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { Prisma } from "@prisma/client";
@@ -11,14 +14,15 @@ type Props = {
   }>;
 };
 
-export default function Dashboard({ user }: Props) {
-  // const router = useRouter();
-  // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
-  // const setInitialized = (val) => {
-  //   _setInitialized(val);
-  //   router.replace(router.asPath);
-  // };
+import {
+  ListBulletIcon,
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+  LinkIcon,
+  // UsersIcon,
+} from "@heroicons/react/24/outline";
 
+export default function Index({ user }: Props) {
   return (
     <>
       {/* {!initialized && <Setup setInitialized={setInitialized} />} */}
@@ -54,14 +58,69 @@ export default function Dashboard({ user }: Props) {
                   <PlusIcon className="w-8 h-8 duration-200 fill-sky-400 group-hover:fill-white" />
                 </button>
               </Link>
+      <div className="bg-zinc-900 p-8 text-white font-montserrat min-h-screen">
+        <div className="flex items-center justify-center mb-8">
+          <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">DASHBOARD</span>
+        </div>
+        <h1 className="p-4 text-xl md:text-base text-center">
+          Please make sure that you complete all the tasks before the event begins.
+        </h1>
+        <div className="flex flex-col justify-around items-center gap-4">
+          <Link
+            className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
+              !user.formInfo ? "border-red-500" : "border-green-500"
+            }`}
+            href="/dashboard/form"
+          >
+            {" "}
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              <ListBulletIcon />
             </div>
-          )} */}
-        {/* <Image src={user.image} alt="Profile Picture" width={96} height={96} />
-          <h1>
-            {user.name} - {user.osis}
-          </h1>
-          <h1>Email: {user.email}</h1>
-          <h1>Experience: {user.experience}</h1> */}
+            <h1 className="mx-4 text-2xl md:text-sm text-left grow">Complete the form</h1>
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              {!user.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+            </div>
+          </Link>
+          <button
+            className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
+              !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
+            }`}
+            onClick={() => signIn("discord", { callbackUrl: "/dashboard" })}
+          >
+            {" "}
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              <LinkIcon />
+            </div>
+            <h1 className="mx-4 text-2xl md:text-sm text-left grow">Link Discord account</h1>
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              {!user.accounts.find((account) => account.provider === "discord") ? (
+                <ExclamationCircleIcon />
+              ) : (
+                <CheckCircleIcon />
+              )}
+            </div>
+          </button>
+          {/* <Link
+            className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
+              !user.team ? "border-red-500" : "border-green-500"
+            }`}
+            href="/dashboard/team"
+          >
+            {" "}
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              <UsersIcon />
+            </div>
+            <h1 className="mx-4 text-2xl md:text-sm text-left grow">Create a team</h1>
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              {!user.team ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+            </div>
+          </Link> */}
       </div>
     </>
   );
@@ -72,8 +131,7 @@ export default function Dashboard({ user }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const user = await getUser(req);
-  if (!user) return redirect("/api/auth/signin");
-
+  if (!user) return redirect("/");
   return {
     props: { user },
   };

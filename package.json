@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
-    "reset": "npx prisma migrate reset && npx prisma generate"
+    "format": "npx prisma format",
+    "reset": "npx prisma migrate reset",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.282.0",
@@ -18,7 +19,6 @@
     "@prisma/client": "^4.10.0",
     "clsx": "^1.2.1",
     "eslint": "^8.29.0",
-    "framer-motion": "^8.4.2",
     "next": "^13.2.3",
     "next-auth": "^4.19.2",
     "prisma": "^4.10.0",

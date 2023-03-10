@@ -1,11 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import prisma from "../../../lib/prisma";
 import { wrongMethod, unauthorized, missingFields, filterBodyAndValidate } from "../../../lib/server";
 
-const requiredFields = ["osis", "experience", "year"] as const;
+import prisma from "../../../lib/prisma";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const requiredFields = ["osis", "experience", "year"];
+const fields = [...requiredFields, "hasTeam", "shouldMatchTeam", "teamMembers"];
+
+export default async function handler(req, res) {
   if (req.method != "POST") {
     return wrongMethod(res);
   }
@@ -15,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return unauthorized(res);
   }
 
-  const body = filterBodyAndValidate(req.body, requiredFields, requiredFields);
+  const body = filterBodyAndValidate(req.body, fields, requiredFields);
   if (!body) {
     return missingFields(res);
   }
