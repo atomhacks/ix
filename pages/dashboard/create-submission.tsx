@@ -3,6 +3,7 @@ import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { redirect, getUser } from "../../lib/server";
+import { GetServerSideProps } from "next";
 
 // TODO: form validation - handle duplicate titles
 export default function CreateSubmission() {
@@ -16,13 +17,13 @@ export default function CreateSubmission() {
       name: "GENERAL",
       description:
         "Everyone is automatically registered for the regular track. Do your best to stick to the theme of CENSORED.",
-      prizes: ["Airpods Pro?", "Air Fryer?", "Amazon Gift Card?"],
+      prizes: ["PENDING", "PENDING", "PENDING"],
       value: "GENERAL",
     },
     {
       name: "Beginner",
       description: "Your project will be up against other beginners. All groupmates must be beginners.",
-      prizes: ["Arduino Kit"],
+      prizes: ["PENDING"],
       value: "BEGINNER",
     },
     {
@@ -140,11 +141,11 @@ export default function CreateSubmission() {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const user = await getUser(req);
   if (!user) return redirect("/");
 
   return {
     props: { user },
   };
-}
+};

@@ -1,8 +1,6 @@
 /* Utility functions for common server-side actions*/
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import { NextApiRequestCookies } from "next/dist/server/api-utils";
-import { NextIncomingMessage } from "next/dist/server/request-meta";
 import { NextRequest } from "next/server";
 import prisma from "./prisma";
 

@@ -9,7 +9,7 @@ type Props = {
 export const SubmissionPage: React.FC<Props> = ({ submission }) => {
   return (
     <div className="max-w-screen-md p-2 py-6 mx-auto">
-      <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.title}</h1>
+      <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.name}</h1>
       <p className="text-xl">{submission.description}</p>
     </div>
   );
