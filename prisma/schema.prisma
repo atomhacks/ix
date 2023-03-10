@@ -49,7 +49,7 @@ model Team {
 
 model Submission {
   id          String   @id @default(cuid())
-  name       String   @unique
+  name        String   @unique
   description String
   media       String[] @default([])
   tracks      Track[]  @default([GENERAL])
@@ -61,10 +61,10 @@ model Submission {
 }
 
 model FormInfo {
-  id              String     @id @default(cuid())
-  osis            String
-  year            Int
-  experience      Experience
+  id         String     @id @default(cuid())
+  osis       String
+  year       Int
+  experience Experience
 
   userId String @unique
   user   User?  @relation(fields: [userId], references: [id])

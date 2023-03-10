@@ -1,16 +1,34 @@
-"use client"
+"use client";
 
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
 import bucket from "../../lib/bucket";
-import { useState, Fragment } from "react";
+import { useState, Fragment, Key } from "react";
 
-function GalleryPage({ photos }) {
+async function getPhotos() {
+  const items_2022 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }));
+  const items_2019 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }));
+  const photos = [
+    items_2022!
+      .Contents!.slice(1)
+      .filter((item) => item!.Key!.endsWith("JPG"))
+      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
+    items_2019!
+      .Contents!.slice(1)
+      .filter((item) => item!.Key!.endsWith("JPG"))
+      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
+  ];
+
+  return photos;
+}
+
+export default async function Gallery() {
+  const photos = await getPhotos();
   const [selectedImage, setSelectedImage] = useState(null);
 
   return (
-    <div className="bg-zinc-900 p-8 text-white font-montserrat">
+    <div className="bg-zinc-900 p-8 font-montserrat text-white">
       <Transition appear show={selectedImage != null} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage(null)}>
           <Transition.Child
@@ -26,7 +44,7 @@ function GalleryPage({ photos }) {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex mt-[56px] min-h-screen items-center justify-center p-8 text-center">
+            <div className="mt-[56px] flex min-h-screen items-center justify-center p-8 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -36,7 +54,7 @@ function GalleryPage({ photos }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="transform overflow-hidden rounded-2xl flex justify-center items-center shadow-xl transition-all">
+                <Dialog.Panel className="flex transform items-center justify-center overflow-hidden rounded-2xl shadow-xl transition-all">
                   {selectedImage && (
                     <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt={""} />
                   )}
@@ -46,15 +64,15 @@ function GalleryPage({ photos }) {
           </div>
         </Dialog>
       </Transition>
-      <div className="flex items-center justify-center mb-8">
-        <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">GALLERY</span>
+      <div className="mb-8 flex items-center justify-center">
+        <span className="border-b-4 border-green-500 py-6 font-morro text-7xl md:text-5xl">GALLERY</span>
       </div>
-      <h1 className="text-4xl mb-3 border-b-4 border-yellow-500 inline-block">2022</h1>
+      <h1 className="mb-3 inline-block border-b-4 border-yellow-500 text-4xl">2022</h1>
       <div className="flex justify-center">
-        <div className="grid grid-cols-3 md:grid-cols-1 sm:grid-cols-1 gap-8">
-          {photos[0].map((photo, i) => (
+        <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
+          {photos[0].map((photo: any, i: Key) => (
             <Image
-              className="box-border transition duration-200 hover:border-box hover:outline hover:outline-3 outline-solid outline-green-500 rounded-xl cursor-pointer"
+              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
@@ -66,12 +84,12 @@ function GalleryPage({ photos }) {
           ))}
         </div>
       </div>
-      <h1 className="text-4xl mb-3 border-b-4 border-yellow-500 inline-block mt-4">2019</h1>
+      <h1 className="mb-3 mt-4 inline-block border-b-4 border-yellow-500 text-4xl">2019</h1>
       <div className="flex justify-center">
-        <div className="grid grid-cols-3 md:grid-cols-1 sm:grid-cols-1 gap-8">
-          {photos[1].map((photo, i) => (
+        <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
+          {photos[1].map((photo: any, i: Key) => (
             <Image
-              className="box-border transition duration-200 hover:border-box hover:outline hover:outline-3 outline-solid outline-green-500 rounded-xl cursor-pointer"
+              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
@@ -86,25 +104,3 @@ function GalleryPage({ photos }) {
     </div>
   );
 }
-
-export async function getStaticProps() {
-  const items_2022 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }));
-  const items_2019 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }));
-  const photos = [
-    items_2022.Contents.slice(1)
-      .filter((item) => item.Key.endsWith("JPG"))
-      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-    items_2019.Contents.slice(1)
-      .filter((item) => item.Key.endsWith("JPG"))
-      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-  ];
-
-  return {
-    props: {
-      photos,
-    },
-    revalidate: 600,
-  };
-}
-
-export default GalleryPage;

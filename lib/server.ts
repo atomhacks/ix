@@ -1,5 +1,3 @@
-import "server-only";
-
 import { getToken } from "next-auth/jwt";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -12,7 +10,7 @@ export const missingFields = (res: NextApiResponse) =>
 export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ message: "Conflict" });
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
 
-export async function getUser(req: NextApiRequest) {
+export async function getUser(req: any) {
   const jwt = await getToken({ req });
   if (!jwt) {
     return null;

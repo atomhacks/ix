@@ -1,10 +1,10 @@
-"use client";
-
 import { getUser, redirect } from "../../lib/server";
 
 import { signIn } from "next-auth/react";
 
 import Link from "next/link";
+
+import { cookies } from "next/headers";
 
 import {
   ListBulletIcon,
@@ -14,7 +14,13 @@ import {
   // UsersIcon,
 } from "@heroicons/react/24/outline";
 
-export default function Index({ user }) {
+export default async function Index() {
+  const cookie = cookies().getAll();
+  const user = await getUser(cookie);
+  if (!user) {
+    console.log("No user");
+  }
+
   return (
     <>
       <div className="min-h-screen bg-zinc-900 p-8 font-montserrat text-white">
@@ -27,7 +33,7 @@ export default function Index({ user }) {
         <div className="flex flex-col items-center justify-around gap-4">
           <Link
             className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
-              !user.formInfo ? "border-red-500" : "border-green-500"
+              !user!.formInfo ? "border-red-500" : "border-green-500"
             }`}
             href="/dashboard/form"
           >
@@ -39,10 +45,10 @@ export default function Index({ user }) {
             <h1 className="mx-4 grow text-left text-2xl md:text-sm">Complete the form</h1>
             <div className="h-10 w-10 object-contain md:h-5 md:w-5">
               {" "}
-              {!user.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+              {!user!.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
             </div>
           </Link>
-          <button
+          {/*           <button
             className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
               !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
             }`}
@@ -62,7 +68,7 @@ export default function Index({ user }) {
                 <CheckCircleIcon />
               )}
             </div>
-          </button>
+          </button> */}
           {/* <Link
             className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
               !user.team ? "border-red-500" : "border-green-500"
@@ -88,11 +94,3 @@ export default function Index({ user }) {
 
 // wishing i had app directory rn
 // Dashboard.Layout = Layout;
-
-export async function getServerSideProps({ req }) {
-  const user = await getUser(req);
-  if (!user) return redirect("/");
-  return {
-    props: { user },
-  };
-}
