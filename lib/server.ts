@@ -8,7 +8,8 @@ import prisma from "./prisma";
 
 export const wrongMethod = (res: NextApiResponse) => res.status(405).json({ message: "Method Not Allowed" });
 export const unauthorized = (res: NextApiResponse) => res.status(401).json({ message: "Unauthorized" });
-export const missingFields = (res: NextApiResponse) => res.status(400).json({ message: "Bad Request - Missing required fields" });
+export const missingFields = (res: NextApiResponse) =>
+  res.status(400).json({ message: "Bad Request - Missing required fields" });
 export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ message: "Conflict" });
 // this should probably be a dedicated page
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
@@ -24,7 +25,9 @@ export async function getUser(req: NextRequest | NextApiRequest | GetServerSideP
       id: jwt.sub,
     },
     include: {
-      submission: true,
+      accounts: true,
+      team: true,
+      formInfo: true,
     },
   });
   if (!user) {
@@ -47,16 +50,18 @@ export async function getSubmission(req: NextRequest | NextApiRequest | GetServe
           public: true,
         },
         {
-          members: {
-            some: {
-              id: jwt.sub,
+          team: {
+            users: {
+              some: {
+                id: jwt.sub,
+              },
             },
           },
         },
       ],
     },
     include: {
-      members: true,
+      team: true,
     },
   });
   if (!submission) {
@@ -84,13 +89,12 @@ export function filterBody<T extends { [k: string]: unknown }, U extends string>
   ) as Partial<Pick<T, U>>;
 }
 
-
 // frick typescript
 export function filterBodyAndValidate<T extends { [k: string]: unknown }, U extends string, V extends U>(
   body: T,
   validFields: readonly U[],
   requiredFields: readonly V[],
-): Pick<T, V> & Partial<Pick<T, U>> | null {
+): (Pick<T, V> & Partial<Pick<T, U>>) | null {
   const filteredBody = filterBody(body, validFields);
   console.log(filteredBody);
   if (!requiredFields.every((field) => filteredBody[field] != undefined)) {

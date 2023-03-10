@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 type Props = {
   user: Prisma.UserGetPayload<{
     include: {
-      submission: true;
+      formInfo: true,
     };
   }>;
 };
@@ -31,7 +31,7 @@ export default function Index({ user }: Props) {
         <p className="text-2xl text-center md:my-2 md:text-base">
           The dashboard will be available when the hackathon begins!
         </p>
-        {!user.initialized ? (
+        {!user.formInfo ? (
           <div>
             <h1 className="mt-2 text-xs text-center">
               (By the way, you haven&apos;t fully registered for the event yet. You can do so by going{" "}
