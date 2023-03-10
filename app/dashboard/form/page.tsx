@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { RadioGroup } from "@headlessui/react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
-import { redirect, getUser } from "../../lib/server";
+import { redirect, getUser } from "../../../lib/server";
 
 export default function Form({ user }) {
   const router = useRouter();

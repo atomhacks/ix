@@ -4,6 +4,10 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "atomhacks.nyc3.cdn.digitaloceanspaces.com"],
   },
+  experimental: {
+    appDir: true,
+    typedRoutes: true,
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

@@ -1,7 +1,9 @@
+"use client"
+
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
-import bucket from "../lib/bucket";
+import bucket from "../../lib/bucket";
 import { useState, Fragment } from "react";
 
 function GalleryPage({ photos }) {
