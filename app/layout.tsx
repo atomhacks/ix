@@ -13,7 +13,7 @@ const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) =
   return (
     <html lang="en">
       <body>
-        <NavBar></NavBar>
+        <NavBar />
         <div className="content">
           <Providers session={session}>
             {children}

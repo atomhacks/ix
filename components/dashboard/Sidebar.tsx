@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import styles from "./styles/Sidebar.module.css";
+import styles from "../../styles/Sidebar.module.css";
 
 export default function Sidebar() {
   const { data, status } = useSession();
@@ -84,7 +84,15 @@ export default function Sidebar() {
         {status == "authenticated" && (
           <div className="mt-auto">
             <li className="flex items-center p-2">
-              {data.user!.image && <Image src={data.user!.image} className="mr-2 rounded-full" width={48} height={48} alt="Profile Picture" />}
+              {data.user!.image && (
+                <Image
+                  src={data.user!.image}
+                  className="mr-2 rounded-full"
+                  width={48}
+                  height={48}
+                  alt="Profile Picture"
+                />
+              )}
               <h1 className="text-xl">{data.user!.name}</h1>
             </li>
             <li>

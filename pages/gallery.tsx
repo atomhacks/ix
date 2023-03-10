@@ -10,12 +10,12 @@ type GalleryPageProps = {
 };
 
 function GalleryPage({ photos }: GalleryPageProps) {
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (
     <div className="bg-zinc-900 p-8 text-white font-montserrat">
-      <Transition appear show={!selectedImage} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage("")}>
+      <Transition appear show={selectedImage != null} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage(null)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

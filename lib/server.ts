@@ -1,4 +1,5 @@
 /* Utility functions for common server-side actions*/
+import { Prisma } from "@prisma/client";
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
@@ -13,14 +14,20 @@ export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ m
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
 
 // only to be used in reading, for updating just call prisma manually
-export async function getUser(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"]) {
-  const jwt = await getToken({ req });
-  if (!jwt) {
+export async function getUser(
+  req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"],
+): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
+export async function getUser(
+  id: string,
+): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
+export async function getUser(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string) {
+  const id = typeof req == "string" ? req : (await getToken({ req }))?.sub;
+  if (!id) {
     return null;
   }
   const user = await prisma.user.findUnique({
     where: {
-      id: jwt.sub,
+      id: id,
     },
     include: {
       accounts: true,
@@ -34,8 +41,8 @@ export async function getUser(req: NextRequest | NextApiRequest | GetServerSideP
   return user;
 }
 
-export async function getSubmission(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"], id: string) {
-  const jwt = await getToken({ req });
+export async function getSubmission(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) {
+  const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;
   if (!jwt) {
     return null;
   }
@@ -51,7 +58,7 @@ export async function getSubmission(req: NextRequest | NextApiRequest | GetServe
           team: {
             users: {
               some: {
-                id: jwt.sub,
+                id: jwt,
               },
             },
           },

@@ -6,7 +6,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
-import { Account, User } from "@prisma/client";
 // import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
@@ -46,10 +45,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
   events: {
-    async signIn({ user, account }) {
-      
-      if (!user || !account) {return}
-      if (!(user as User & { accounts: Account[] }).accounts.find((account) => account.provider === "google")) {
+    async signIn({ user: user, account }) {
+      if (!user || !account) {
         return;
       }
       if (account.provider === "discord") {
