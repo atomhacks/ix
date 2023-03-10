@@ -16,7 +16,7 @@ export default async function FormPage() {
   if (!user) {
     redirect("/api/auth/signin")
   }
-  if (user.formInfo) redirect("/dashboardnew/already")
+  if (user.formInfo) redirect("/dashboard/already")
 
   return <Form />
 }

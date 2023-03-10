@@ -39,7 +39,7 @@ export default function Form() {
       body,
     });
     if (res.status == 201) {
-      router.push("/dashboardnew/success");
+      router.push("/dashboard/success");
     }
   };
   return (
