@@ -24,7 +24,7 @@ async function getPhotos() {
 
 export default async function Gallery() {
   const photos = await getPhotos();
-  // const [selectedImage, setSelectedImage] = useState<null | string>(null);
+  // const [selectedImage, setSelectedImage] = useState(null);
 
   return (
     <div className="bg-zinc-900 p-8 font-montserrat text-white">
@@ -55,7 +55,7 @@ export default async function Gallery() {
               >
                 <Dialog.Panel className="flex transform items-center justify-center overflow-hidden rounded-2xl shadow-xl transition-all">
                   {selectedImage && (
-                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt={""} />
+                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt="Gallery Photo" />
                   )}
                 </Dialog.Panel>
               </Transition.Child>
@@ -71,14 +71,14 @@ export default async function Gallery() {
         <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
           {photos[0].map((photo: string, i: Key) => (
             <Image
-              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              className="hover:border-box hover:outline-3 outline-solid box-border rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
+              alt="Gallery Photo"
               key={i}
               // onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-              alt={""}
             />
           ))}
         </div>
@@ -88,14 +88,14 @@ export default async function Gallery() {
         <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
           {photos[1].map((photo: string, i: Key) => (
             <Image
-              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              className="hover:border-box hover:outline-3 outline-solid box-border rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
+              alt="Gallery Photo"
               key={i}
               // onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-              alt={""}
             />
           ))}
         </div>

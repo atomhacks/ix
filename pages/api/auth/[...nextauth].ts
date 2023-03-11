@@ -1,14 +1,14 @@
 import prisma from "../../../lib/prisma";
 
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 // import GitHubProvider from "next-auth/providers/github";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {},
   providers: [
@@ -28,8 +28,10 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ account, profile }) {
+      if (!account || !profile) return false;
+      // future GitHub integration?
       if (account.provider === "google") {
-        return profile.email_verified && profile.email.endsWith("@bxscience.edu");
+        return (profile as GoogleProfile).email_verified && (profile as GoogleProfile).email.endsWith("@bxscience.edu");
       }
       if (account.provider === "discord") {
         return true;
@@ -41,21 +43,12 @@ export const authOptions = {
       */
       return false;
     },
-    async jwt({ token, account, profile }) {
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = profile.sub;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      session.user.id = token.sub;
-      return session;
-    },
   },
   events: {
-    async signIn({ user, account }) {
+    async signIn({ user: user, account }) {
+      if (!user || !account) {
+        return;
+      }
       if (account.provider === "discord") {
         await fetch(`https://discord.com/api/v10/applications/${process.env.DISCORD_ID}/role-connections/metadata`, {
           method: "PUT",

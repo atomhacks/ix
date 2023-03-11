@@ -1,14 +1,27 @@
-import "../styles/globals.css";
+import { Session } from "next-auth";
+import "../styles/globals.css"
 
-import React from "react";
-import { Providers } from "./providers";
+import React, { PropsWithChildren } from "react";
+import { Providers } from "./Providers";
+import NavBar from "../components/NavBar";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+type Props = {
+  session: Session;
+};
+
+const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) => {
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <NavBar />
+        <div className="content">
+          <Providers session={session}>
+            {children}
+          </Providers>
+        </div>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

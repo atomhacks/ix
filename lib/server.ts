@@ -1,6 +1,8 @@
+/* Utility functions for common server-side actions*/
+import { Prisma } from "@prisma/client";
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import type { NextApiRequest, NextApiResponse } from "next";
-
+import { NextRequest } from "next/server";
 import prisma from "./prisma";
 
 export const wrongMethod = (res: NextApiResponse) => res.status(405).json({ message: "Method Not Allowed" });
@@ -8,16 +10,24 @@ export const unauthorized = (res: NextApiResponse) => res.status(401).json({ mes
 export const missingFields = (res: NextApiResponse) =>
   res.status(400).json({ message: "Bad Request - Missing required fields" });
 export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ message: "Conflict" });
+// this should probably be a dedicated page
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
 
-export async function getUser(req: any) {
-  const jwt = await getToken({ req });
-  if (!jwt) {
+// only to be used in reading, for updating just call prisma manually
+export async function getUser(
+  req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"],
+): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
+export async function getUser(
+  id: string,
+): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
+export async function getUser(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string) {
+  const id = typeof req == "string" ? req : (await getToken({ req }))?.sub;
+  if (!id) {
     return null;
   }
   const user = await prisma.user.findUnique({
     where: {
-      id: jwt.sub,
+      id: id,
     },
     include: {
       accounts: true,
@@ -31,6 +41,40 @@ export async function getUser(req: any) {
   return user;
 }
 
+export async function getSubmission(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) {
+  const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;
+  if (!jwt) {
+    return null;
+  }
+  // extremely common prisma W
+  const submission = await prisma.submission.findFirst({
+    where: {
+      id,
+      OR: [
+        {
+          public: true,
+        },
+        {
+          team: {
+            users: {
+              some: {
+                id: jwt,
+              },
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      team: true,
+    },
+  });
+  if (!submission) {
+    return null;
+  }
+  return submission;
+}
+
 export async function redirect(destination = "/") {
   return {
     redirect: {
@@ -40,6 +84,7 @@ export async function redirect(destination = "/") {
   };
 }
 
+// https://stackoverflow.com/questions/61190495/how-to-create-object-from-another-without-undefined-properties
 export function filterBody<T extends { [k: string]: unknown }, U extends string>(
   body: T,
   validFields: readonly U[],

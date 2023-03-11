@@ -56,8 +56,8 @@ const Sponsors = () => {
                 width={i == 0 ? 600 : 250}
                 height={250}
                 key={i}
-                alt={sponsor.name}
                 src={`/assets/sponsors/${sponsor.path}`}
+                alt={`${sponsor.name} Logo`}
               />
             </Link>
           </div>

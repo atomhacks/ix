@@ -1,54 +1,53 @@
-import { getUser, redirect } from "../../lib/server";
-
-import { signIn } from "next-auth/react";
-
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getUser } from "../../lib/server";
+import { CheckCircleIcon, ExclamationCircleIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 
-import { cookies } from "next/headers";
-
-import {
-  ListBulletIcon,
-  ExclamationCircleIcon,
-  CheckCircleIcon,
-  LinkIcon,
-  // UsersIcon,
-} from "@heroicons/react/24/outline";
-
-export default async function Index() {
-  const cookie = cookies().getAll();
-  const user = await getUser(cookie);
+const DashboardLanding = async () => {
+  const jwt = await getServerSession({
+    callbacks: {
+      session: ({ token }) => token,
+    },
+  });
+  if (!jwt || !jwt.sub) {
+    redirect("/api/auth/signin");
+  }
+  const user = await getUser(jwt.sub);
   if (!user) {
-    console.log("No user");
+    redirect("/api/auth/signin");
+  }
+  if (!user.formInfo) {
+    redirect("/form");
   }
 
   return (
-    <>
-      <div className="min-h-screen bg-zinc-900 p-8 font-montserrat text-white">
-        <div className="mb-8 flex items-center justify-center">
-          <span className="border-b-4 border-green-500 py-6 font-morro text-7xl md:text-5xl">DASHBOARD</span>
-        </div>
-        <h1 className="p-4 text-center text-xl md:text-base">
-          Please make sure that you complete all the tasks before the event begins.
-        </h1>
-        <div className="flex flex-col items-center justify-around gap-4">
-          <Link
-            className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
-              !user!.formInfo ? "border-red-500" : "border-green-500"
-            }`}
-            href="/dashboard/form"
-          >
+    <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat">
+      <div className="flex items-center justify-center mb-8">
+        <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">DASHBOARD</span>
+      </div>
+      <h1 className="p-4 text-center text-xl md:text-base">
+        Please make sure that you complete all the tasks before the event begins.
+      </h1>
+      <div className="flex flex-col items-center justify-around gap-4">
+        <Link
+          className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
+            !user!.formInfo ? "border-red-500" : "border-green-500"
+          }`}
+          href="/form"
+        >
+          {" "}
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
             {" "}
-            <div className="h-10 w-10 object-contain md:h-5 md:w-5">
-              {" "}
-              <ListBulletIcon />
-            </div>
-            <h1 className="mx-4 grow text-left text-2xl md:text-sm">Complete the form</h1>
-            <div className="h-10 w-10 object-contain md:h-5 md:w-5">
-              {" "}
-              {!user!.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
-            </div>
-          </Link>
-          {/*           <button
+            <ListBulletIcon />
+          </div>
+          <h1 className="mx-4 grow text-left text-2xl md:text-sm">Complete the form</h1>
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
+            {" "}
+            {!user!.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+          </div>
+        </Link>
+        {/*           <button
             className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
               !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
             }`}
@@ -69,7 +68,7 @@ export default async function Index() {
               )}
             </div>
           </button> */}
-          {/* <Link
+        {/* <Link
             className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
               !user.team ? "border-red-500" : "border-green-500"
             }`}
@@ -86,11 +85,9 @@ export default async function Index() {
               {!user.team ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
             </div>
           </Link> */}
-        </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
-// wishing i had app directory rn
-// Dashboard.Layout = Layout;
+export default DashboardLanding;

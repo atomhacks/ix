@@ -10,8 +10,8 @@ const NavBar = () => {
             ATOM HACKS
           </Link>
         </div>
-        <div className="flex font-montserrat text-1xl">
-          <Link className="px-4 md:px-2 duration-300 hover:text-gray-500" href="/#about">
+        <div className="flex font-montserrat">
+          <Link className="px-4 md:px-2 duration-300 hover:text-gray-500 block" href="/#about">
             ABOUT
           </Link>
 
