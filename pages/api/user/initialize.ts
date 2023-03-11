@@ -2,15 +2,12 @@ import { getToken } from "next-auth/jwt";
 import { wrongMethod, unauthorized, missingFields, filterBodyAndValidate } from "../../../lib/server";
 
 import prisma from "../../../lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
 const requiredFields = ["osis", "experience", "year"];
 const fields = [...requiredFields, "hasTeam", "shouldMatchTeam", "teamMembers"];
 
-export default async function handler(req, res) {
-  if (req.method != "POST") {
-    return wrongMethod(res);
-  }
-
+export default async function POST(req: Request, res: Response) {
   const jwt = await getToken({ req });
   if (!jwt) {
     return unauthorized(res);
@@ -38,5 +35,5 @@ export default async function handler(req, res) {
       },
     },
   });
-  return res.status(201).json(updateUser);
+  return NextResponse.json(updateUser);
 }

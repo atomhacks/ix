@@ -94,7 +94,6 @@ export function filterBody<T extends { [k: string]: unknown }, U extends string>
   ) as Partial<Pick<T, U>>;
 }
 
-// frick typescript
 export function filterBodyAndValidate<T extends { [k: string]: unknown }, U extends string, V extends U>(
   body: T,
   validFields: readonly U[],

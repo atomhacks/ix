@@ -28,7 +28,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "components/effects/ShapeRain.js", "components/effects/Shape.js"
   ],
   "exclude": [
     "node_modules"

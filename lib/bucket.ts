@@ -1,7 +1,7 @@
 import { S3Client } from "@aws-sdk/client-s3";
 
 const bucket = new S3Client({
-  endpoint: process.env.SPACES_ENDPOINT,
+  endpoint: process.env.SPACES_ENDPOINT!,
   forcePathStyle: false,
   region: "us-east-1",
   credentials: {
