@@ -1,7 +1,7 @@
 import Image from "next/image";
-import img1 from "../../public/assets/about/img1.webp";
-import img2 from "../../public/assets/about/img2.webp";
-import img3 from "../../public/assets/about/img3.webp";
+import img1 from "../public/assets/about/img1.webp";
+import img2 from "../public/assets/about/img2.webp";
+import img3 from "../public/assets/about/img3.webp";
 
 const content = [
   {

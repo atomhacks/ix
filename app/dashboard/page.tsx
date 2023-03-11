@@ -34,7 +34,7 @@ const DashboardLanding = async () => {
           className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
             !user!.formInfo ? "border-red-500" : "border-green-500"
           }`}
-          href="/dashboard/form"
+          href="/form"
         >
           {" "}
           <div className="h-10 w-10 object-contain md:h-5 md:w-5">

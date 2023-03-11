@@ -1,26 +1,14 @@
-"use client";
-
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
 import { Transition, Dialog } from "@headlessui/react";
-<<<<<<<< HEAD:pages/gallery.tsx
-import bucket from "../lib/bucket";
-import { useState, Fragment } from "react";
-import { GetStaticProps } from "next";
-
-type GalleryPageProps = {
-  photos: string[][];
-};
-
-function GalleryPage({ photos }: GalleryPageProps) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-========
 import bucket from "../../lib/bucket";
-import { useState, Fragment, Key } from "react";
+import { Key } from "react";
 
 async function getPhotos() {
-  const items_2022 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }));
-  const items_2019 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }));
+  const [items_2022, items_2019] = await Promise.all([
+    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
+    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
+  ]);
   const photos = [
     items_2022!
       .Contents!.slice(1)
@@ -37,12 +25,11 @@ async function getPhotos() {
 
 export default async function Gallery() {
   const photos = await getPhotos();
-  const [selectedImage, setSelectedImage] = useState(null);
->>>>>>>> 8ffb8cb4775e3acb436135f38fba2a8eafb36b31:app/gallery/page.tsx
+  // const [selectedImage, setSelectedImage] = useState(null);
 
   return (
     <div className="bg-zinc-900 p-8 font-montserrat text-white">
-      <Transition appear show={selectedImage != null} as={Fragment}>
+      {/* <Transition appear show={selectedImage != null} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage(null)}>
           <Transition.Child
             as={Fragment}
@@ -76,7 +63,7 @@ export default async function Gallery() {
             </div>
           </div>
         </Dialog>
-      </Transition>
+      </Transition> */}
       <div className="mb-8 flex items-center justify-center">
         <span className="border-b-4 border-green-500 py-6 font-morro text-7xl md:text-5xl">GALLERY</span>
       </div>
@@ -85,13 +72,13 @@ export default async function Gallery() {
         <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
           {photos[0].map((photo: any, i: Key) => (
             <Image
-              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              className="hover:border-box hover:outline-3 outline-solid box-border rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
               alt="Gallery Photo"
               key={i}
-              onClick={() => setSelectedImage(photo)}
+              // onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             />
           ))}
@@ -102,13 +89,13 @@ export default async function Gallery() {
         <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
           {photos[1].map((photo: any, i: Key) => (
             <Image
-              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              className="hover:border-box hover:outline-3 outline-solid box-border rounded-xl outline-green-500 transition duration-200 hover:outline"
               src={photo}
               width={620}
               height={200}
               alt="Gallery Photo"
               key={i}
-              onClick={() => setSelectedImage(photo)}
+              // onClick={() => setSelectedImage(photo)}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             />
           ))}
@@ -117,33 +104,3 @@ export default async function Gallery() {
     </div>
   );
 }
-<<<<<<<< HEAD:pages/gallery.tsx
-
-export const getStaticProps: GetStaticProps = async () => {
-  const { Contents: items_2022 } = await bucket.send(
-    new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }),
-  );
-  const { Contents: items_2019 } = await bucket.send(
-    new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }),
-  );
-  if (!items_2022 || !items_2019) return { props: { photos: [] } };
-  const photos = [
-    items_2022.slice(1)
-      .filter((item) => item.Key!.endsWith("JPG"))
-      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-    items_2019.slice(1)
-      .filter((item) => item.Key!.endsWith("JPG"))
-      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-  ];
-
-  return {
-    props: {
-      photos,
-    },
-    revalidate: 600,
-  };
-};
-
-export default GalleryPage;
-========
->>>>>>>> 8ffb8cb4775e3acb436135f38fba2a8eafb36b31:app/gallery/page.tsx
