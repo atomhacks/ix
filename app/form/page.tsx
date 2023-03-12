@@ -3,7 +3,10 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import Form from "./Form";
 
+export const revalidate = 0;
+
 export default async function FormPage() {
+  console.log("waaaa")
   const jwt = await getServerSession({
     callbacks: {
       session: ({ token }) => token,

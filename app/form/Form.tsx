@@ -40,6 +40,7 @@ export default function Form() {
     });
     if (res.status == 201) {
       router.push("/dashboard/success");
+      router.refresh()
     }
   };
   return (

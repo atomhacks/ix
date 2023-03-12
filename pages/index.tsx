@@ -42,7 +42,7 @@ export default function Index() {
               <p className="mb-4 break-words font-medium">
                 Explore, build, innovate. Come join us for 12 full hours of creativity, excitement, and building!
               </p>
-              <SignIn text="Sign In" provider="google" callbackUrl="/dashboard" />
+              <SignIn provider="google" callbackUrl="/dashboard">Sign in</SignIn>
             </div>
           </div>
         </div>

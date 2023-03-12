@@ -56,7 +56,7 @@ export default function Sidebar() {
       <ul className="flex flex-col h-full">
         <div className="p-4">
           <li className="mb-2">
-            <Link href="/dashboard">
+            <Link href="/dashboard?complete">
               <h1
                 className={`${
                   isActive("/dashboard") && "text-teal-300"

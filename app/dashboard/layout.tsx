@@ -1,9 +1,5 @@
 import Sidebar from "../../components/dashboard/Sidebar";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import prisma from "../../lib/prisma";
-import React, { ReactElement } from "react";
-import { getUser } from "../../lib/server";
+import React from "react";
 
 export const metadata = {
   title: "Dashboard",

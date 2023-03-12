@@ -1,3 +1,5 @@
+import "server-only";
+
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -9,8 +11,12 @@ import {
   ListBulletIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import SignIn from "../components/SignInButton";
 
-const DashboardLanding = async () => {
+export const dynamic = "force-dynamic";
+
+export default async function DashboardLanding() {
+  console.log("wa");
   const jwt = await getServerSession({
     callbacks: {
       session: ({ token }) => token,
@@ -23,6 +29,7 @@ const DashboardLanding = async () => {
   if (!user) {
     redirect("/api/auth/signin");
   }
+  console.log(user);
   if (!user.formInfo) {
     redirect("/form");
   }
@@ -53,7 +60,9 @@ const DashboardLanding = async () => {
             {!user.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
           </div>
         </Link>
-        <button
+        <SignIn
+          provider="discord"
+          callbackUrl="/dashboard"
           className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
             !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
           }`}
@@ -73,7 +82,7 @@ const DashboardLanding = async () => {
               <CheckCircleIcon />
             )}
           </div>
-        </button>
+        </SignIn>
         <Link
           className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
             !user.team ? "border-red-500" : "border-green-500"
@@ -94,6 +103,4 @@ const DashboardLanding = async () => {
       </div>
     </>
   );
-};
-
-export default DashboardLanding;
+}
