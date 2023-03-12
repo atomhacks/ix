@@ -1,9 +1,9 @@
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
 import bucket from "../../lib/bucket";
-import { Key } from "react";
+import { cache, Key } from "react";
 
-async function getPhotos() {
+const getPhotos = cache(async () => {
   const [items_2022, items_2019] = await Promise.all([
     bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
     bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
@@ -20,7 +20,7 @@ async function getPhotos() {
   ];
 
   return photos;
-}
+});
 
 export default async function Gallery() {
   const photos = await getPhotos();

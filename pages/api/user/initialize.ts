@@ -2,12 +2,15 @@ import { getToken } from "next-auth/jwt";
 import { wrongMethod, unauthorized, missingFields, filterBodyAndValidate } from "../../../lib/server";
 
 import prisma from "../../../lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const requiredFields = ["osis", "experience", "year"];
-const fields = [...requiredFields, "hasTeam", "shouldMatchTeam", "teamMembers"];
+const requiredFields = ["osis", "experience", "year"] as const;
+const fields = [...requiredFields, "hasTeam", "shouldMatchTeam", "teamMembers"] as const;
 
-export default async function POST(req: Request, res: Response) {
+export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method != "POST") {
+    return wrongMethod(res);
+  }
   const jwt = await getToken({ req });
   if (!jwt) {
     return unauthorized(res);
@@ -35,5 +38,5 @@ export default async function POST(req: Request, res: Response) {
       },
     },
   });
-  return NextResponse.json(updateUser);
+  return res.status(201).json(updateUser);
 }
