@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from "next";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -59,7 +60,7 @@ export default function Sidebar() {
               <h1
                 className={`${
                   isActive("/dashboard") && "text-teal-300"
-                } text-2xl font-bold text-white hover:text-teal-300 transition duration-200`}
+                } text-2xl font-bold hover:text-teal-300 transition duration-200`}
               >
                 Dashboard
               </h1>
@@ -70,7 +71,7 @@ export default function Sidebar() {
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
-                  href={route.path}
+                  href={(route.path) as Route}
                   className={`${
                     isActive(route.path) && "text-teal-300"
                   } hover:text-teal-300 transition duration-200 text-xl`}
