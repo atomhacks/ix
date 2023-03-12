@@ -1,9 +1,10 @@
 import { Session } from "next-auth";
-import "../styles/globals.css"
+import "../styles/globals.css";
 
 import React, { PropsWithChildren } from "react";
 import { Providers } from "./Providers";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 type Props = {
   session: Session;
@@ -15,10 +16,9 @@ const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) =
       <body>
         <NavBar />
         <div className="content">
-          <Providers session={session}>
-            {children}
-          </Providers>
+          <Providers session={session}>{children}</Providers>
         </div>
+        {/*         <Footer /> */}
       </body>
     </html>
   );

@@ -1,35 +1,49 @@
-import Script from 'next/script'
-import Link from 'next/link'
+import Link from "next/link";
+import Image from "next/image";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
+
+import Logo from "../public/logo.png";
+import GithubIcon from "../public/icons/github.png";
+import InstagramIcon from "../public/icons/instagram.png";
 
 const Footer = () => {
   return (
     <div>
       <footer className="bg-neutral-900 text-center text-white dark:bg-neutral-900">
-        <div className="flex flex-row pt-6 pb-6 text-neutral-200 font-montserrat">
-          <div className="basis-1/4 m-auto">© 2023 AtomHacks · All rights reserved.</div>
-          <div className="basis-2/4 m-auto">
-            <Link href="/#" >
-              <img src="/atom.png" className="h-18 w-16 md:h-50 md:w-50 m-auto opacity-40  hover:animate-pulse" />
+        <div className="flex flex-row pt-6 pb-6 font-montserrat text-neutral-200">
+          <div className="m-auto basis-1/4">© 2023 AtomHacks · All rights reserved.</div>
+          <div className="m-auto basis-2/4">
+            <Link href="/#">
+              <Image
+                src={Logo}
+                className="h-18 md:h-50 md:w-50 m-auto w-16 opacity-40  hover:animate-pulse"
+                alt="AtomHacks"
+              />
             </Link>
           </div>
-          <div className="basis-1/4 m-auto">
-            <Link href="https://www.instagram.com/bxsciatomhacks/">
-              <ion-icon name="logo-instagram" class="md hydrated text-3xl px-2 duration-300 hover:text-gray-500" />
-            </Link>
-
-            <Link href="https://github.com/atomhacks" >
-              <ion-icon name="logo-github" class="md hydrated text-3xl px-2 duration-300 hover:text-gray-500" />
-            </Link>
-
-            <Link href="mailto: atomhacks@bxscience.edu" >
-              <ion-icon name="mail-outline" class="md hydrated text-3xl px-2 duration-300 hover:text-gray-500" />
-            </Link>
+          <div className="m-auto basis-1/4">
+            <a href="https://www.instagram.com/bxsciatomhacks/">
+              <Image
+                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500"
+                src={InstagramIcon}
+                alt="Instagram"
+              />
+            </a>
+            <a href="https://github.com/atomhacks">
+              <Image
+                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500"
+                src={GithubIcon}
+                alt="GitHub"
+              />
+            </a>
+            <a href="mailto:atomhacks@bxscience.edu">
+              <EnvelopeIcon className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500" />
+            </a>
           </div>
         </div>
       </footer>
-      <Script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" noModule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></Script>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
-export default Footer; 
+export default Footer;
