@@ -4,31 +4,8 @@
 
 @font-face {
   font-family: "Morro";
-  src: url("../styles/fonts/Morro-Regular.otf") format("opentype");
+  src: url("../styles/fonts/Morro.otf") format("opentype");
   font-weight: normal;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("../styles/fonts/Montserrat-Medium.ttf") format("truetype");
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("../styles/fonts/Montserrat-Bold.ttf") format("truetype");
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("../styles/fonts/Montserrat-Black.ttf") format("truetype");
-  font-weight: 900;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("../styles/fonts/Inter-Light.ttf");
 }
 
 html,
@@ -55,5 +32,3 @@ a {
 ::selection {
   background-color: #0d9488;
 }
-
-

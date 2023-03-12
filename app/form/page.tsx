@@ -10,13 +10,13 @@ export default async function FormPage() {
     },
   });
   if (!jwt || !jwt.sub) {
-    redirect("/api/auth/signin")
+    redirect("/api/auth/signin");
   }
   const user = await getUser(jwt.sub);
   if (!user) {
-    redirect("/api/auth/signin")
+    redirect("/api/auth/signin");
   }
-  if (user.formInfo) redirect("/dashboard/already")
+  if (user.formInfo) redirect("/dashboard/already");
 
-  return <Form />
+  return <Form />;
 }
