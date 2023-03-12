@@ -4,7 +4,13 @@ import "../styles/globals.css";
 import React, { PropsWithChildren } from "react";
 import { Providers } from "./Providers";
 import NavBar from "../components/NavBar";
+import { Montserrat } from "next/font/google";
 import Footer from "../components/Footer";
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+})
 
 type Props = {
   session: Session;
@@ -15,7 +21,7 @@ const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) =
     <html lang="en">
       <body>
         <NavBar />
-        <div className="content">
+        <div className={`${montserrat.variable} content`}>
           <Providers session={session}>{children}</Providers>
         </div>
         {/*         <Footer /> */}

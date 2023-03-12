@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         morro: ["Morro"],
-        montserrat: ["Montserrat"],
+        montserrat: ["var(--font-montserrat)"],
       },
       colors: {
         bg: {
