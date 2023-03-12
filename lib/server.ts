@@ -41,7 +41,10 @@ export async function getUser(req: NextRequest | NextApiRequest | GetServerSideP
   return user;
 }
 
-export async function getSubmission(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) {
+export async function getSubmission(
+  req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string,
+  id: string,
+) {
   const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;
   if (!jwt) {
     return null;

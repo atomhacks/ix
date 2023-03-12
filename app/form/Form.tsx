@@ -148,10 +148,10 @@ export default function Form() {
                     `${checked ? "bg-teal-600" : "bg-neutral-700"} cursor-pointer rounded-lg px-4 py-2 shadow-md w-2/5`
                   }
                   key={index}
-                  id={option ? "yes" : "no"}
+                  id={option.toLowerCase()}
                   value={option}
                 >
-                  <span>{option ? "Yes" : "No"}</span>
+                  <span>{option}</span>
                 </RadioGroup.Option>
               ))}
             </div>

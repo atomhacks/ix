@@ -56,4 +56,13 @@ a {
   background-color: #0d9488;
 }
 
+label {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: rgb(163 163 163);
+}
 
+input {
+  @apply block p-2 mt-1 mb-4 text-lg rounded-md shadow-lg bg-neutral-700 focus:outline-none focus:ring focus:border-green-500 focus:ring-green-500 placeholder:text-neutral-400;
+}

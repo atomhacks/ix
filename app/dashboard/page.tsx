@@ -2,7 +2,13 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getUser } from "../../lib/server";
-import { CheckCircleIcon, ExclamationCircleIcon, ListBulletIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  LinkIcon,
+  ListBulletIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline";
 
 const DashboardLanding = async () => {
   const jwt = await getServerSession({
@@ -22,9 +28,9 @@ const DashboardLanding = async () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-white font-montserrat">
-      <div className="flex items-center justify-center mb-8">
-        <span className="py-6 border-b-4 border-green-500 md:text-5xl text-7xl font-morro">DASHBOARD</span>
+    <>
+      <div className="mb-8 flex items-center justify-center">
+        <span className="border-b-4 border-green-500 py-6 font-morro text-7xl md:text-5xl">DASHBOARD</span>
       </div>
       <h1 className="p-4 text-center text-xl md:text-base">
         Please make sure that you complete all the tasks before the event begins.
@@ -32,7 +38,7 @@ const DashboardLanding = async () => {
       <div className="flex flex-col items-center justify-around gap-4">
         <Link
           className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
-            !user!.formInfo ? "border-red-500" : "border-green-500"
+            !user.formInfo ? "border-red-500" : "border-green-500"
           }`}
           href="/form"
         >
@@ -44,49 +50,49 @@ const DashboardLanding = async () => {
           <h1 className="mx-4 grow text-left text-2xl md:text-sm">Complete the form</h1>
           <div className="h-10 w-10 object-contain md:h-5 md:w-5">
             {" "}
-            {!user!.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+            {!user.formInfo ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
           </div>
         </Link>
-        {/*           <button
-            className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
-              !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
-            }`}
-            onClick={() => signIn("discord", { callbackUrl: "/dashboard" })}
-          >
+        <button
+          className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
+            !user.accounts.find((account) => account.provider === "discord") ? "border-red-500" : "border-green-500"
+          }`}
+          // onClick={() => signIn("discord", { callbackUrl: "/dashboard" })}
+        >
+          {" "}
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
             {" "}
-            <div className="h-10 w-10 object-contain md:h-5 md:w-5">
-              {" "}
-              <LinkIcon />
-            </div>
-            <h1 className="mx-4 grow text-left text-2xl md:text-sm">Link Discord account</h1>
-            <div className="h-10 w-10 object-contain md:h-5 md:w-5">
-              {" "}
-              {!user.accounts.find((account) => account.provider === "discord") ? (
-                <ExclamationCircleIcon />
-              ) : (
-                <CheckCircleIcon />
-              )}
-            </div>
-          </button> */}
-        {/* <Link
-            className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
-              !user.team ? "border-red-500" : "border-green-500"
-            }`}
-            href="/dashboard/team"
-          >
+            <LinkIcon />
+          </div>
+          <h1 className="mx-4 grow text-left text-2xl md:text-sm">Link Discord account</h1>
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
             {" "}
-            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
-              {" "}
-              <UsersIcon />
-            </div>
-            <h1 className="mx-4 text-2xl md:text-sm text-left grow">Create a team</h1>
-            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
-              {" "}
-              {!user.team ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
-            </div>
-          </Link> */}
+            {!user.accounts.find((account) => account.provider === "discord") ? (
+              <ExclamationCircleIcon />
+            ) : (
+              <CheckCircleIcon />
+            )}
+          </div>
+        </button>
+        <Link
+          className={`flex w-2/5 flex-row items-center rounded-lg border-2 bg-transparent p-4 md:w-4/5 ${
+            !user.team ? "border-red-500" : "border-green-500"
+          }`}
+          href="/dashboard/team/create"
+        >
+          {" "}
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
+            {" "}
+            <UsersIcon />
+          </div>
+          <h1 className="mx-4 grow text-left text-2xl md:text-sm">Create a team</h1>
+          <div className="h-10 w-10 object-contain md:h-5 md:w-5">
+            {" "}
+            {!user.team ? <ExclamationCircleIcon /> : <CheckCircleIcon />}
+          </div>
+        </Link>
       </div>
-    </div>
+    </>
   );
 };
 

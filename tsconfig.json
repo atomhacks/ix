@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/effects/ShapeRain.js", "components/effects/Shape.js"
+    "components/effects/ShapeRain.js", "components/effects/Shape.tsx"
   ],
   "exclude": [
     "node_modules"
