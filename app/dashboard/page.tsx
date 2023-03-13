@@ -16,7 +16,6 @@ import SignIn from "../components/SignInButton";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardLanding() {
-  console.log("wa");
   const jwt = await getServerSession({
     callbacks: {
       session: ({ token }) => token,
@@ -29,7 +28,6 @@ export default async function DashboardLanding() {
   if (!user) {
     redirect("/api/auth/signin");
   }
-  console.log(user);
   if (!user.formInfo) {
     redirect("/form");
   }

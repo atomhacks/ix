@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
+import { cache } from "react";
 import prisma from "./prisma";
 
 export const wrongMethod = (res: NextApiResponse) => res.status(405).json({ message: "Method Not Allowed" });
@@ -14,13 +15,14 @@ export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ m
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
 
 // only to be used in reading, for updating just call prisma manually
-export async function getUser(
-  req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"],
-): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
-export async function getUser(
-  id: string,
-): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
-export async function getUser(req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string) {
+type GetUserOverloads = {
+  (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"]): Promise<Prisma.UserGetPayload<{
+    include: { accounts: true; team: true; formInfo: true };
+  }> | null>;
+  (req: string): Promise<Prisma.UserGetPayload<{ include: { accounts: true; team: true; formInfo: true } }> | null>;
+};
+
+export const getUser: GetUserOverloads = cache(async (req) => {
   const id = typeof req == "string" ? req : (await getToken({ req }))?.sub;
   if (!id) {
     return null;
@@ -39,44 +41,43 @@ export async function getUser(req: NextRequest | NextApiRequest | GetServerSideP
     return null;
   }
   return user;
-}
+});
 
-export async function getSubmission(
-  req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string,
-  id: string,
-) {
-  const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;
-  if (!jwt) {
-    return null;
-  }
-  // extremely common prisma W
-  const submission = await prisma.submission.findFirst({
-    where: {
-      id,
-      OR: [
-        {
-          public: true,
-        },
-        {
-          team: {
-            users: {
-              some: {
-                id: jwt,
+export const getSubmission = cache(
+  async (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) => {
+    const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;
+    if (!jwt) {
+      return null;
+    }
+    // extremely common prisma W
+    const submission = await prisma.submission.findFirst({
+      where: {
+        id,
+        OR: [
+          {
+            public: true,
+          },
+          {
+            team: {
+              users: {
+                some: {
+                  id: jwt,
+                },
               },
             },
           },
-        },
-      ],
-    },
-    include: {
-      team: true,
-    },
-  });
-  if (!submission) {
-    return null;
-  }
-  return submission;
-}
+        ],
+      },
+      include: {
+        team: true,
+      },
+    });
+    if (!submission) {
+      return null;
+    }
+    return submission;
+  },
+);
 
 export async function redirect(destination = "/") {
   return {

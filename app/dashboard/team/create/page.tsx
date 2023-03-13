@@ -18,6 +18,10 @@ export default async function CreateTeamPage() {
     redirect("/api/auth/signin");
   }
 
+  if (user.team) {
+    redirect("/dashboard")
+  }
+
   const users = await prisma.user.findMany({
     where: {
       NOT: [
@@ -33,7 +37,6 @@ export default async function CreateTeamPage() {
       team: null,
     },
   });
-  console.log(users);
 
   return (
     <div className="max-w-screen-lg mx-auto mt-2 flex p-4 pt-4">

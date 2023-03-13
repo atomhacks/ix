@@ -56,6 +56,7 @@ export default function Sidebar() {
       <ul className="flex flex-col h-full">
         <div className="p-4">
           <li className="mb-2">
+            {/* DO NOT DELETE THE ?COMPLETE IT IS NECESSARY FOR DASHBOARD PAGE TO RELOAD AFTER FORM SUBMIT */}
             <Link href="/dashboard?complete">
               <h1
                 className={`${
