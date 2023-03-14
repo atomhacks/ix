@@ -1,11 +1,11 @@
 import prisma from "../../../lib/prisma";
 import { getToken } from "next-auth/jwt";
-import { duplicateEntry, filterBodyAndValidate, missingFields, unauthorized, wrongMethod } from "../../../lib/server";
+import { duplicateEntry, filterBodyAndValidate, getUser, missingFields, redirect, unauthorized, wrongMethod } from "../../../lib/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const fields = ["title", "description", "members", "tracks", "media"] as const;
-const req_fields = ["title", "description"] as const;
+const fields = ["name", "description", "tracks"] as const;
+const req_fields = ["name", "description"] as const;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method != "POST") {
@@ -23,20 +23,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return missingFields(res);
   }
 
+  const user = await getUser(req);
+  if (!user) {
+    return redirect("/api/auth/signin");
+  }
+
+  if (!user.teamId) {
+    return redirect("/dashboard/team/create")
+  }
+
   try {
     const submission = await prisma.submission.create({
       data: {
         ...body,
-        members: {
-          connect: [
+        team: {
+          connect: 
             {
-              id: jwt.sub,
+              id: user.teamId
             },
-          ],
         },
       },
       include: {
-        members: true,
+        team: {
+          include: {
+            users: true,
+            submission: true,
+          }
+        }
       },
     });
     return res.status(201).json(submission);

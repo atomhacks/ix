@@ -30,23 +30,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!body) {
     return missingFields(res);
   }
-  const base64Data = Buffer.from(body.image.replace(/^data:image\/\w+;base64,/, ""), "base64");
-  const ext = body.image.split(";")[0].split("/")[1];
+  if (body.image) {
+    try {
+      const base64Data = Buffer.from(body.image.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      const ext = body.image.split(";")[0].split("/")[1];
 
-  const upload = await bucket.send(
-    new PutObjectCommand({
-      Key: `Teams/${body.name}.${ext}`,
-      Bucket: "atomhacks",
-      Body: base64Data,
-      ACL: "public-read",
-      ContentEncoding: "base64",
-      ContentType: `image/${ext}`,
-    }),
-  );
-  if (upload.$metadata.httpStatusCode == 200) {
-    body.image = `${process.env.SPACES_CDN_ENDPOINT!}/Teams/${body.name}.${ext}`;
-  } else {
-    body.image = null;
+      const upload = await bucket.send(
+        new PutObjectCommand({
+          Key: `Teams/${body.name}.${ext}`,
+          Bucket: "atomhacks",
+          Body: base64Data,
+          ACL: "public-read",
+          ContentEncoding: "base64",
+          ContentType: `image/${ext}`,
+        }),
+      );
+      if (upload.$metadata.httpStatusCode == 200) {
+        body.image = `${process.env.SPACES_CDN_ENDPOINT!}/Teams/${body.name}.${ext}`;
+      } else {
+        body.image = null;
+      }
+    } catch (e) {
+      console.warn("Image failed to upload,", e);
+    }
   }
 
   const { users: ids, ...restOfBody } = body;

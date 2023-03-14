@@ -39,8 +39,8 @@ export default function Form() {
       body,
     });
     if (res.status == 201) {
-      router.push("/dashboard/success");
       router.refresh()
+      router.push("/dashboard/success");
     }
   };
   return (
