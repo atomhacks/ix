@@ -21,24 +21,24 @@ const Footer = () => {
               />
             </Link>
           </div>
-          <div className="m-auto basis-1/4">
-            <a href="https://www.instagram.com/bxsciatomhacks/">
-              <Image
-                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500"
+          <div className="m-auto basis-1/4 flex flex-row">
+            <Link href="https://www.instagram.com/bxsciatomhacks/">
+              <Image 
+                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500 basis-1/3"
                 src={InstagramIcon}
                 alt="Instagram"
               />
-            </a>
-            <a href="https://github.com/atomhacks">
+            </Link>
+            <Link href="https://github.com/atomhacks">
               <Image
-                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500"
+                className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:opacity-40 basis-1/3"
                 src={GithubIcon}
                 alt="GitHub"
               />
-            </a>
-            <a href="mailto:atomhacks@bxscience.edu">
-              <EnvelopeIcon className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500" />
-            </a>
+            </Link>
+            <Link href="mailto:atomhacks@bxscience.edu">
+              <EnvelopeIcon className="h-18 md:h-50 md:w-50 md hydrated m-auto w-16 px-2 text-3xl duration-300 hover:text-gray-500 basis-1/3" />
+            </Link>
           </div>
         </div>
       </footer>
