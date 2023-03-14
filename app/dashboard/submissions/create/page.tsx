@@ -1,16 +1,29 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { getUser } from "../../../../lib/server";
+import CreateSubmissionForm from "./Form";
 
-import { FormEventHandler, useState } from "react";
-import { Switch } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/20/solid";
-import { useRouter } from "next/router";
+export default async function CreateSubmissionPage() {
+  const jwt = await getServerSession({
+    callbacks: {
+      session: ({ token }) => token,
+    },
+  });
+  if (!jwt || !jwt.sub) {
+    redirect("/api/auth/signin");
+  }
+  const user = await getUser(jwt.sub);
+  if (!user) {
+    redirect("/api/auth/signin");
+  }
 
-// TODO: form validation - handle duplicate titles
-export default function CreateSubmission() {
-  const [selectedTracks, selectTrack] = useState(["GENERAL"]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const router = useRouter();
+  if (!user.team) {
+    redirect("/dashboard/team/create");
+  }
+
+  if (user.team.submission) {
+    redirect(`/dashboard/submissions/${user.team.submission.id}`);
+  }
 
   const tracks = [
     {
@@ -34,108 +47,14 @@ export default function CreateSubmission() {
     },
   ];
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    if (!title || !description) return;
-
-    const body = JSON.stringify({
-      title,
-      description,
-      tracks: selectedTracks,
-    });
-
-    const res = await fetch("/api/submissions/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    });
-    if (res.status == 201) {
-      const json = await res.json();
-      router.push(`/dashboard/submissions/${json.id}`);
-    }
-  };
-
   return (
-    <div className="flex items-center justify-center max-w-screen-xl px-4 py-2 mx-8 rounded-lg grow bg-neutral-800">
-      <div className="flex flex-col items-end justify-end mr-12 basis-1/2">
-        <h1 className="text-4xl">Create a submission</h1>
+    <div className="max-w-screen-xl mx-8 flex grow items-center justify-center rounded-lg bg-neutral-800 px-4 py-2">
+      <div className="mr-12 flex basis-1/2 flex-col items-end justify-end">
+        <h1 className="text-4xl font-bold">Create a submission</h1>
         <h2 className="text-neutral-400">None of these options are permanant</h2>
       </div>
-      <div className="flex items-start justify-start mt-2 ml-6 basis-1/2 text-neutral-300">
-        <form onSubmit={handleSubmit}>
-          <label className="block text-base text-neutral-400" htmlFor="title">
-            Title *
-          </label>
-          <input
-            className="block p-2 mt-1 mb-4 text-lg rounded-md shadow-lg bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
-            type="text"
-            id="title"
-            name="title"
-            onInput={(e) => setTitle((e.target as HTMLInputElement).value)}
-          />
-          <label className="block text-base text-neutral-400" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className="block p-2 mt-1 mb-4 rounded-lg shadow-lg text-m bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
-            id="description"
-            name="description"
-            rows={10}
-            cols={55}
-            onInput={(e) => setDescription((e.target as HTMLInputElement).value)}
-          />
-          <p className="mb-2 text-neutral-400">Which track(s) would you like to compete in?</p>
-          <div id="tracks" className="space-y-2">
-            {tracks.map((track, index) => (
-              <Switch
-                className={({ checked }) =>
-                  `${checked ? "bg-teal-600" : "bg-neutral-700"}
-                    block text-left ${
-                      index == 0 ? "cursor-not-allowed" : "cursor-pointer"
-                    } flex items-center rounded-lg px-4 py-2 shadow-md`
-                }
-                disabled={index == 0}
-                checked={selectedTracks.includes(track.value)}
-                key={index}
-                onChange={(state) =>
-                  state
-                    ? selectTrack([...selectedTracks, track.value])
-                    : selectTrack(selectedTracks.filter((t) => t !== track.value))
-                }
-              >
-                {({ checked }) => (
-                  <>
-                    <div className="flex flex-col">
-                      <span className={`text-sm ${checked ? "text-white" : ""}`}>{track.name}</span>
-                      <div className={`text-sm max-w-md ${checked ? "text-neutral-200" : "text-neutral-400"}`}>
-                        <span>{track.description}</span>
-                        <span className={`flex space-x-2 ${checked ? "" : "text-cyan-200"}`}>
-                          <span>Prizes: </span>
-                          <ol className="flex space-x-2 list-decimal list-inside">
-                            {track.prizes.map((prize, index) => (
-                              <li key={index}>{prize}</li>
-                            ))}
-                          </ol>
-                        </span>
-                      </div>
-                    </div>
-                    <CheckIcon className={`w-8 h-8 mr-4 ${checked ? "visible" : "invisible"}`} />
-                  </>
-                )}
-              </Switch>
-            ))}
-          </div>
-          <div className="py-2 mt-4">
-            <button
-              type="submit"
-              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white transition duration-200 bg-teal-500 border border-transparent rounded-md hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            >
-              Next
-            </button>
-          </div>
-        </form>
+      <div className="mt-2 ml-6 flex basis-1/2 items-start justify-start text-neutral-300">
+        <CreateSubmissionForm tracks={tracks} />
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export default function Sidebar() {
     },
     {
       name: "Create Submission",
-      path: "/dashboard/create-submission",
+      path: "/dashboard/submissions/create",
     },
   ]);
   useEffect(() => {
@@ -29,13 +29,13 @@ export default function Sidebar() {
     }).then((res) => {
       if (res.status == 200) {
         res.json().then((user) => {
-          if (user.submissionId) {
+          if (user.team && user.team.submission) {
             setRoutes(
               routes.map((route, index) => {
                 if (index == 1) {
                   return {
                     name: "My Submission",
-                    path: `/dashboard/submissions/${user.submissionId}`,
+                    path: `/dashboard/submissions/${user.team.submission.id}`,
                   };
                 } else {
                   return route;
@@ -72,7 +72,7 @@ export default function Sidebar() {
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
-                  href={(route.path) as Route}
+                  href={`${(route.path as Route)}?fix${i}`}
                   className={`${
                     isActive(route.path) && "text-teal-300"
                   } hover:text-teal-300 transition duration-200 text-xl`}

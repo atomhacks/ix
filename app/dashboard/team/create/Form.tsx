@@ -5,6 +5,8 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, Fragment, useRef, useState } from "react";
+import Spinner from "../../../components/Spinner";
+import SubmitButton from "../../../components/SubmitButton";
 
 type Props = {
   users: User[];
@@ -14,6 +16,7 @@ export default function CreateTeamForm({ users }: Props) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [selectedUsers, _setSelectedUsers] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
   const [image, setImage] = useState<File>();
 
   const toBase64 = (file: File) => {
@@ -43,6 +46,7 @@ export default function CreateTeamForm({ users }: Props) {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     if (!isValid()) {
       return;
     }
@@ -55,8 +59,8 @@ export default function CreateTeamForm({ users }: Props) {
       const imageBase64 = await toBase64(image);
       body = {
         ...body,
-        image: imageBase64
-      }
+        image: imageBase64,
+      };
     }
     const res = await fetch("/api/team/create", {
       method: "POST",
@@ -132,13 +136,12 @@ export default function CreateTeamForm({ users }: Props) {
         onChange={(e) => setImage(e.target.files![0])}
       ></input>
       <div className="mt-4 py-2">
-        <button
-          type="submit"
-          disabled={isValid() ? false : true}
-          className="mb-8 inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white transition duration-200 hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-teal-600 disabled:opacity-50"
+        <SubmitButton
+          disabled={submitting || (isValid() ? false : true)}
+          loading={submitting}
         >
           Create
-        </button>
+        </SubmitButton>
       </div>
     </form>
   );
