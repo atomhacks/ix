@@ -17,7 +17,7 @@ export default function Index() {
       <div className="absolute top-0 left-0 !h-full !w-full border-b-8 border-green-500 bg-black opacity-[.82] md:min-h-screen md:opacity-100" />
       <div className="flex items-center justify-center">
         <div className="absolute top-0 left-0 !h-full !w-full overflow-hidden ">
-          <Image src={Bg} alt="AtomHacks 2019" priority quality={40} className="absolute -z-10 md:relative" />
+          <Image src={Bg} alt="AtomHacks 2019" priority quality={40} className="absolute -z-10 object-cover" />
         </div>
         <div className="absolute top-0 left-0 !h-full !w-full items-center justify-center">
           {" "}
@@ -33,8 +33,8 @@ export default function Index() {
 
               {/* Right side of page */}
               <div className="mx-6 flex basis-1/2 flex-col items-start justify-start font-montserrat md:mt-4 md:py-8">
-                <h1 className="mb-2 text-5xl font-bold md:text-2xl">Bronx Science&apos;s 9th Annual Hackathon</h1>
-                <h1 className="py-2 text-xl font-semibold">March 18th, 2023</h1>
+                <h1 className="mb-2 text-5xl font-bold md:text-4xl">Bronx Science&apos;s 9th Annual Hackathon</h1>
+                <h1 className="py-2 text-2xl font-semibold">March 18th, 2023</h1>
                 <p className="mb-4 break-words font-medium">
                   Explore, build, innovate. Come join us for 12 full hours of creativity, excitement, and building!
                 </p>
