@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import styles from "../../styles/Sidebar.module.css";
 
 export default function Sidebar() {
   const { data, status } = useSession();
@@ -17,7 +16,7 @@ export default function Sidebar() {
     },
     {
       name: "Create Submission",
-      path: "/dashboard/create-submission",
+      path: "/dashboard/submissions/create",
     },
   ]);
   useEffect(() => {
@@ -50,10 +49,8 @@ export default function Sidebar() {
   const isActive = (path: string) => usePathname() === path;
 
   return (
-    <div
-      className={`${styles.sidebar} h-[calc(100vh-56px)] w-56 bg-neutral-900 text-neutral-200 fixed flex space-y-4 flex-col text-lg`}
-    >
-      <ul className="flex flex-col h-full">
+    <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 bg-neutral-900 text-lg text-neutral-200">
+      <ul className="flex h-full flex-col">
         <div className="p-4">
           <li className="mb-2">
             {/* DO NOT DELETE THE ?COMPLETE IT IS NECESSARY FOR DASHBOARD PAGE TO RELOAD AFTER FORM SUBMIT */}
@@ -61,21 +58,21 @@ export default function Sidebar() {
               <h1
                 className={`${
                   isActive("/dashboard") && "text-teal-300"
-                } text-2xl font-bold hover:text-teal-300 transition duration-200`}
+                } text-2xl font-bold transition duration-200 hover:text-teal-300`}
               >
                 Dashboard
               </h1>
             </Link>
           </li>
-          <span className="block w-full p-px bg-neutral-800 mb-4"></span>
+          <span className="mb-4 block w-full bg-neutral-800 p-px"></span>
           <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
-                  href={(route.path) as Route}
+                  href={route.path as Route}
                   className={`${
                     isActive(route.path) && "text-teal-300"
-                  } hover:text-teal-300 transition duration-200 text-xl`}
+                  } text-xl transition duration-200 hover:text-teal-300`}
                 >
                   {route.name}
                 </Link>
@@ -98,7 +95,7 @@ export default function Sidebar() {
               <h1 className="text-xl">{data.user!.name}</h1>
             </li>
             <li>
-              <button className="w-full text-xl font-bold bg-black h-14" onClick={() => signOut({ callbackUrl: "/" })}>
+              <button className="h-14 w-full bg-black text-xl font-bold" onClick={() => signOut({ callbackUrl: "/" })}>
                 <p className="p-2">Sign Out</p>
               </button>
             </li>

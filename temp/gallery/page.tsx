@@ -6,7 +6,7 @@ import { cache, Key } from "react";
 const getPhotos = cache(async () => {
   const [items_2022, items_2019] = await Promise.all([
     bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
-    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
+    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" })),
   ]);
   const photos = [
     items_2022!

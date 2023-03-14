@@ -1,13 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { ButtonHTMLAttributes } from "react";
-
-type SignInType = {
-  provider: string;
-  callbackUrl: string;
-  children?: React.ReactNode,
-};
+import React from "react";
 
 export default function SignIn({
   provider,
@@ -15,7 +9,11 @@ export default function SignIn({
   className,
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & SignInType) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  provider: string;
+  callbackUrl: string;
+  children?: React.ReactNode;
+}) {
   return (
     <button
       className={

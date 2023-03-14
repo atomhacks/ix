@@ -1,34 +1,15 @@
-import Sidebar from "../../components/dashboard/Sidebar";
+import Sidebar from "./components/SideBar";
 import React from "react";
 
 export const metadata = {
   title: "Dashboard",
 };
 
-// Next.js docs recommends only getting data when its needed
-/*
-async function checkUser() {
-  const jwt = await getServerSession({
-    callbacks: {
-      session: ({ token }) => token,
-    },
-  });
-  if (!jwt || !jwt.sub) {
-    redirect("/api/auth/signin");
-  }
-
-  const user = getUser(jwt.sub);
-  if (!user) {
-    redirect("/api/auth/signin");
-  }
-}
-*/
-
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen text-white bg-neutral-800 font-montserrat">
+    <div className="h-screen bg-neutral-800 font-montserrat text-white overflow-auto">
       <Sidebar />
-      <div className="pt-4 pl-4 ml-56">{children}</div>
+      <div className="ml-56 pt-4 ">{children}</div>
     </div>
   );
 };
