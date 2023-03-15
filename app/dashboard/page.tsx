@@ -29,7 +29,7 @@ export default async function DashboardLanding() {
     redirect("/api/auth/signin");
   }
   if (!user.formInfo) {
-    redirect("/form");
+    redirect("/dashboard/form");
   }
 
   return (

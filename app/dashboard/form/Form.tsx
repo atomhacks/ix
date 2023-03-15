@@ -4,7 +4,7 @@ import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RadioGroup } from "@headlessui/react";
 
-export default function Form() {
+export default function FormQuestions() {
   const router = useRouter();
   const [osis, setOsis] = useState("");
   const [experience, setExperience] = useState("BEGINNER");

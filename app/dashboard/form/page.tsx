@@ -1,12 +1,11 @@
 import { getUser } from "../../../lib/server";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import Form from "./Form";
+import FormQuestions from "./Form";
 
 export const revalidate = 0;
 
-export default async function FormPage() {
-  console.log("waaaa");
+export default async function Form() {
   const jwt = await getServerSession({
     callbacks: {
       session: ({ token }) => token,
@@ -21,5 +20,5 @@ export default async function FormPage() {
   }
   if (user.formInfo) redirect("/dashboard/already");
 
-  return <Form />;
+  return <FormQuestions />;
 }
