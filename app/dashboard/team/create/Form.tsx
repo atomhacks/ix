@@ -5,7 +5,6 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, Fragment, useRef, useState } from "react";
-import Spinner from "../../../components/Spinner";
 import SubmitButton from "../../../components/SubmitButton";
 
 type Props = {

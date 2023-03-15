@@ -38,3 +38,8 @@ label {
   line-height: 1.5rem;
   color: rgb(163 163 163);
 }
+
+/* PLEASE DON'T DELETE */
+input {
+  @apply mt-1 mb-4 block rounded-md bg-neutral-700 p-2 text-lg shadow-lg placeholder:text-neutral-400 focus:border-green-500 focus:outline-none focus:ring focus:ring-green-500;
+}
