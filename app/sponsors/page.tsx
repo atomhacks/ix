@@ -47,14 +47,14 @@ const Sponsors = () => {
       <h1 className="mb-20 font-montserrat text-xl md:mb-12 md:px-4 md:text-center md:text-base">
         Thanks to our amazing sponsors for making AtomHacks possible!
       </h1>
-      <div className="flex flex-wrap items-center justify-center space-x-2 space-y-2">
+      <div className="flex flex-wrap items-center justify-center">
         {list.map((sponsor, i) => (
-          <div className="object items-center justify-center rounded-lg bg-white" key={i}>
+          <div className={`mx-24 my-8 flex items-center justify-center rounded-lg ${i == 0 && "basis-full"}`} key={i}>
             <a href={sponsor.link}>
               <Image
                 className="p-4"
                 height={250}
-                width={250}
+                width={i == 0 ? 600 : 250}
                 key={i}
                 src={`/assets/sponsors/${sponsor.path}`}
                 alt={`${sponsor.name} Logo`}
