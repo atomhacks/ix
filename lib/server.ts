@@ -44,7 +44,6 @@ export const getUser: GetUserOverloads = cache(async (req) => {
       formInfo: true,
     },
   });
-  console.log(user);
   if (!user) {
     return null;
   }
@@ -112,7 +111,6 @@ export function filterBodyAndValidate<T extends { [k: string]: unknown }, U exte
   requiredFields: readonly V[],
 ): (Pick<T, V> & Partial<Pick<T, U>>) | null {
   const filteredBody = filterBody(body, validFields);
-  console.log(filteredBody);
   if (!requiredFields.every((field) => filteredBody[field] != undefined)) {
     return null;
   }

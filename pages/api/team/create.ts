@@ -21,7 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method != "POST") {
     return wrongMethod(res);
   }
+  console.log("loop1")
   const jwt = await getToken({ req });
+  console.log("loop2")
   if (!jwt) {
     return unauthorized(res);
   }
@@ -52,6 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     } catch (e) {
       console.warn("Image failed to upload,", e);
+      body.image = null;
     }
   }
 
