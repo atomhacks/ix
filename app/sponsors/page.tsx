@@ -1,40 +1,47 @@
-import Image from "next/image";
+import Sponsor from "./components/Sponsor";
 
-const list = [
+const sponsors = [
   {
     name: "Bronx Science Alumni Foundation",
     path: "alumni.svg",
     link: "https://alumni.bxscience.edu/",
+    featured: true,
   },
   {
     name: "Taskade",
     path: "taskade.svg",
     link: "https://www.taskade.com/",
+    featured: false,
   },
   {
     name: "Echo3D",
     path: "echo3d.svg",
     link: "https://www.echo3d.com/",
+    featured: false,
   },
   {
     name: "Hudson River Trading",
     path: "hrt.svg",
     link: "https://www.hudsonrivertrading.com/",
+    featured: false,
   },
   {
     name: "Small Planet",
     path: "sp.svg",
     link: "https://smallplanet.com/",
+    featured: false,
   },
   {
     name: "XYZ Domains",
     path: "xyz.svg",
     link: "https://www.taskade.com/",
+    featured: false,
   },
   {
     name: "Wolfram Alpha",
     path: "wolfram.svg",
     link: "https://www.wolframalpha.com/",
+    featured: false,
   },
 ];
 
@@ -47,20 +54,9 @@ const Sponsors = () => {
       <h1 className="mb-20 font-montserrat text-xl md:mb-12 md:px-4 md:text-center md:text-base">
         Thanks to our amazing sponsors for making AtomHacks possible!
       </h1>
-      <div className="flex flex-wrap items-center justify-center">
-        {list.map((sponsor, i) => (
-          <div className={`mx-24 my-8 flex items-center justify-center rounded-lg ${i == 0 && "basis-full"}`} key={i}>
-            <a href={sponsor.link}>
-              <Image
-                className="p-4"
-                height={250}
-                width={i == 0 ? 600 : 250}
-                key={i}
-                src={`/assets/sponsors/${sponsor.path}`}
-                alt={`${sponsor.name} Logo`}
-              />
-            </a>
-          </div>
+      <div className="grid w-5/6 grow grid-cols-3 flex-wrap items-center justify-center gap-4 md:grid-cols-1">
+        {sponsors.map((sponsor, i) => (
+          <Sponsor sponsor={sponsor} key={i}></Sponsor>
         ))}
       </div>
     </div>
