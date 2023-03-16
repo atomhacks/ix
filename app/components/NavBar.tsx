@@ -19,9 +19,9 @@ const NavBar = () => {
             SPONSORS
           </Link>
 
-          {/*           <Link className="px-4 md:px-2 duration-300 hover:text-gray-500" href="/gallery">
+          <Link className="px-4 duration-300 hover:text-gray-500 md:px-2" href="/gallery">
             GALLERY
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>
