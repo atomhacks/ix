@@ -28,7 +28,7 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account, profile }) {
-      const deadline = Date.parse("March 17, 2023");
+      const deadline = Date(1679054400000);
       if (!user.role && deadline < Date.now()) {
         return "/closed";
       }
