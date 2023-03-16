@@ -5,10 +5,10 @@ import Logo from "../public/assets/logo.png";
 import Bg from "../public/atomhackspic.jpg";
 
 import ShapeRain from "../components/effects/ShapeRain";
-import SignIn from "../components/SignIn";
+import SignIn from "./components/SignIn";
 
 export const metadata: Metadata = {
-  title: "AtomHacks",
+  title: "AtomHacks IX",
 };
 
 export default function Index() {
@@ -38,7 +38,13 @@ export default function Index() {
                 <p className="mb-4 break-words font-medium">
                   Explore, build, innovate. Come join us for 12 full hours of creativity, excitement, and building!
                 </p>
-                <SignIn provider="google" callbackUrl="/dashboard">
+                <SignIn
+                  provider="google"
+                  callbackUrl="/dashboard"
+                  className={
+                    "-z-0 relative rounded-lg border-2 border-green-500 bg-transparent py-2.5 px-5 font-bold uppercase transition-colors before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:origin-top-left before:scale-x-0 before:bg-green-500 before:transition-transform before:duration-300 before:content-[''] before:hover:scale-x-100"
+                  }
+                >
                   Sign in
                 </SignIn>
               </div>

@@ -3,7 +3,7 @@
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RadioGroup } from "@headlessui/react";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../dashboard/components/Submit";
 
 export default function FormQuestions() {
   const router = useRouter();
@@ -41,13 +41,13 @@ export default function FormQuestions() {
       body,
     });
     if (res.status == 201) {
-      router.refresh()
+      router.refresh();
       router.push("/dashboard/success");
     }
   };
   return (
-    <div className="min-h-screen text-white bg-neutral-800 font-montserrat">
-      <div className="max-w-[1024px] pt-4 p-4 mx-auto mt-2 text-neutral-300">
+    <div className="min-h-screen bg-neutral-800 font-montserrat text-white">
+      <div className="mx-auto mt-2 max-w-[1024px] p-4 pt-4 text-neutral-300">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <h1 className="mt-4 text-6xl font-bold md:text-4xl">Atomhacks IX Registration</h1>
@@ -83,7 +83,7 @@ export default function FormQuestions() {
             OSIS:
           </label>
           <input
-            className="block p-2 mt-1 mb-4 text-xl rounded-md shadow-lg bg-neutral-700 focus:outline-none focus:ring focus:border-teal-600 focus:ring-teal-500"
+            className="mt-1 mb-4 block rounded-md bg-neutral-700 p-2 text-xl shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
             type="text"
             value={osis}
             id="osis"
@@ -99,7 +99,7 @@ export default function FormQuestions() {
               {experienceLevels.map((experience, index) => (
                 <RadioGroup.Option
                   className={({ checked }) =>
-                    `${checked ? "bg-teal-600" : "bg-neutral-700"} cursor-pointer rounded-lg px-4 py-2 shadow-md w-2/5`
+                    `${checked ? "bg-teal-600" : "bg-neutral-700"} w-2/5 cursor-pointer rounded-lg px-4 py-2 shadow-md`
                   }
                   key={index}
                   id={experience.toLowerCase()}
@@ -118,7 +118,7 @@ export default function FormQuestions() {
               {graduationYears.map((year, index) => (
                 <RadioGroup.Option
                   className={({ checked }) =>
-                    `${checked ? "bg-teal-600" : "bg-neutral-700"} cursor-pointer rounded-lg px-4 py-2 shadow-md w-2/5`
+                    `${checked ? "bg-teal-600" : "bg-neutral-700"} w-2/5 cursor-pointer rounded-lg px-4 py-2 shadow-md`
                   }
                   key={index}
                   id={year.toLowerCase()}
@@ -136,7 +136,7 @@ export default function FormQuestions() {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  className="text-green-500 underline underline-offset-4 decoration-2"
+                  className="text-green-500 underline decoration-2 underline-offset-4"
                   href="https://docs.google.com/document/d/1fMx-8iApjgRuAs0mH2T4yCz6WGrwTwNGHS854C-fmKQ/edit"
                 >
                   Bronx Science AtomHacks Code of Conduct?
@@ -148,7 +148,7 @@ export default function FormQuestions() {
               {confirmations.map((option, index) => (
                 <RadioGroup.Option
                   className={({ checked }) =>
-                    `${checked ? "bg-teal-600" : "bg-neutral-700"} cursor-pointer rounded-lg px-4 py-2 shadow-md w-2/5`
+                    `${checked ? "bg-teal-600" : "bg-neutral-700"} w-2/5 cursor-pointer rounded-lg px-4 py-2 shadow-md`
                   }
                   key={index}
                   id={option.toLowerCase()}
@@ -160,11 +160,7 @@ export default function FormQuestions() {
             </div>
           </RadioGroup>
           <div className="mt-4">
-            <SubmitButton
-              type="submit"
-              disabled={submitting || (isValid() ? false : true)}
-              loading={submitting}
-            >
+            <SubmitButton type="submit" disabled={submitting || (isValid() ? false : true)} loading={submitting}>
               Submit
             </SubmitButton>
           </div>

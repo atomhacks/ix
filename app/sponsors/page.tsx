@@ -3,43 +3,43 @@ import Sponsor from "./components/Sponsor";
 const sponsors = [
   {
     name: "Bronx Science Alumni Foundation",
-    path: "alumni.svg",
+    path: "alumni.png",
     link: "https://alumni.bxscience.edu/",
     featured: true,
   },
   {
     name: "Taskade",
-    path: "taskade.svg",
+    path: "taskade.png",
     link: "https://www.taskade.com/",
     featured: false,
   },
   {
     name: "Echo3D",
-    path: "echo3d.svg",
+    path: "echo3d.png",
     link: "https://www.echo3d.com/",
     featured: false,
   },
   {
     name: "Hudson River Trading",
-    path: "hrt.svg",
+    path: "hrt.png",
     link: "https://www.hudsonrivertrading.com/",
     featured: false,
   },
   {
     name: "Small Planet",
-    path: "sp.svg",
+    path: "sp.png",
     link: "https://smallplanet.com/",
     featured: false,
   },
   {
     name: "XYZ Domains",
-    path: "xyz.svg",
+    path: "xyz.png",
     link: "https://www.taskade.com/",
     featured: false,
   },
   {
     name: "Wolfram Alpha",
-    path: "wolfram.svg",
+    path: "wolfram.png",
     link: "https://www.wolframalpha.com/",
     featured: false,
   },
@@ -51,7 +51,7 @@ const Sponsors = () => {
       <div className="mb-20 flex items-center justify-center">
         <span className="border-b-4 border-green-500 py-6 font-morro text-7xl">SPONSORS</span>
       </div>
-      <h1 className="mb-20 font-montserrat text-xl text-center">
+      <h1 className="mb-20 text-center font-montserrat text-xl">
         Thanks to our amazing sponsors for making AtomHacks possible!
       </h1>
       <div className="grid w-5/6 grow grid-cols-3 items-center justify-center gap-4 md:grid-cols-1">

@@ -4,7 +4,7 @@ import { FormEventHandler, useState } from "react";
 import { Switch } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/navigation";
-import SubmitButton from "../../../components/SubmitButton";
+import SubmitButton from "../../components/Submit";
 
 type Props = {
   tracks: {

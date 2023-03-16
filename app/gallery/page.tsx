@@ -75,16 +75,13 @@ export default async function Gallery() {
       </div>
       {photos.map((content, i: Key) => (
         <>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center" key={i}>
             {" "}
-            <span
-              className="my-4 inline-block border-b-4 border-yellow-500 text-center font-montserrat text-4xl"
-              key={i}
-            >
+            <span className="my-4 inline-block border-b-4 border-yellow-500 text-center font-montserrat text-4xl">
               {content.year}
             </span>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center" key={i}>
             <div className="my-4 grid w-full grow grid-cols-3 items-center justify-center gap-4 md:grid-cols-1">
               {content.items.map((photo: string, i: Key) => (
                 <div

@@ -5,7 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, Fragment, useRef, useState } from "react";
-import SubmitButton from "../../../components/SubmitButton";
+import SubmitButton from "../../components/Submit";
 
 type Props = {
   users: User[];
@@ -135,10 +135,7 @@ export default function CreateTeamForm({ users }: Props) {
         onChange={(e) => setImage(e.target.files![0])}
       ></input>
       <div className="mt-4 py-2">
-        <SubmitButton
-          disabled={submitting || (isValid() ? false : true)}
-          loading={submitting}
-        >
+        <SubmitButton disabled={submitting || (isValid() ? false : true)} loading={submitting}>
           Create
         </SubmitButton>
       </div>

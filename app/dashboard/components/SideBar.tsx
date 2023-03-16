@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Sidebar() {
+export default function SideBar() {
   const { data, status } = useSession();
   let [routes, setRoutes] = useState([
     {
@@ -19,6 +19,7 @@ export default function Sidebar() {
       path: "/dashboard/submissions/create",
     },
   ]);
+
   useEffect(() => {
     fetch("/api/user/info", {
       method: "GET",
@@ -45,8 +46,11 @@ export default function Sidebar() {
         });
       }
     });
-  }, []);
-  const isActive = (path: string) => usePathname() === path;
+  }, [routes]);
+
+  const isActive = (path: string) => {
+    return usePathname() === path;
+  };
 
   return (
     <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 bg-neutral-900 text-lg text-neutral-200">
