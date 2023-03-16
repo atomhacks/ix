@@ -9,6 +9,7 @@ import {
   ExclamationCircleIcon,
   CheckCircleIcon,
   LinkIcon,
+  ChatBubbleLeftEllipsisIcon,
   // UsersIcon,
 } from "@heroicons/react/24/outline";
 
@@ -61,6 +62,17 @@ export default function Index({ user }) {
               )}
             </div>
           </button>
+          <a
+            className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center border-white`}
+            href="https://discord.gg/yj5Q5mPtzC"
+          >
+            {" "}
+            <div className="object-contain h-10 w-10 md:h-5 md:w-5">
+              {" "}
+              <ChatBubbleLeftEllipsisIcon />
+            </div>
+            <h1 className="mx-4 text-2xl md:text-sm text-left grow">Join Discord server</h1>
+          </a>
           {/* <Link
             className={`p-4 flex w-2/5 md:w-4/5 flex-row border-2 rounded-lg bg-transparent items-center ${
               !user.team ? "border-red-500" : "border-green-500"
