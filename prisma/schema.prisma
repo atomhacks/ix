@@ -57,7 +57,7 @@ model Submission {
   submitted   Boolean  @default(false)
 
   teamId String @unique
-  team   Team?  @relation(fields: [teamId], references: [id])
+  team   Team  @relation(fields: [teamId], references: [id])
 }
 
 model FormInfo {

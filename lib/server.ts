@@ -76,7 +76,11 @@ export const getSubmission = cache(
         ],
       },
       include: {
-        team: true,
+        team: {
+          include: {
+            users: true,
+          }
+        },
       },
     });
     if (!submission) {

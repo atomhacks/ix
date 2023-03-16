@@ -3,6 +3,7 @@
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RadioGroup } from "@headlessui/react";
+import SubmitButton from "../components/SubmitButton";
 
 export default function FormQuestions() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function FormQuestions() {
   const [experience, setExperience] = useState("BEGINNER");
   const [year, setYear] = useState("");
   const [confirmation, setConfirmation] = useState("NO");
+  const [submitting, setSubmitting] = useState(false);
   const experienceLevels = ["None", "Beginner", "Intermediate", "Advanced"];
   const graduationYears = ["2023", "2024", "2025", "2026"];
   const confirmations = ["YES", "NO"];
@@ -25,7 +27,7 @@ export default function FormQuestions() {
     if (!isValid()) {
       return;
     }
-
+    setSubmitting(true);
     const body = JSON.stringify({
       osis,
       experience,
@@ -45,7 +47,7 @@ export default function FormQuestions() {
   };
   return (
     <div className="min-h-screen text-white bg-neutral-800 font-montserrat">
-      <div className="max-w-screen-lg pt-4 p-4 mx-auto mt-2 text-neutral-300">
+      <div className="max-w-[1024px] pt-4 p-4 mx-auto mt-2 text-neutral-300">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <h1 className="mt-4 text-6xl font-bold md:text-4xl">Atomhacks IX Registration</h1>
@@ -158,13 +160,13 @@ export default function FormQuestions() {
             </div>
           </RadioGroup>
           <div className="mt-4">
-            <button
+            <SubmitButton
               type="submit"
-              disabled={isValid() ? false : true}
-              className="inline-flex justify-center px-4 py-2 mt-4 mb-8 text-sm font-medium text-white transition duration-200 bg-teal-500 border border-transparent rounded-md hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:bg-teal-600"
+              disabled={submitting || (isValid() ? false : true)}
+              loading={submitting}
             >
               Submit
-            </button>
+            </SubmitButton>
           </div>
         </form>
       </div>

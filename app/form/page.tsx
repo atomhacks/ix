@@ -1,4 +1,4 @@
-import { getUser } from "../../../lib/server";
+import { getUser } from "../../lib/server";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import FormQuestions from "./Form";
