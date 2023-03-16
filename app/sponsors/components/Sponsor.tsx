@@ -3,7 +3,7 @@ import Image from "next/image";
 const Sponsor = ({ sponsor }: { sponsor: { name: string; path: string; link: string; featured: boolean } }) => {
   return (
     <div
-      className={`relative block h-48 items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-yellow-500 p-2  ${
+      className={`relative block h-48 items-center justify-center rounded-lg bg-gradient-to-r from-green-500 to-yellow-500 p-1  ${
         sponsor.featured ? "col-span-full" : "col-span-1"
       }`}
     >
