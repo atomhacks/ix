@@ -27,7 +27,11 @@ export const authOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({ user, account, profile }) {
+      const deadline = Date.parse("March 17, 2023");
+      if (!user.role && deadline < Date.now()) {
+        return "/closed";
+      }
       if (account.provider === "google") {
         return profile.email_verified && profile.email.endsWith("@bxscience.edu");
       }
