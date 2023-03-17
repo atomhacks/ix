@@ -4,9 +4,10 @@ import "../styles/globals.css";
 import React, { PropsWithChildren, Suspense } from "react";
 import { Providers } from "./components/Providers";
 import NavBar from "./components/NavBar";
-import { Montserrat } from "next/font/google";
-import Footer from "./components/Footer";
+
 import Loading from "./loading";
+
+import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -23,9 +24,8 @@ const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) =
       <body>
         <NavBar />
         <div className={`${montserrat.variable} content`}>
-            <Providers session={session}>{children}</Providers>
+          <Providers session={session}>{children}</Providers>
         </div>
-        {/*         <Footer /> */}
       </body>
     </html>
   );

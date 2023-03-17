@@ -34,7 +34,7 @@ const sponsors = [
   {
     name: "XYZ Domains",
     path: "xyz.png",
-    link: "https://www.taskade.com/",
+    link: "https://gen.xyz/",
     featured: false,
   },
   {

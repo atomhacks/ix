@@ -5,6 +5,7 @@ export default function SubmitButton({
   loading,
   className,
   children,
+  onClick,
   ...props
 }: { loading?: boolean; children: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (

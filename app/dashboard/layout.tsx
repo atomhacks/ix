@@ -7,7 +7,7 @@ export const metadata = {
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-screen overflow-auto bg-neutral-800 font-montserrat text-white">
+    <div className="h-screen overflow-auto bg-zinc-900 font-montserrat text-white">
       <SideBar />
       <div className="ml-56">{children}</div>
     </div>

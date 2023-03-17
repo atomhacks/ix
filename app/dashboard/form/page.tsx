@@ -1,7 +1,7 @@
-import { getUser } from "../../lib/server";
+import { getUser } from "../../../lib/server";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import FormQuestions from "./Form";
+import FormQuestions from "./components/FormQuestions";
 
 export const revalidate = 0;
 
@@ -18,7 +18,6 @@ export default async function Form() {
   if (!user) {
     redirect("/api/auth/signin");
   }
-  if (user.formInfo) redirect("/dashboard/already");
 
-  return <FormQuestions />;
+  return <FormQuestions complete={user.formInfo !== null} />;
 }
