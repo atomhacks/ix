@@ -11,8 +11,18 @@ import {
 } from "../../../lib/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest, NextApiResponse } from "next";
+import bucket from "../../../lib/bucket";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
-const fields = ["name", "description", "tracks"] as const;
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "16mb",
+    },
+  },
+};
+
+const fields = ["name", "description", "tracks", "media"] as const;
 const req_fields = ["name", "description"] as const;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -42,6 +52,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (!user.team!.submission) {
     return redirect("/dashboard/submission/create");
+  }
+
+  if (body.media) {
+    body.media = body.media.flatMap(async (image: any) => {
+      try {
+        const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
+        const ext = image.split(";")[0].split("/")[1];
+        const key = `Submissions/${user.team!.name}/${Math.random().toString(36).slice(2)}.${ext}`;
+        console.log(key)
+
+        const upload = await bucket.send(
+          new PutObjectCommand({
+            Key: key,
+            Bucket: "atomhacks",
+            Body: base64Data,
+            ACL: "public-read",
+            ContentEncoding: "base64",
+            ContentType: `image/${ext}`,
+          }),
+        );
+        if (upload.$metadata.httpStatusCode == 200) {
+          return `${process.env.SPACES_CDN_ENDPOINT!}/${key}`;
+        } else {
+          return [];
+        }
+      } catch (e) {
+        console.warn("Image failed to upload,", e);
+        return [];
+      }
+    });
   }
 
   try {

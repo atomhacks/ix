@@ -1,15 +1,11 @@
-import { Popover, Transition } from "@headlessui/react";
 import {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
-  ChevronDownIcon,
-  EllipsisHorizontalIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import { getSubmission } from "../../../../lib/server";
-import ActionsMenu from "./ActionsMenu";
 import EditableSubmission from "./EditableSubmission";
 
 export default async function SubmissionPage({ params }: { params: { id: string } }) {
@@ -47,7 +43,7 @@ export default async function SubmissionPage({ params }: { params: { id: string 
           <div className="flex justify-center">
             <div className="max-w-screen-md ml-auto p-4">
               <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.name}</h1>
-              <p className="text-xl whitespace-pre-line">{submission.description}</p>
+              <p className="mb-4 whitespace-pre-line text-xl">{submission.description}</p>
             </div>
           </div>
         </>

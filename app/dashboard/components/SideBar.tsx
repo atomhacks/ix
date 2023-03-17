@@ -1,6 +1,5 @@
 "use client";
 
-import { Route } from "next";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,7 +45,7 @@ export default function SideBar() {
         });
       }
     });
-  }, [routes]);
+  }, []);
 
   const isActive = (path: string) => {
     return usePathname() === path;
@@ -73,7 +72,7 @@ export default function SideBar() {
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
-                  href={`${route.path as Route}?fix${i}`}
+                  href={`${route.path}?fix${i}`}
                   className={`${
                     isActive(route.path) && "text-teal-300"
                   } text-xl transition duration-200 hover:text-teal-300`}
