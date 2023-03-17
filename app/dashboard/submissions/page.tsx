@@ -14,7 +14,7 @@ export default async function Submissions() {
             {/* <Image className="object-fill " fill src={submission.media[0]} alt={submission.name} /> */}
             <div className="px-6 py-6 mt-4">
               <h1 className="mb-2 text-2xl font-semibold">{submission.name}</h1>
-              <h1 className="text-base"> {submission.description}</h1>
+              <h1 className="text-base">{submission.description}</h1>
             </div>
           </div>
         ))}

@@ -52,7 +52,14 @@ export const getUser: GetUserOverloads = cache(async (req) => {
 
 export const getSignedUsers = cache(async () => {
   return await prisma.user.findMany({
-    where: { NOT: { formInfo: null } }
+    where: { NOT: { formInfo: null } },
+    include: {
+      team: {
+        include: {
+          submission: true
+        }
+      }
+    }
   })
 })
 
