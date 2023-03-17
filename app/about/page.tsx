@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import img1 from "../../public/assets/about/img1.webp";
 import img2 from "../../public/assets/about/img2.webp";
 import img3 from "../../public/assets/about/img3.webp";
@@ -17,6 +18,10 @@ const content = [
     text: "At the end of the hackathon, you'll get the chance to show off the new skills you've learned and the things you've made for a chance to win a prize!",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 const About = () => {
   return (

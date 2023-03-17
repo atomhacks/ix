@@ -45,7 +45,7 @@ export default function FormQuestions({ complete }: { complete: boolean }) {
       experience,
       year,
     });
-    const res = await fetch("/api/user/initialize", {
+    const res = await fetch("/api/user/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

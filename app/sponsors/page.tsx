@@ -1,5 +1,7 @@
 import Sponsor from "./components/Sponsor";
 
+import { Metadata } from "next";
+
 const sponsors = [
   {
     name: "Bronx Science Alumni Foundation",
@@ -44,6 +46,10 @@ const sponsors = [
     featured: false,
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Sponsors",
+};
 
 const Sponsors = () => {
   return (

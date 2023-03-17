@@ -3,6 +3,12 @@ import Image from "next/image";
 import bucket from "../../lib/bucket";
 import { cache, Key } from "react";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Gallery",
+};
+
 const getPhotos = cache(async () => {
   const [items_2022, items_2019] = await Promise.all([
     bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
