@@ -56,7 +56,7 @@ model Submission {
   public      Boolean  @default(false)
   submitted   Boolean  @default(false)
   srcLink     String?  
-  videoLink   String?  
+  videoLink   String?
 
   teamId String @unique
   team   Team  @relation(fields: [teamId], references: [id])

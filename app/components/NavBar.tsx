@@ -2,11 +2,11 @@ import Link from "next/link";
 
 const NavBar = () => {
   return (
-    <div className="fixed top-0 left-0 z-50 h-16 w-full border-b border-black bg-neutral-900 md:z-50">
-      <div className="mx-4 my-2 flex items-center justify-between font-bold text-white md:text-xs">
+    <div className="fixed top-0 left-0 z-50 w-full h-16 border-b border-black bg-neutral-900 md:z-50">
+      <div className="flex items-center justify-between mx-4 my-2 font-bold text-white md:text-xs">
         <div className="font-morro text-4xl md:py-2.5 md:text-sm">
           {" "}
-          <Link className=" text-white" href="/">
+          <Link className="text-white " href="/">
             ATOM HACKS
           </Link>
         </div>

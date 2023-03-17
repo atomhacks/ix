@@ -22,8 +22,8 @@ export const config = {
   },
 };
 
-const fields = ["name", "description", "tracks", "media"] as const;
-const req_fields = ["name", "description"] as const;
+const fields = ["name", "description", "tracks", "media", "srcLink", "videoLink"] as const;
+const req_fields = ["name", "description", "srcLink", "videoLink"] as const;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method != "PUT") {

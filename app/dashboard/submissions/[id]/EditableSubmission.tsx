@@ -76,7 +76,7 @@ export default function EditableSubmission({ submission }: Props) {
       name,
       description,
       srcLink,
-      videoLink
+      videoLink,
     };
 
     if (newImages.length > 0) {
@@ -196,8 +196,9 @@ export default function EditableSubmission({ submission }: Props) {
                 name="src"
                 autoComplete="off"
                 value={srcLink}
+                onInput={(e) => setSrcLink((e.target as HTMLInputElement).value)}
               />
-              <label className="block text-base text-neutral-400" htmlFor="name">
+              <label className="text-base bl ock text-neutral-400" htmlFor="name">
                 Video Link
               </label>
               <input
@@ -207,6 +208,7 @@ export default function EditableSubmission({ submission }: Props) {
                 name="vid"
                 autoComplete="off"
                 value={videoLink}
+                onInput={(e) => setVideoLink((e.target as HTMLInputElement).value)}
               />
               <div className="py-2 mt-4">
                 <SubmitButton loading={submitting} disabled={submitting || (isValid() ? false : true)}>
