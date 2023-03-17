@@ -23,7 +23,7 @@ export default async function SubmissionPage({ params }: { params: { id: string 
     notFound();
   }
 
-  const isMine = submission.team.users.map((user) => user.id).some((id) => id == jwt.sub);
+  const isMine = submission.team?.users.map((user) => user.id).some((id) => id == jwt.sub) ?? false;
 
   return (
     <>

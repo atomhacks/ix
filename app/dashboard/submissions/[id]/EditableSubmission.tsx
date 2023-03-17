@@ -43,17 +43,19 @@ export default function EditableSubmission({ submission }: Props) {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(submission.name);
   const [description, setDescription] = useState(submission.description);
+  const [srcLink, setSrcLink] = useState<string>(submission.srcLink as string);
+  const [videoLink, setVideoLink] = useState<string>(submission.videoLink as string);
   const [submitting, setSubmitting] = useState(false);
   const [currentImage, _setCurrentImage] = useState(0);
   const [newImages, setNewImages] = useState<File[]>([]);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>(submission.media);
   const inputFileElement = useRef<null | HTMLInputElement>(null);
 
   const isValid = () => name != "" && description != "";
 
   const setCurrentImage = (i: number) => {
-    if (selectedImages.length + submission.media.length <= 0) return;
-    _setCurrentImage(i % (selectedImages.length + submission.media.length));
+    if (selectedImages.length <= 0) return;
+    _setCurrentImage(i % selectedImages.length);
   };
 
   const onSelectImages: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -73,11 +75,12 @@ export default function EditableSubmission({ submission }: Props) {
     let body: any = {
       name,
       description,
+      srcLink,
+      videoLink,
     };
 
     if (newImages.length > 0) {
       const imagesBase64 = await Promise.all(newImages.map(async (file) => await toBase64(file)));
-      console.log(imagesBase64)
       body = {
         ...body,
         media: imagesBase64,
@@ -94,36 +97,68 @@ export default function EditableSubmission({ submission }: Props) {
     if (res.status == 201) {
       setSubmitting(false);
       setEditing(false);
+      setCurrentImage(0);
+      setNewImages([]);
       return router.refresh();
+    }
+  };
+
+  const publish = async () => {
+    let body = {
+      name,
+      description, // this is so cursed
+      public: true,
+    };
+
+    const res = await fetch("/api/submissions/edit", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (res.status == 201) {
+      router.push("/dashboard/submissions");
     }
   };
 
   return (
     <>
-      <div className="flex h-96 w-full items-center justify-center bg-black py-8 sm:h-80">
+      <div className="flex items-center justify-center w-full py-8 bg-black h-96 sm:h-80">
         <button>
-          <ArrowLongLeftIcon className="mr-8 h-8 w-8 text-white" onClick={() => setCurrentImage(currentImage - 1)} />
+          <ArrowLongLeftIcon className="w-8 h-8 mr-8 text-white" onClick={() => setCurrentImage(currentImage - 1)} />
         </button>
         <div className="relative flex h-full w-2/6 min-w-[600px] flex-col items-center justify-center rounded-xl bg-neutral-900">
           {!editing ? (
-            <PhotoIcon className="h-8 w-8 text-neutral-400" />
+            <>
+              {selectedImages && selectedImages[currentImage] ? (
+                <Image
+                  className="absolute object-cover rounded-xl"
+                  src={selectedImages[currentImage]}
+                  fill
+                  alt="image"
+                ></Image>
+              ) : (
+                <PhotoIcon className="w-8 h-8 text-neutral-400" />
+              )}
+            </>
           ) : (
             <>
               <div className="absolute z-10 flex flex-col items-center justify-center space-y-2">
                 <button
-                  className="rounded-2xl bg-neutral-700 py-2 px-4 transition duration-200 hover:bg-neutral-600"
+                  className="px-4 py-2 transition duration-200 rounded-2xl bg-neutral-700 hover:bg-neutral-600"
                   onClick={() => inputFileElement.current!.click()}
                 >
                   Add Images
                 </button>
-                <button className="rounded-2xl bg-neutral-700 py-2 px-4 text-red-400 transition duration-200 hover:bg-neutral-600">
+                <button className="px-4 py-2 text-red-400 transition duration-200 rounded-2xl bg-neutral-700 hover:bg-neutral-600">
                   Delete Image
                 </button>
               </div>
               <>
                 {selectedImages && selectedImages[currentImage] && (
                   <Image
-                    className="absolute rounded-xl object-cover"
+                    className="absolute object-cover rounded-xl"
                     src={selectedImages[currentImage]}
                     fill
                     alt="image"
@@ -134,15 +169,15 @@ export default function EditableSubmission({ submission }: Props) {
           )}
         </div>
         <button>
-          <ArrowLongRightIcon className="ml-8 h-8 w-8 text-white" onClick={() => setCurrentImage(currentImage + 1)} />
+          <ArrowLongRightIcon className="w-8 h-8 ml-8 text-white" onClick={() => setCurrentImage(currentImage + 1)} />
         </button>
       </div>
       <div className="flex justify-center">
-        <div className="max-w-screen-md ml-auto p-4">
+        <div className="max-w-screen-md p-4 ml-auto">
           {!editing ? (
             <>
               <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.name}</h1>
-              <p className="mb-4 whitespace-pre-line text-xl">{submission.description}</p>
+              <p className="mb-4 text-xl whitespace-pre-line">{submission.description}</p>
             </>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -154,16 +189,18 @@ export default function EditableSubmission({ submission }: Props) {
                 className="hidden"
                 ref={inputFileElement}
                 multiple
+                autoComplete="off"
                 onChange={onSelectImages}
               ></input>
               <label className="block text-base text-neutral-400" htmlFor="name">
                 Name *
               </label>
               <input
-                className="mb-4 block w-full rounded-md bg-neutral-700 p-2 text-5xl font-bold shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
+                className="block w-full p-2 mb-4 text-5xl font-bold rounded-md shadow-lg bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
                 type="text"
                 id="name"
                 name="name"
+                autoComplete="off"
                 value={name}
                 onInput={(e) => setName((e.target as HTMLInputElement).value)}
               />
@@ -171,15 +208,48 @@ export default function EditableSubmission({ submission }: Props) {
                 Description
               </label>
               <textarea
-                className="text-m mt-1 mb-4 block w-full rounded-lg bg-neutral-700 p-2 shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
+                className="block w-full p-2 mt-1 mb-4 rounded-lg shadow-lg text-m bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
                 id="description"
                 name="description"
                 rows={10}
                 cols={55}
                 value={description}
+                autoComplete="off"
                 onInput={(e) => setDescription((e.target as HTMLInputElement).value)}
               />
-              <div className="mt-4 py-2">
+              <label className="block text-base text-neutral-400" htmlFor="name">
+                Source Code
+              </label>
+              <input
+                className="block w-full p-2 mb-4 text-lg rounded-md shadow-lg bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
+                type="text"
+                id="src"
+                name="src"
+                autoComplete="off"
+                value={srcLink}
+                onInput={(e) => setSrcLink((e.target as HTMLInputElement).value)}
+              />
+              <label className="text-base bl ock text-neutral-400" htmlFor="name">
+                Video Link
+              </label>
+              <input
+                className="block w-full p-2 mb-6 text-lg rounded-md shadow-lg bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
+                type="text"
+                id="vid"
+                name="vid"
+                autoComplete="off"
+                value={videoLink}
+                onInput={(e) => setVideoLink((e.target as HTMLInputElement).value)}
+              />
+              {videoLink !== null ? (
+                <iframe
+                  className="rounded-3xl"
+                  src={videoLink.replace("watch?v=", "embed/")}
+                  width={1000}
+                  height={500}
+                />
+              ) : null}
+              <div className="py-2 mt-4">
                 <SubmitButton loading={submitting} disabled={submitting || (isValid() ? false : true)}>
                   Update
                 </SubmitButton>
@@ -188,7 +258,7 @@ export default function EditableSubmission({ submission }: Props) {
           )}
         </div>
         <div className="m-4 ml-auto">
-          <ActionsMenu setEditing={setEditing} />
+          <ActionsMenu publish={publish} setEditing={setEditing} />
         </div>
       </div>
     </>

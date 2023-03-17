@@ -52,8 +52,8 @@ export default function SideBar() {
   };
 
   return (
-    <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 bg-neutral-900 text-lg text-neutral-200">
-      <ul className="flex h-full flex-col">
+    <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 border-r border-black bg-neutral-900 text-lg text-neutral-200">
+      <ul className="flex flex-col h-full">
         <div className="p-4">
           <li className="mb-2">
             {/* DO NOT DELETE THE ?COMPLETE IT IS NECESSARY FOR DASHBOARD PAGE TO RELOAD AFTER FORM SUBMIT */}
@@ -67,8 +67,8 @@ export default function SideBar() {
               </h1>
             </Link>
           </li>
-          <span className="mb-4 block w-full bg-neutral-800 p-px"></span>
-          <div className="space-y-4">
+          <span className="block w-full p-px mb-4 bg-neutral-800"></span>
+                    <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
@@ -86,19 +86,19 @@ export default function SideBar() {
         {status == "authenticated" && (
           <div className="mt-auto">
             <li className="flex items-center p-2">
-              {data.user!.image && (
+              {data!.user!.image && (
                 <Image
-                  src={data.user!.image}
+                  src={data!.user!.image}
                   className="mr-2 rounded-full"
                   width={48}
                   height={48}
                   alt="Profile Picture"
                 />
               )}
-              <h1 className="text-xl">{data.user!.name}</h1>
+              <h1 className="text-xl">{data!.user!.name}</h1>
             </li>
             <li>
-              <button className="h-14 w-full bg-black text-xl font-bold" onClick={() => signOut({ callbackUrl: "/" })}>
+              <button className="w-full text-xl font-bold bg-black h-14" onClick={() => signOut({ callbackUrl: "/" })}>
                 <p className="p-2">Sign Out</p>
               </button>
             </li>

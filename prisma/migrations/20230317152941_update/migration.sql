@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Submission" ALTER COLUMN "srcLink" DROP DEFAULT,
+ALTER COLUMN "videoLink" DROP DEFAULT;
