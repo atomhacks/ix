@@ -50,6 +50,12 @@ export const getUser: GetUserOverloads = cache(async (req) => {
   return user;
 });
 
+export const getSignedUsers = cache(async () => {
+  return await prisma.user.findMany({
+    where: { NOT: { formInfo: null } }
+  })
+})
+
 export const getSubmission = cache(
   async (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) => {
     const jwt = typeof req == "string" ? req : (await getToken({ req }))?.sub;

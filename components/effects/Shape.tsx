@@ -1,8 +1,9 @@
 import clsx from "clsx";
+import React, { CSSProperties } from "react";
 
 // THANK YOU MA HACKS FOR THE REALLY COOL SHAPE ANIMATION STUFF <3
 
-const Shape = ({ id, type, color, style, reverseAnimation }) => {
+const Shape: React.FC<{ id: string, type: string, color: string, style: CSSProperties, reverseAnimation: boolean }> = ({ id, type, color, style, reverseAnimation }) => {
   const shape = {
     circle: <circle cx="19.9346" cy="19.7911" r="10.149" transform="rotate(179.935 19.9346 19.7911)" strokeWidth="2" />,
     triangle: (
