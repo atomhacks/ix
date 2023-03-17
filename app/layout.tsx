@@ -23,9 +23,7 @@ const RootLayout: React.FC<PropsWithChildren<Props>> = ({ children, session }) =
       <body>
         <NavBar />
         <div className={`${montserrat.variable} content`}>
-          <Suspense fallback={<Loading />}>
             <Providers session={session}>{children}</Providers>
-          </Suspense>
         </div>
         {/*         <Footer /> */}
       </body>

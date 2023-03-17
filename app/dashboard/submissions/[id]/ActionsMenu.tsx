@@ -2,9 +2,9 @@
 
 import { Popover, Transition } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
-export default function ActionsMenu() {
+export default function ActionsMenu({ setEditing }: { setEditing: Dispatch<SetStateAction<boolean>> }) {
   return (
     <Popover className="relative">
       <>
@@ -23,7 +23,10 @@ export default function ActionsMenu() {
           <Popover.Panel className="absolute left-full z-10 mt-3 max-w-xs -translate-x-full transform px-4 sm:px-0 lg:max-w-3xl">
             <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
               <div className="relative grid gap-8 bg-neutral-700 p-7 lg:grid-cols-2">
-                <button className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-neutral-600 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                <button
+                  className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-neutral-600 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  onClick={() => setEditing(true)}
+                >
                   <div>
                     <p className="text-sm font-medium text-neutral-200">Edit</p>
                   </div>
