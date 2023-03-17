@@ -22,7 +22,7 @@ export const config = {
   },
 };
 
-const fields = ["name", "description", "tracks", "media"] as const;
+const fields = ["name", "description", "tracks", "media", "srcLink", "videoLink", "public"] as const;
 const req_fields = ["name", "description"] as const;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
