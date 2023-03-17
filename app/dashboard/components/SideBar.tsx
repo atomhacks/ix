@@ -52,7 +52,7 @@ export default function SideBar() {
   };
 
   return (
-    <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 border-r border-black bg-neutral-900 text-lg text-neutral-200">
+    <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 bg-neutral-900 text-lg text-neutral-200">
       <ul className="flex h-full flex-col">
         <div className="p-4">
           <li className="mb-2">
@@ -68,7 +68,7 @@ export default function SideBar() {
             </Link>
           </li>
           <span className="mb-4 block w-full bg-neutral-800 p-px"></span>
-          {/*           <div className="space-y-4">
+          <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
@@ -81,7 +81,7 @@ export default function SideBar() {
                 </Link>
               </li>
             ))}
-          </div> */}
+          </div>
         </div>
         {status == "authenticated" && (
           <div className="mt-auto">

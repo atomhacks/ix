@@ -9,7 +9,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 export default function FormQuestions({ complete }: { complete: boolean }) {
   const router = useRouter();
   const [osis, setOsis] = useState("");
-  const [experience, setExperience] = useState("BEGINNER");
+  const [experience, setExperience] = useState("");
   const [year, setYear] = useState("");
   const [confirmation, setConfirmation] = useState("NO");
   const [submitting, setSubmitting] = useState(false);
