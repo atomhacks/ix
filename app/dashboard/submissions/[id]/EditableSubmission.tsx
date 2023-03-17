@@ -2,10 +2,13 @@
 
 import { ArrowLongLeftIcon, ArrowLongRightIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { Prisma } from "@prisma/client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEventHandler, useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useRef, useState } from "react";
 import SubmitButton from "../../components/Submit";
 import ActionsMenu from "./ActionsMenu";
+
+export const revalidate = 0;
 
 type Props = {
   submission: Prisma.SubmissionGetPayload<{
@@ -19,36 +22,79 @@ type Props = {
   }>;
 };
 
+const toBase64 = (file: File) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
 export default function EditableSubmission({ submission }: Props) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(submission.name);
   const [description, setDescription] = useState(submission.description);
   const [submitting, setSubmitting] = useState(false);
+  const [currentImage, _setCurrentImage] = useState(0);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const inputFileElement = useRef<null | HTMLInputElement>(null);
 
   const isValid = () => name != "" && description != "";
+
+  const setCurrentImage = (i: number) => {
+    if (selectedImages.length + submission.media.length <= 0) return;
+    _setCurrentImage(i % (selectedImages.length + submission.media.length));
+  };
+
+  const onSelectImages: ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log(e.target.files!);
+    setNewImages(Array.from(e.target.files!));
+    setSelectedImages(submission.media.concat(Array.from(e.target.files!).map((file) => URL.createObjectURL(file))));
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!isValid()) return;
     setSubmitting(true);
+    console.log(selectedImages);
 
-    const body = JSON.stringify({
+    let body: any = {
       name,
       description,
-    });
+    };
+
+    if (newImages.length > 0) {
+      const imagesBase64 = await Promise.all(newImages.map(async (file) => await toBase64(file)));
+      console.log(imagesBase64)
+      body = {
+        ...body,
+        media: imagesBase64,
+      };
+    }
 
     const res = await fetch("/api/submissions/edit", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body,
+      body: JSON.stringify(body),
     });
     if (res.status == 201) {
-      router.refresh();
       setSubmitting(false);
       setEditing(false);
+      return router.refresh();
     }
   };
 
@@ -56,13 +102,39 @@ export default function EditableSubmission({ submission }: Props) {
     <>
       <div className="flex h-96 w-full items-center justify-center bg-black py-8 sm:h-80">
         <button>
-          <ArrowLongLeftIcon className="mr-8 h-8 w-8 text-white" />
+          <ArrowLongLeftIcon className="mr-8 h-8 w-8 text-white" onClick={() => setCurrentImage(currentImage - 1)} />
         </button>
-        <div className="flex h-full w-2/6 min-w-[600px] items-center justify-center rounded-xl bg-neutral-900">
-          <PhotoIcon className="h-8 w-8 text-neutral-400" />
+        <div className="relative flex h-full w-2/6 min-w-[600px] flex-col items-center justify-center rounded-xl bg-neutral-900">
+          {!editing ? (
+            <PhotoIcon className="h-8 w-8 text-neutral-400" />
+          ) : (
+            <>
+              <div className="absolute z-10 flex flex-col items-center justify-center space-y-2">
+                <button
+                  className="rounded-2xl bg-neutral-700 py-2 px-4 transition duration-200 hover:bg-neutral-600"
+                  onClick={() => inputFileElement.current!.click()}
+                >
+                  Add Images
+                </button>
+                <button className="rounded-2xl bg-neutral-700 py-2 px-4 text-red-400 transition duration-200 hover:bg-neutral-600">
+                  Delete Image
+                </button>
+              </div>
+              <>
+                {selectedImages && selectedImages[currentImage] && (
+                  <Image
+                    className="absolute rounded-xl object-cover"
+                    src={selectedImages[currentImage]}
+                    fill
+                    alt="image"
+                  ></Image>
+                )}
+              </>
+            </>
+          )}
         </div>
         <button>
-          <ArrowLongRightIcon className="ml-8 h-8 w-8 text-white" />
+          <ArrowLongRightIcon className="ml-8 h-8 w-8 text-white" onClick={() => setCurrentImage(currentImage + 1)} />
         </button>
       </div>
       <div className="flex justify-center">
@@ -70,10 +142,20 @@ export default function EditableSubmission({ submission }: Props) {
           {!editing ? (
             <>
               <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.name}</h1>
-              <p className="text-xl whitespace-pre-line">{submission.description}</p>
+              <p className="mb-4 whitespace-pre-line text-xl">{submission.description}</p>
             </>
           ) : (
             <form onSubmit={handleSubmit}>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/png, image/jpeg, image/webp"
+                className="hidden"
+                ref={inputFileElement}
+                multiple
+                onChange={onSelectImages}
+              ></input>
               <label className="block text-base text-neutral-400" htmlFor="name">
                 Name *
               </label>
