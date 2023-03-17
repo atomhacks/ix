@@ -202,7 +202,7 @@ export default function EditableSubmission({ submission }: Props) {
                 Video Link
               </label>
               <input
-                className="block w-full p-2 mb-4 text-lg rounded-md shadow-lg bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
+                className="block w-full p-2 mb-6 text-lg rounded-md shadow-lg bg-neutral-700 focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
                 type="text"
                 id="vid"
                 name="vid"
@@ -210,6 +210,7 @@ export default function EditableSubmission({ submission }: Props) {
                 value={videoLink}
                 onInput={(e) => setVideoLink((e.target as HTMLInputElement).value)}
               />
+              <iframe className="rounded-3xl" src={videoLink.replace("watch?v=", "embed/")} width={1000} height={500} />
               <div className="py-2 mt-4">
                 <SubmitButton loading={submitting} disabled={submitting || (isValid() ? false : true)}>
                   Update
