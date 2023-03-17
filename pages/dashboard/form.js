@@ -1,56 +1,52 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { RadioGroup } from "@headlessui/react";
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
 import { redirect, getUser } from "../../lib/server";
 
-export default function Form({ user }) {
-  const router = useRouter();
-  const [osis, setOsis] = useState("");
-  const [experience, setExperience] = useState("BEGINNER");
-  const [year, setYear] = useState("");
-  const [confirmation, setConfirmation] = useState("NO");
-  const experienceLevels = ["None", "Beginner", "Intermediate", "Advanced"];
-  const graduationYears = ["2023", "2024", "2025", "2026"];
-  const confirmations = ["YES", "NO"];
+export default function Form() {
+  // const router = useRouter();
+  // const [osis, setOsis] = useState("");
+  // const [experience, setExperience] = useState("BEGINNER");
+  // const [year, setYear] = useState("");
+  // const [confirmation, setConfirmation] = useState("NO");
+  // const experienceLevels = ["None", "Beginner", "Intermediate", "Advanced"];
+  // const graduationYears = ["2023", "2024", "2025", "2026"];
+  // const confirmations = ["YES", "NO"];
 
   // We gotta use Formik or something
-  const isValid = () => {
-    return (
-      experience &&
-      !isNaN(year) &&
-      !isNaN(parseFloat(year)) &&
-      confirmation == "YES" &&
-      osis.length == 9 &&
-      !isNaN(osis) &&
-      !isNaN(parseFloat(osis))
-    );
-  };
+  // const isValid = () => {
+  //   return (
+  //     experience &&
+  
+  // // to be updated
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!isValid()) {
+  //     return;
+  //   }
 
-  // to be updated
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!isValid()) {
-      return;
-    }
+  //   const body = JSON.stringify({
+  //     osis,
+  //     experience,
+  //     year,
+  //   });
+  //   const res = await fetch("/api/user/initialize", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body,
+  //   });
+  //   if (res.status == 201) {
+  //     router.push("/dashboard/success");
+  //   }
+  // };    !isNaN(year) &&
+  //     !isNaN(parseFloat(year)) &&
+  //     confirmation == "YES" &&
+  //     osis.length == 9 &&
+  //     !isNaN(osis) &&
+  //     !isNaN(parseFloat(osis))
+  //   );
+  // };
 
-    const body = JSON.stringify({
-      osis,
-      experience,
-      year,
-    });
-    const res = await fetch("/api/user/initialize", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    });
-    if (res.status == 201) {
-      router.push("/dashboard/success");
-    }
-  };
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-neutral-800">
