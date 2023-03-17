@@ -102,6 +102,26 @@ export default function EditableSubmission({ submission }: Props) {
     }
   };
 
+  const publish = async () => {
+    let body = {
+      name,
+      description, // this is so cursed
+      public: true,
+    };
+
+    const res = await fetch("/api/submissions/edit", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (res.status == 201) {
+      router.push("/dashboard/submissions");
+    }
+
+  };
+
   return (
     <>
       <div className="flex items-center justify-center w-full py-8 bg-black h-96 sm:h-80">
@@ -220,7 +240,7 @@ export default function EditableSubmission({ submission }: Props) {
           )}
         </div>
         <div className="m-4 ml-auto">
-          <ActionsMenu setEditing={setEditing} />
+          <ActionsMenu publish={publish} setEditing={setEditing} />
         </div>
       </div>
     </>
