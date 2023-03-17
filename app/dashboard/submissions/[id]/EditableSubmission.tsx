@@ -55,7 +55,7 @@ export default function EditableSubmission({ submission }: Props) {
 
   const setCurrentImage = (i: number) => {
     if (selectedImages.length <= 0) return;
-    _setCurrentImage(i % (selectedImages.length));
+    _setCurrentImage(i % selectedImages.length);
   };
 
   const onSelectImages: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -98,7 +98,7 @@ export default function EditableSubmission({ submission }: Props) {
       setSubmitting(false);
       setEditing(false);
       setCurrentImage(0);
-      setNewImages([])
+      setNewImages([]);
       return router.refresh();
     }
   };
@@ -120,7 +120,6 @@ export default function EditableSubmission({ submission }: Props) {
     if (res.status == 201) {
       router.push("/dashboard/submissions");
     }
-
   };
 
   return (
@@ -134,13 +133,13 @@ export default function EditableSubmission({ submission }: Props) {
             <>
               {selectedImages && selectedImages[currentImage] ? (
                 <Image
-                  className="absolute rounded-xl object-cover"
+                  className="absolute object-cover rounded-xl"
                   src={selectedImages[currentImage]}
                   fill
                   alt="image"
                 ></Image>
               ) : (
-                <PhotoIcon className="h-8 w-8 text-neutral-400" />
+                <PhotoIcon className="w-8 h-8 text-neutral-400" />
               )}
             </>
           ) : (
@@ -242,7 +241,14 @@ export default function EditableSubmission({ submission }: Props) {
                 value={videoLink}
                 onInput={(e) => setVideoLink((e.target as HTMLInputElement).value)}
               />
-              <iframe className="rounded-3xl" src={videoLink.replace("watch?v=", "embed/")} width={1000} height={500} />
+              {videoLink !== null ? (
+                <iframe
+                  className="rounded-3xl"
+                  src={videoLink.replace("watch?v=", "embed/")}
+                  width={1000}
+                  height={500}
+                />
+              ) : null}
               <div className="py-2 mt-4">
                 <SubmitButton loading={submitting} disabled={submitting || (isValid() ? false : true)}>
                   Update
