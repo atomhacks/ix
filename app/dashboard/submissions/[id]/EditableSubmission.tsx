@@ -46,14 +46,14 @@ export default function EditableSubmission({ submission }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [currentImage, _setCurrentImage] = useState(0);
   const [newImages, setNewImages] = useState<File[]>([]);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>(submission.media);
   const inputFileElement = useRef<null | HTMLInputElement>(null);
 
   const isValid = () => name != "" && description != "";
 
   const setCurrentImage = (i: number) => {
-    if (selectedImages.length + submission.media.length <= 0) return;
-    _setCurrentImage(i % (selectedImages.length + submission.media.length));
+    if (selectedImages.length <= 0) return;
+    _setCurrentImage(i % (selectedImages.length));
   };
 
   const onSelectImages: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -77,7 +77,6 @@ export default function EditableSubmission({ submission }: Props) {
 
     if (newImages.length > 0) {
       const imagesBase64 = await Promise.all(newImages.map(async (file) => await toBase64(file)));
-      console.log(imagesBase64)
       body = {
         ...body,
         media: imagesBase64,
@@ -94,6 +93,8 @@ export default function EditableSubmission({ submission }: Props) {
     if (res.status == 201) {
       setSubmitting(false);
       setEditing(false);
+      setCurrentImage(0);
+      setNewImages([])
       return router.refresh();
     }
   };
@@ -106,7 +107,18 @@ export default function EditableSubmission({ submission }: Props) {
         </button>
         <div className="relative flex h-full w-2/6 min-w-[600px] flex-col items-center justify-center rounded-xl bg-neutral-900">
           {!editing ? (
-            <PhotoIcon className="h-8 w-8 text-neutral-400" />
+            <>
+              {selectedImages && selectedImages[currentImage] ? (
+                <Image
+                  className="absolute rounded-xl object-cover"
+                  src={selectedImages[currentImage]}
+                  fill
+                  alt="image"
+                ></Image>
+              ) : (
+                <PhotoIcon className="h-8 w-8 text-neutral-400" />
+              )}
+            </>
           ) : (
             <>
               <div className="absolute z-10 flex flex-col items-center justify-center space-y-2">

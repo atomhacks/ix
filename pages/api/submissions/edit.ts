@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (body.media) {
-    body.media = body.media.flatMap(async (image: any) => {
+    body.media = await Promise.all(body.media.map(async (image: any) => {
       try {
         const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
         const ext = image.split(";")[0].split("/")[1];
@@ -73,17 +73,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }),
         );
         if (upload.$metadata.httpStatusCode == 200) {
-          return `${process.env.SPACES_CDN_ENDPOINT!}/${key}`;
+          return `${process.env.SPACES_CDN_ENDPOINT!}/${key.replaceAll("/", "%2F")}`;
         } else {
-          return [];
+          return undefined;
         }
       } catch (e) {
         console.warn("Image failed to upload,", e);
-        return [];
+        return undefined;
       }
-    });
+    }));
   }
-
+  // TODO: currently it reassigns image so it replaces images after editiing
+  // instead of appending
   try {
     const submission = await prisma.submission.update({
       where: {
