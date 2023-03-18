@@ -79,7 +79,6 @@ model FormInfo {
 enum Track {
   GENERAL
   BEGINNER
-  TASKADE
 }
 
 enum Experience {

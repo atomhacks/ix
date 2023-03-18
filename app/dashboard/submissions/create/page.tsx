@@ -39,12 +39,6 @@ export default async function CreateSubmissionPage() {
       prizes: ["Arduino Kit"],
       value: "BEGINNER",
     },
-    {
-      name: "Sponsorship Track",
-      description: "Courtesy of Taskade! Your team must demonstrate your use of Taskade to be eligible.",
-      prizes: ["Taskade Lifetime Upgrades (Worth $99)"],
-      value: "TASKADE",
-    },
   ];
 
   return (
