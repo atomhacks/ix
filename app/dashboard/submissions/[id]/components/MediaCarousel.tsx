@@ -21,22 +21,22 @@ export default function PhotoCarousel({ media }: { media: Array<{ src: string; t
 
   return (
     <div className="group relative flex h-96 w-[640px] min-w-[600px] items-center justify-center">
-      {media && media[index % media.length] ? (
+      {media && media[index % media.length] && media[index].src  ? (
         media[index].type === "image" ? (
           <Image className="absolute z-0 object-fill" src={media[index].src} fill alt="image" />
         ) : (
           <iframe
-            className="absolute z-0 h-full w-full object-fill"
+            className="absolute z-0 object-fill w-full h-full"
             src={media[index].src.replace("watch?v=", "embed/")}
           />
         )
       ) : (
-        <PhotoIcon className="h-8 w-8 text-neutral-400" />
+        <PhotoIcon className="w-8 h-8 text-neutral-400" />
       )}
-      <button className="absolute left-4 z-10 rounded-full bg-black p-2 opacity-0 transition duration-700 group-hover:opacity-80 group-hover:transition-opacity">
+      <button className="absolute z-10 p-2 transition duration-700 bg-black rounded-full opacity-0 left-4 group-hover:opacity-80 group-hover:transition-opacity">
         <ChevronLeftIcon className="h-7 w-7 text-zinc-400" onClick={() => setIndex(index - 1)} />
       </button>
-      <button className="absolute right-4 z-10 rounded-full bg-black p-2 opacity-0 transition duration-700 group-hover:opacity-80 group-hover:transition-opacity">
+      <button className="absolute z-10 p-2 transition duration-700 bg-black rounded-full opacity-0 right-4 group-hover:opacity-80 group-hover:transition-opacity">
         <ChevronRightIcon className="h-7 w-7 text-zinc-400" onClick={() => setIndex(index + 1)} />
       </button>
     </div>
