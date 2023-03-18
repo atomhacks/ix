@@ -1,11 +1,9 @@
 import { Session } from "next-auth";
 import "../styles/globals.css";
 
-import React, { PropsWithChildren, Suspense } from "react";
+import React, { PropsWithChildren } from "react";
 import { Providers } from "./components/Providers";
 import NavBar from "./components/NavBar";
-
-import Loading from "./loading";
 
 import { Montserrat } from "next/font/google";
 

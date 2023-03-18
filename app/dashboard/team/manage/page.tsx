@@ -3,7 +3,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import prisma from "../../../../lib/prisma";
 import { getUser } from "../../../../lib/server";
-import SubmitButton from "../../components/Submit";
 import UserTable from "./UserTable";
 
 export default async function ManageTeamPage() {

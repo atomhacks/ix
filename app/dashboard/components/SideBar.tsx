@@ -3,7 +3,6 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SideBar() {
@@ -38,14 +37,14 @@ export default function SideBar() {
                 if (index == 1) {
                   return {
                     name: "My Team",
-                    path: '/dashboard/team/manage',
+                    path: "/dashboard/team/manage",
                   };
                 }
                 if (index == 2 && user.team.submission) {
                   return {
                     name: "My Submission",
-                    path: `/dashboard/submissions/${user.team.submission.id}`
-                  }
+                    path: `/dashboard/submissions/${user.team.submission.id}`,
+                  };
                 }
                 return route;
               }),
@@ -54,11 +53,7 @@ export default function SideBar() {
         });
       }
     });
-  }, []);
-
-  const isActive = (path: string) => {
-    return usePathname() === path;
-  };
+  }, [routes]);
 
   return (
     <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 border-r border-black bg-neutral-900 text-lg text-neutral-200">
@@ -67,25 +62,14 @@ export default function SideBar() {
           <li className="mb-2">
             {/* DO NOT DELETE THE ?COMPLETE IT IS NECESSARY FOR DASHBOARD PAGE TO RELOAD AFTER FORM SUBMIT */}
             <Link href="/dashboard?complete">
-              <h1
-                className={`${
-                  isActive("/dashboard") && "text-teal-300"
-                } text-2xl font-bold transition duration-200 hover:text-teal-300`}
-              >
-                Dashboard
-              </h1>
+              <h1 className="text-2xl font-bold transition duration-200 hover:text-teal-300">Dashboard</h1>
             </Link>
           </li>
           <span className="mb-4 block w-full bg-neutral-800 p-px"></span>
           <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
-                <Link
-                  href={`${route.path}?fix${i}`}
-                  className={`${
-                    isActive(route.path) && "text-teal-300"
-                  } text-xl transition duration-200 hover:text-teal-300`}
-                >
+                <Link href={`${route.path}?fix${i}`} className="text-xl transition duration-200 hover:text-teal-300">
                   {route.name}
                 </Link>
               </li>

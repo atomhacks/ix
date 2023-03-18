@@ -2,7 +2,7 @@
 
 import { Prisma, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import SubmitButton from "../../components/Submit";
 import AddUsersModal from "./AddUsersModal";
 
@@ -74,8 +74,12 @@ export default function UserTable({ my_user, team, users }: Props) {
               <td className="p-4">{user.email}</td>
               <td className="p-4">{user.formInfo!.experience}</td>
               <td className="p-4">
-                <SubmitButton className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white transition duration-200 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-red-500 disabled:opacity-50"
-                onClick={() => onAction(user.id)} disabled={acting} loading={acting}>
+                <SubmitButton
+                  className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white transition duration-200 hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-red-500 disabled:opacity-50"
+                  onClick={() => onAction(user.id)}
+                  disabled={acting}
+                  loading={acting}
+                >
                   {user.id == my_user.id ? "Leave" : "Kick"}
                 </SubmitButton>
               </td>

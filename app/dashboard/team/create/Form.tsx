@@ -4,7 +4,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { FormEventHandler, Fragment, useRef, useState } from "react";
+import { FormEventHandler, Fragment, useState } from "react";
 import SubmitButton from "../../components/Submit";
 
 type Props = {

@@ -1,5 +1,4 @@
 /* Utility functions for common server-side actions*/
-import { Prisma } from "@prisma/client";
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
@@ -15,7 +14,7 @@ export const duplicateEntry = (res: NextApiResponse) => res.status(409).json({ m
 export const notFound = (res: NextApiResponse) => res.status(404).json({ message: "Not Found" });
 
 // only to be used in reading, for updating just call prisma manually
-type GetUserOverloads = {
+/* type GetUserOverloads = {
   (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"]): Promise<Prisma.UserGetPayload<{
     include: {
       accounts: true;
@@ -30,9 +29,9 @@ type GetUserOverloads = {
       formInfo: true;
     };
   }> | null>;
-};
+}; */
 
-export const getUser: GetUserOverloads = cache(async (req) => {
+/* export const getUser: GetUserOverloads = cache(async (req) => {
   const id = typeof req == "string" ? req : (await getToken({ req }))?.sub;
   if (!id) {
     return null;
@@ -60,7 +59,7 @@ export const getUser: GetUserOverloads = cache(async (req) => {
     return null;
   }
   return user;
-});
+}); */
 
 export const getSignedUsers = cache(async () => {
   return await prisma.user.findMany({
