@@ -56,22 +56,21 @@ export const getSignedUsers = cache(async () => {
     include: {
       team: {
         include: {
-          submission: true
-        }
-      }
-    }
-  })
-})
+          submission: true,
+        },
+      },
+    },
+  });
+});
 
 export const getAllSubmissions = cache(async () => {
   return await prisma.submission.findMany({
     where: { public: true },
     include: {
       team: true,
-      
-    }
-  })
-})
+    },
+  });
+});
 
 export const getSubmission = cache(
   async (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"] | string, id: string) => {
@@ -102,7 +101,7 @@ export const getSubmission = cache(
         team: {
           include: {
             users: true,
-          }
+          },
         },
       },
     });

@@ -1,5 +1,6 @@
 import { getAllSubmissions } from "../../../lib/server";
 import Image from "next/image";
+import Link from "next/link";
 
 import { HandThumbUpIcon, EyeIcon } from "@heroicons/react/24/solid";
 
@@ -14,7 +15,11 @@ export default async function Submissions() {
       <div className="mx-3">
         <div className="flex flex-row gap-1.5">
           {fetchedSubmissions.map((submission, i) => (
-            <div key={i} className="flex w-36 cursor-pointer flex-col overflow-hidden">
+            <Link
+              key={i}
+              className="flex w-36 cursor-pointer flex-col overflow-hidden"
+              href={`/dashboard/submissions/${submission.id}`}
+            >
               <div className="relative h-36 w-full overflow-auto rounded-md">
                 <span>
                   <Image className="object-fill" alt="" fill src={submission.media[0]}></Image>
@@ -30,7 +35,7 @@ export default async function Submissions() {
                 <EyeIcon className="inline-block h-4 w-4" />
                 <span className="pl-1 pr-3">{shortNumber(1213)}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

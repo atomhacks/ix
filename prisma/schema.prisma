@@ -55,11 +55,14 @@ model Submission {
   tracks      Track[]  @default([GENERAL])
   public      Boolean  @default(false)
   submitted   Boolean  @default(false)
-  srcLink     String?  
-  videoLink   String?
+  srcLink     String   @default("")
+  videoLink   String   @default("")
+  upVotes     Int      @default(0)
+  downVotes   Int      @default(0)
+  views       Int      @default(0)
 
   teamId String @unique
-  team   Team  @relation(fields: [teamId], references: [id])
+  team   Team   @relation(fields: [teamId], references: [id])
 }
 
 model FormInfo {
