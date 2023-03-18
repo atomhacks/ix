@@ -11,6 +11,9 @@ export default function PhotoCarousel({ images }: { images: string[] }) {
     if (images.length == 0) {
       return;
     }
+    if (idx < 0) {
+      idx = images.length + idx;
+    }
     _setIndex(idx % images.length);
   };
 
@@ -20,7 +23,7 @@ export default function PhotoCarousel({ images }: { images: string[] }) {
         <ChevronLeftIcon className="mr-8 h-8 w-8 text-white" onClick={() => setIndex(index - 1)} />
       </button>
       <div className="relative flex h-full w-2/6 min-w-[600px] items-center justify-center rounded-xl bg-neutral-900">
-        {images && images[index] ? (
+        {images && images[index % images.length] ? (
           <Image className="absolute rounded-xl object-cover" src={images[index]} fill alt="image" />
         ) : (
           <PhotoIcon className="h-8 w-8 text-neutral-400" />
