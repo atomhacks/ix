@@ -12,6 +12,17 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  headers: () => [
+    {
+      source: '/dashboard/submissions',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'no-store',
+        },
+      ],
+    },
+  ],
 };
 
 export default nextConfig;
