@@ -1,47 +1,15 @@
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
+import { Transition, Dialog } from "@headlessui/react";
 import bucket from "../lib/bucket";
-import { cache, Key } from "react";
+import { useState, Fragment } from "react";
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Gallery",
-};
-
-const getPhotos = cache(async () => {
-  const [items_2022, items_2019] = await Promise.all([
-    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" })),
-    bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" })),
-  ]);
-
-  const photos = [
-    {
-      year: 2022,
-      items: items_2022!
-        .Contents!.slice(1)
-        .filter((item) => item!.Key!.endsWith("JPG"))
-        .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-    },
-    {
-      year: 2019,
-      items: items_2019!
-        .Contents!.slice(1)
-        .filter((item) => item!.Key!.endsWith("JPG"))
-        .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
-    },
-  ];
-
-  return photos;
-});
-
-export default async function Gallery() {
-  const photos = await getPhotos();
-  // const [selectedImage, setSelectedImage] = useState(null);
+function GalleryPage({ photos }: { photos: string[][] }) {
+  const [selectedImage, setSelectedImage] = useState(null);
 
   return (
     <div className="bg-zinc-900 p-8 font-montserrat text-white">
-      {/* <Transition appear show={selectedImage != null} as={Fragment}>
+      <Transition appear show={selectedImage != null} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setSelectedImage(null)}>
           <Transition.Child
             as={Fragment}
@@ -68,46 +36,73 @@ export default async function Gallery() {
               >
                 <Dialog.Panel className="flex transform items-center justify-center overflow-hidden rounded-2xl shadow-xl transition-all">
                   {selectedImage && (
-                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt="Gallery Photo" />
+                    <Image className="rounded-2xl" src={selectedImage} width={1000} height={400} alt={""} />
                   )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
         </Dialog>
-      </Transition> */}
-      <div className="mb-20 flex items-center justify-center">
-        <span className="border-b-4 border-green-500 py-6 font-morro text-7xl">GALLERY</span>
+      </Transition>
+      <div className="mb-8 flex items-center justify-center">
+        <span className="border-b-4 border-green-500 py-6 font-morro text-7xl md:text-5xl">GALLERY</span>
       </div>
-      {photos.map((content, i: Key) => (
-        <>
-          <div className="flex items-center justify-center" key={i}>
-            {" "}
-            <span className="my-4 inline-block border-b-4 border-yellow-500 text-center font-montserrat text-4xl">
-              {content.year}
-            </span>
-          </div>
-          <div className="flex justify-center" key={i}>
-            <div className="my-4 grid w-full grow grid-cols-3 items-center justify-center gap-4 md:grid-cols-1">
-              {content.items.map((photo: string, i: Key) => (
-                <div
-                  className="hover:border-box hover:outline-3 outline-solid relative col-span-1 box-border block h-96 items-center justify-center overflow-auto rounded-xl outline-green-500 transition duration-200 hover:outline md:h-64"
-                  key={i}
-                >
-                  {" "}
-                  <Image
-                    className="object-cover"
-                    src={photo}
-                    alt="Gallery Photo"
-                    fill={true}
-                    // onClick={() => setSelectedImage(photo)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      ))}
+      <h1 className="mb-3 inline-block border-b-4 border-yellow-500 text-4xl">2022</h1>
+      <div className="flex justify-center">
+        <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
+          {photos[0].map((photo: string, i: number) => (
+            <Image
+              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              src={photo}
+              width={620}
+              height={200}
+              key={i}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt={""}
+            />
+          ))}
+        </div>
+      </div>
+      <h1 className="mb-3 mt-4 inline-block border-b-4 border-yellow-500 text-4xl">2019</h1>
+      <div className="flex justify-center">
+        <div className="grid grid-cols-3 gap-8 sm:grid-cols-1 md:grid-cols-1">
+          {photos[1].map((photo: string, i: number) => (
+            <Image
+              className="hover:border-box hover:outline-3 outline-solid box-border cursor-pointer rounded-xl outline-green-500 transition duration-200 hover:outline"
+              src={photo}
+              width={620}
+              height={200}
+              key={i}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt={""}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
+
+export async function getStaticProps() {
+  const items_2022 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2022/" }));
+  const items_2019 = await bucket.send(new ListObjectsV2Command({ Bucket: "atomhacks", Prefix: "Photos/2019/" }));
+  const photos = [
+    items_2022!
+      .Contents!.slice(1)
+      .filter((item) => item!.Key!.endsWith("JPG"))
+      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
+    items_2019!
+      .Contents!.slice(1)
+      .filter((item) => item!.Key!.endsWith("JPG"))
+      .map((item) => `${process.env.SPACES_CDN_ENDPOINT}/${item.Key}`),
+  ];
+
+  return {
+    props: {
+      photos,
+    },
+    revalidate: 600,
+  };
+}
+
+export default GalleryPage;
