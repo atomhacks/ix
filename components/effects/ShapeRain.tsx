@@ -14,7 +14,7 @@ const ShapeRain: React.FC<{ count: number }> = ({ count }) => {
       arr.push(
         <Shape
           type={selectRandom(["circle", "triangle", "rect"])}
-          id={i}
+          id={i.toString()}
           key={i}
           color={selectRandom(["green", "orange"])}
           reverseAnimation={Math.random() > 0.5}
