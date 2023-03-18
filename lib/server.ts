@@ -17,10 +17,18 @@ export const notFound = (res: NextApiResponse) => res.status(404).json({ message
 // only to be used in reading, for updating just call prisma manually
 type GetUserOverloads = {
   (req: NextRequest | NextApiRequest | GetServerSidePropsContext["req"]): Promise<Prisma.UserGetPayload<{
-    include: { accounts: true; team: { include: { users: true; submission: true } }; formInfo: true };
+    include: {
+      accounts: true;
+      team: { include: { users: { include: { formInfo: true } }; submission: true } };
+      formInfo: true;
+    };
   }> | null>;
   (req: string): Promise<Prisma.UserGetPayload<{
-    include: { accounts: true; team: { include: { users: true; submission: true } }; formInfo: true };
+    include: {
+      accounts: true;
+      team: { include: { users: { include: { formInfo: true } }; submission: true } };
+      formInfo: true;
+    };
   }> | null>;
 };
 
@@ -37,7 +45,11 @@ export const getUser: GetUserOverloads = cache(async (req) => {
       accounts: true,
       team: {
         include: {
-          users: true,
+          users: {
+            include: {
+              formInfo: true,
+            },
+          },
           submission: true,
         },
       },

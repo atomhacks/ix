@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import { getSubmission } from "../../../../lib/server";
 import EditMenu from "./components/EditMenu";
+import PhotoCarousel from "./components/PhotoCarousel";
 
 export default async function SubmissionPage({ params }: { params: { id: string } }) {
   const jwt = await getServerSession({
@@ -19,26 +20,18 @@ export default async function SubmissionPage({ params }: { params: { id: string 
     notFound();
   }
 
+  const isMine = submission.team?.users.map((user) => user.id).some((id) => id == jwt.sub) ?? false;
+
   return (
     <>
-      <div className="flex h-96 w-full items-center justify-center bg-black py-8 sm:h-80">
-        <button>
-          <ChevronLeftIcon className="mr-8 h-8 w-8 text-white" />
-        </button>
-        <div className="flex h-full w-2/6 min-w-[600px] items-center justify-center rounded-xl bg-neutral-900">
-          <PhotoIcon className="h-8 w-8 text-neutral-400" />
-        </div>
-        <button>
-          <ChevronRightIcon className="ml-8 h-8 w-8 text-white" />
-        </button>
-      </div>
+      <PhotoCarousel images={submission.media} />
       <div className="flex justify-center">
-        <div className="max-w-screen-md ml-auto p-4">
+        <div className="max-w-screen-md mx-auto p-4">
           <h1 className="mb-4 text-6xl font-bold text-teal-300">{submission.name}</h1>
           <p className="mb-4 whitespace-pre-line text-xl">{submission.description}</p>
         </div>
+        {isMine && <EditMenu />}
       </div>
-      <EditMenu />
     </>
   );
 }

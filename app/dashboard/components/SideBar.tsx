@@ -14,6 +14,10 @@ export default function SideBar() {
       path: "/dashboard/submissions",
     },
     {
+      name: "Create Team",
+      path: "/dashboard/team/create",
+    },
+    {
       name: "Create Submission",
       path: "/dashboard/submissions/create",
     },
@@ -28,17 +32,22 @@ export default function SideBar() {
     }).then((res) => {
       if (res.status == 200) {
         res.json().then((user) => {
-          if (user.team && user.team.submission) {
+          if (user.team) {
             setRoutes(
               routes.map((route, index) => {
                 if (index == 1) {
                   return {
-                    name: "My Submission",
-                    path: `/dashboard/submissions/${user.team.submission.id}`,
+                    name: "My Team",
+                    path: '/dashboard/team/manage',
                   };
-                } else {
-                  return route;
                 }
+                if (index == 2 && user.team.submission) {
+                  return {
+                    name: "My Submission",
+                    path: `/dashboard/submissions/${user.team.submission.id}`
+                  }
+                }
+                return route;
               }),
             );
           }
@@ -53,7 +62,7 @@ export default function SideBar() {
 
   return (
     <div className="fixed flex h-[calc(100vh-56px)] w-56 flex-col space-y-4 border-r border-black bg-neutral-900 text-lg text-neutral-200">
-      <ul className="flex flex-col h-full">
+      <ul className="flex h-full flex-col">
         <div className="p-4">
           <li className="mb-2">
             {/* DO NOT DELETE THE ?COMPLETE IT IS NECESSARY FOR DASHBOARD PAGE TO RELOAD AFTER FORM SUBMIT */}
@@ -67,8 +76,8 @@ export default function SideBar() {
               </h1>
             </Link>
           </li>
-          <span className="block w-full p-px mb-4 bg-neutral-800"></span>
-                    <div className="space-y-4">
+          <span className="mb-4 block w-full bg-neutral-800 p-px"></span>
+          <div className="space-y-4">
             {routes.map((route, i) => (
               <li key={i}>
                 <Link
@@ -98,7 +107,7 @@ export default function SideBar() {
               <h1 className="text-xl">{data!.user!.name}</h1>
             </li>
             <li>
-              <button className="w-full text-xl font-bold bg-black h-14" onClick={() => signOut({ callbackUrl: "/" })}>
+              <button className="h-14 w-full bg-black text-xl font-bold" onClick={() => signOut({ callbackUrl: "/" })}>
                 <p className="p-2">Sign Out</p>
               </button>
             </li>
