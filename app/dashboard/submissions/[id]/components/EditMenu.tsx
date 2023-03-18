@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 export default function EditMenu() {
   return (
-    <Popover className="relative">
+    <Popover className="relative mr-8 mt-2">
       <>
         <Popover.Button>
           <EllipsisHorizontalIcon className="h-8 w-8 text-white" />

@@ -13,8 +13,6 @@ export const revalidate = 0;
 type Props = {
   submission: Prisma.SubmissionGetPayload<{
     include: {
-      srcLink: string;
-      videoLink: string;
       team: {
         include: {
           users: true;
