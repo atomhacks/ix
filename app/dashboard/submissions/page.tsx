@@ -11,7 +11,7 @@ export default async function Submissions() {
     <div className="font-montserrat text-white">
       <h1 className="mx-3 mt-6 mb-4 text-4xl font-bold">Submissions</h1>
       <div className="mx-3">
-        <div className="flex flex-row gap-1.5">
+        <div className="flex flex-wrap flex-row gap-1.5">
           {fetchedSubmissions.map((submission, i) => (
             <Link
               key={i}
