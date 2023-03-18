@@ -79,7 +79,7 @@ model FormInfo {
 enum Track {
   GENERAL
   BEGINNER
-  SPONSOR_PENDING
+  TASKADE
 }
 
 enum Experience {
