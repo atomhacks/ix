@@ -22,7 +22,7 @@ export const config = {
   },
 };
 
-const fields = ["name", "description", "tracks", "media", "srcLink", "videoLink", "public"] as const;
+const fields = ["name", "description", "tracks", "media", "srcLink", "videoLink", "public", "icon"] as const;
 const req_fields = ["name", "description"] as const;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -55,33 +55,64 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (body.media) {
-    body.media = await Promise.all(body.media.map(async (image: any) => {
-      try {
-        const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
-        const ext = image.split(";")[0].split("/")[1];
-        const key = `Submissions/${user.team!.name}/${Math.random().toString(36).slice(2)}.${ext}`;
-        console.log(key)
+    body.media = await Promise.all(
+      body.media.map(async (image: any) => {
+        try {
+          const base64Data = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
+          const ext = image.split(";")[0].split("/")[1];
+          const key = `Submissions/${user.team!.name}/${Math.random().toString(36).slice(2)}.${ext}`;
+          console.log(key);
 
-        const upload = await bucket.send(
-          new PutObjectCommand({
-            Key: key,
-            Bucket: "atomhacks",
-            Body: base64Data,
-            ACL: "public-read",
-            ContentEncoding: "base64",
-            ContentType: `image/${ext}`,
-          }),
-        );
-        if (upload.$metadata.httpStatusCode == 200) {
-          return `${process.env.SPACES_CDN_ENDPOINT!}/${key.replaceAll("/", "%2F")}`;
-        } else {
+          const upload = await bucket.send(
+            new PutObjectCommand({
+              Key: key,
+              Bucket: "atomhacks",
+              Body: base64Data,
+              ACL: "public-read",
+              ContentEncoding: "base64",
+              ContentType: `image/${ext}`,
+            }),
+          );
+          if (upload.$metadata.httpStatusCode == 200) {
+            return `${process.env.SPACES_CDN_ENDPOINT!}/${key.replaceAll("/", "%2F")}`;
+          } else {
+            return undefined;
+          }
+        } catch (e) {
+          console.warn("Image failed to upload,", e);
           return undefined;
         }
-      } catch (e) {
-        console.warn("Image failed to upload,", e);
-        return undefined;
+      }),
+    );
+  }
+
+  if (body.icon) {
+    try {
+      const base64Data = Buffer.from(body.icon.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      const ext = body.icon.split(";")[0].split("/")[1];
+      const key = `Submissions/${user.team!.name}/${Math.random().toString(36).slice(2)}.${ext}`;
+      console.log(key);
+
+      const upload = await bucket.send(
+        new PutObjectCommand({
+          Key: key,
+          Bucket: "atomhacks",
+          Body: base64Data,
+          ACL: "public-read",
+          ContentEncoding: "base64",
+          ContentType: `image/${ext}`,
+        }),
+      );
+
+      if (upload.$metadata.httpStatusCode == 200) {
+        body.icon = `${process.env.SPACES_CDN_ENDPOINT!}/${key.replaceAll("/", "%2F")}`;
+      } else {
+        body.icon = "";
       }
-    }));
+    } catch (e) {
+      console.warn("Image failed to upload,", e);
+      body.icon = "";
+    }
   }
   // TODO: currently it reassigns image so it replaces images after editiing
   // instead of appending

@@ -45,13 +45,12 @@ export default function EditableSubmission({ submission }: Props) {
   const [srcLink, setSrcLink] = useState<string>(submission.srcLink as string);
   const [videoLink, setVideoLink] = useState<string>(submission.videoLink as string);
   const [submitting, setSubmitting] = useState(false);
-  const [icon, setIcon] = useState<File>();
   const [currentImage, _setCurrentImage] = useState(0);
+  const [newIcon, setNewIcon] = useState<File>();
+  const [selectedIcon, setSelectedIcon] = useState<string>(submission.icon);
   const [newImages, setNewImages] = useState<File[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>(submission.media);
   const inputFileElement = useRef<null | HTMLInputElement>(null);
-
-  let iconChanged = false;
 
   const isValid = () => name != "" && description != "";
 
@@ -65,15 +64,16 @@ export default function EditableSubmission({ submission }: Props) {
     e.preventDefault();
     console.log(e.target.files!);
     setNewImages(Array.from(e.target.files!));
+    console.log(submission.media.concat(Array.from(e.target.files!).map((file) => URL.createObjectURL(file))));
     setSelectedImages(submission.media.concat(Array.from(e.target.files!).map((file) => URL.createObjectURL(file))));
   };
 
   const onSelectIcon: ChangeEventHandler<HTMLInputElement> = (e) => {
-    e.stopPropagation();
     e.preventDefault();
     console.log(e.target.files![0]);
-    setIcon(e.target.files![0]);
-    iconChanged = true;
+    setNewIcon(e.target.files![0]);
+    console.log(URL.createObjectURL(e.target.files![0]));
+    setSelectedIcon(URL.createObjectURL(e.target.files![0]));
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -81,6 +81,7 @@ export default function EditableSubmission({ submission }: Props) {
     if (!isValid()) return;
     setSubmitting(true);
     console.log(selectedImages);
+    console.log(selectedIcon);
 
     let body: any = {
       name,
@@ -97,8 +98,8 @@ export default function EditableSubmission({ submission }: Props) {
       };
     }
 
-    if (iconChanged && icon) {
-      const imagesBase64 = await toBase64(icon);
+    if (newIcon) {
+      const imagesBase64 = await toBase64(newIcon);
       body = {
         ...body,
         icon: imagesBase64,
@@ -116,6 +117,7 @@ export default function EditableSubmission({ submission }: Props) {
       setSubmitting(false);
       setCurrentImage(0);
       setNewImages([]);
+      setNewIcon(undefined);
       router.push(`/dashboard/submissions/${submission.id}`);
       return router.refresh();
     }

@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["lh3.googleusercontent.com", "atomhacks.nyc3.cdn.digitaloceanspaces.com", "tr.rbxcdn.com"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "atomhacks.nyc3.cdn.digitaloceanspaces.com",
+      "tr.rbxcdn.com",
+      "static.wikia.nocookie.net",
+    ],
   },
   experimental: {
     appDir: true,
