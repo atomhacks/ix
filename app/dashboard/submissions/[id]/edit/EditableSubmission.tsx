@@ -57,6 +57,9 @@ export default function EditableSubmission({ submission }: Props) {
 
   const setCurrentImage = (i: number) => {
     if (selectedImages.length <= 0) return;
+    if (i < 0) {
+      i = selectedImages.length + i;
+    }
     _setCurrentImage(i % selectedImages.length);
   };
 
@@ -65,7 +68,7 @@ export default function EditableSubmission({ submission }: Props) {
     e.preventDefault();
     console.log(e.target.files!);
     setNewImages(Array.from(e.target.files!));
-    setSelectedImages(submission.media.concat(Array.from(e.target.files!).map((file) => URL.createObjectURL(file))));
+    setSelectedImages(Array.from(e.target.files!).map((file) => URL.createObjectURL(file)));
   };
 
   const onSelectIcon: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -153,10 +156,7 @@ export default function EditableSubmission({ submission }: Props) {
                 className="rounded-2xl bg-neutral-700 px-4 py-2 transition duration-200 hover:bg-neutral-600"
                 onClick={() => inputFileElement.current!.click()}
               >
-                Add Images
-              </button>
-              <button className="rounded-2xl bg-neutral-700 px-4 py-2 text-red-400 transition duration-200 hover:bg-neutral-600">
-                Delete Image
+                Replace Images
               </button>
             </div>
             <>
