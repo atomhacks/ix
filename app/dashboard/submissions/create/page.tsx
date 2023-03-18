@@ -43,7 +43,7 @@ export default async function CreateSubmissionPage() {
       name: "Sponsorship Track",
       description: "Courtesy of Taskade! Your team must demonstrate your use of Taskade to be eligible.",
       prizes: ["Taskade Lifetime Upgrades (Worth $99)"],
-      value: "Taskade",
+      value: "TASKADE",
     },
   ];
 
