@@ -1,6 +1,6 @@
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import Image from "next/image";
-import bucket from "../../lib/bucket";
+import bucket from "../lib/bucket";
 import { cache, Key } from "react";
 
 import { Metadata } from "next";
