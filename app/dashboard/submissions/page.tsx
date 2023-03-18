@@ -22,7 +22,7 @@ export default async function Submissions() {
             >
               <div className="relative h-36 w-full overflow-auto rounded-md">
                 <span>
-                  <Image className="object-fill" alt="" fill src={submission.media[0]}></Image>
+                  <Image className="object-fill" alt="" fill src={submission.icon}></Image>
                 </span>
               </div>
               <div className="relative mt-1.5 mb-1 max-h-11 w-full overflow-hidden text-ellipsis text-start">

@@ -52,6 +52,7 @@ model Submission {
   name        String   @unique
   description String
   media       String[] @default([])
+  icon        String   @default("")
   tracks      Track[]  @default([GENERAL])
   public      Boolean  @default(false)
   submitted   Boolean  @default(false)

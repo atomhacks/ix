@@ -2,7 +2,6 @@
 
 import { Popover, Transition } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { Fragment } from "react";
 
 export default function PublishMenu({ publish }: { publish: () => void }) {
@@ -30,11 +29,6 @@ export default function PublishMenu({ publish }: { publish: () => void }) {
                 >
                   <div>
                     <p className="text-sm font-medium text-neutral-200">Publish</p>
-                  </div>
-                </button>
-                <button className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-neutral-600 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                  <div>
-                    <p className="text-sm font-medium text-red-400">Delete</p>
                   </div>
                 </button>
               </div>

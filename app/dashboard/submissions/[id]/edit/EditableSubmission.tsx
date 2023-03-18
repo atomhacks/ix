@@ -47,10 +47,13 @@ export default function EditableSubmission({ submission }: Props) {
   const [srcLink, setSrcLink] = useState<string>(submission.srcLink as string);
   const [videoLink, setVideoLink] = useState<string>(submission.videoLink as string);
   const [submitting, setSubmitting] = useState(false);
+  const [icon, setIcon] = useState<File>();
   const [currentImage, _setCurrentImage] = useState(0);
   const [newImages, setNewImages] = useState<File[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>(submission.media);
   const inputFileElement = useRef<null | HTMLInputElement>(null);
+
+  let iconChanged = false;
 
   const isValid = () => name != "" && description != "";
 
@@ -65,6 +68,14 @@ export default function EditableSubmission({ submission }: Props) {
     console.log(e.target.files!);
     setNewImages(Array.from(e.target.files!));
     setSelectedImages(submission.media.concat(Array.from(e.target.files!).map((file) => URL.createObjectURL(file))));
+  };
+
+  const onSelectIcon: ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log(e.target.files![0]);
+    setIcon(e.target.files![0]);
+    iconChanged = true;
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -85,6 +96,14 @@ export default function EditableSubmission({ submission }: Props) {
       body = {
         ...body,
         media: imagesBase64,
+      };
+    }
+
+    if (iconChanged && icon) {
+      const imagesBase64 = await toBase64(icon);
+      body = {
+        ...body,
+        icon: imagesBase64,
       };
     }
 
@@ -185,7 +204,7 @@ export default function EditableSubmission({ submission }: Props) {
               onInput={(e) => setName((e.target as HTMLInputElement).value)}
             />
             <label className="block text-base text-neutral-400" htmlFor="description">
-              Description
+              Description *
             </label>
             <textarea
               className="text-m mt-1 mb-4 block w-full rounded-lg bg-neutral-700 p-2 shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
@@ -197,8 +216,16 @@ export default function EditableSubmission({ submission }: Props) {
               autoComplete="off"
               onInput={(e) => setDescription((e.target as HTMLInputElement).value)}
             />
+            <label htmlFor="image">Icon (For best results, image should be a square)</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/png, image/jpeg, image/webp"
+              onChange={onSelectIcon}
+            ></input>
             <label className="block text-base text-neutral-400" htmlFor="name">
-              Source Code
+              Source Code (Google Drive Link, GitHub repository, etc)
             </label>
             <input
               className="mb-4 block w-full rounded-md bg-neutral-700 p-2 text-lg shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
@@ -210,7 +237,7 @@ export default function EditableSubmission({ submission }: Props) {
               onInput={(e) => setSrcLink((e.target as HTMLInputElement).value)}
             />
             <label className="bl ock text-base text-neutral-400" htmlFor="name">
-              Video Link
+              Video Link (YouTube)
             </label>
             <input
               className="mb-6 block w-full rounded-md bg-neutral-700 p-2 text-lg shadow-lg focus:border-teal-600 focus:outline-none focus:ring focus:ring-teal-500"
