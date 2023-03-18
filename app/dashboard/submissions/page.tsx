@@ -4,8 +4,6 @@ import Link from "next/link";
 
 import { HandThumbUpIcon, EyeIcon } from "@heroicons/react/24/solid";
 
-const shortNumber = require("short-number");
-
 export default async function Submissions() {
   const fetchedSubmissions = await getAllSubmissions();
   console.log(fetchedSubmissions);
@@ -31,9 +29,9 @@ export default async function Submissions() {
               <div className="relative text-start text-base font-normal">
                 {" "}
                 <HandThumbUpIcon className="inline-block h-4 w-4" />
-                <span className="pl-1 pr-3">85%</span>
+                <span className="pl-1 pr-3">N/A</span>
                 <EyeIcon className="inline-block h-4 w-4" />
-                <span className="pl-1 pr-3">{shortNumber(1213)}</span>
+                <span className="pl-1 pr-3">N/A</span>
               </div>
             </Link>
           ))}

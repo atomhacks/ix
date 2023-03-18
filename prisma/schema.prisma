@@ -57,7 +57,7 @@ model Submission {
   public      Boolean  @default(false)
   submitted   Boolean  @default(false)
   srcLink     String   @default("")
-  videoLink   String   @default("")
+  videoLink   String   @default("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
   upVotes     Int      @default(0)
   downVotes   Int      @default(0)
   views       Int      @default(0)

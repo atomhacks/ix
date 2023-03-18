@@ -1,7 +1,7 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Fragment } from "react";
 import { usePathname } from "next/navigation";
@@ -11,7 +11,7 @@ export default function EditMenu() {
     <Popover className="relative mr-8 mt-2">
       <>
         <Popover.Button>
-          <EllipsisHorizontalIcon className="h-8 w-8 text-white" />
+          <EllipsisVerticalIcon className="h-8 w-8 text-white" />
         </Popover.Button>
         <Transition
           as={Fragment}
