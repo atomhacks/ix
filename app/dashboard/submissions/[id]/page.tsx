@@ -45,14 +45,14 @@ export default async function SubmissionPage({ params }: { params: { id: string 
 
   const media: Array<{ src: string; type: string }> = [];
 
-  media.push({ src: submission.videoLink, type: "video" });
+  media.push({ src: submission.videoLink as string, type: "video" });
 
   submission.media.forEach((image) => {
     media.push({ src: image, type: "image" });
   });
 
   return (
-    <div className="flex h-full flex-col overflow-auto">
+    <div className="flex flex-col h-full overflow-auto">
       <div className="my-4 h-[90px] w-full items-center justify-center">
         <div className="relative m-auto h-[90px] w-[728px] items-center justify-center">
           <a href={randomAd.link}>
@@ -61,18 +61,18 @@ export default async function SubmissionPage({ params }: { params: { id: string 
           </a>
         </div>
       </div>
-      <div className="mx-auto flex flex-col justify-center">
+      <div className="flex flex-col justify-center mx-auto">
         <div className="flex flex-row justify-center">
           <PhotoCarousel media={media} />
           <div className="flex justify-center">
-            <div className="max-w-screen-md ml-4 mr-3 flex w-80 flex-col px-6 py-4">
+            <div className="flex flex-col max-w-screen-md px-6 py-4 ml-4 mr-3 w-80">
               <div className="mb-auto">
                 <h1 className="my-2 text-5xl font-extrabold text-white">{submission.name}</h1>
                 <h1 className="text-base">By {submission.team.name}</h1>
               </div>
               <div className="mt-auto">
-                <div className="flex h-16 w-full items-center justify-center rounded-lg bg-red-500 align-bottom">
-                  <PlayCircleIcon className="m-auto h-9 w-9" />
+                <div className={`flex items-center justify-center w-full h-16 align-bottom rounded-lg ${submission.srcLink ? (`bg-green-600`) : (`bg-red-500`)}`}>
+                  <a href={submission.srcLink}><PlayCircleIcon className="m-auto h-9 w-9" /></a>
                 </div>
               </div>
             </div>
