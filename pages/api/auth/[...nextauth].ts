@@ -27,9 +27,8 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ account, profile }) {
-      if (!account || !profile) return false;
-      // future GitHub integration?
+    async signIn({ user, account, profile }) {
+      if (!account || !profile || !user) return false;
       if (account.provider === "google") {
         return (profile as GoogleProfile).email_verified && (profile as GoogleProfile).email.endsWith("@bxscience.edu");
       }
