@@ -22,12 +22,6 @@ const NavBar = () => {
           <Link className="px-4 duration-300 hover:text-gray-500 md:px-2" href="/gallery">
             GALLERY
           </Link>
-          <Link
-            className="px-4 duration-300 hover:text-gray-500 md:px-2"
-            href="https://docs.google.com/spreadsheets/d/1DuaOdHg2O0FsFfphVt9jJyLTk4p3CocCB2yYLZs9JzQ/edit?usp=sharing"
-          >
-            SCHEDULE
-          </Link>
         </div>
       </div>
     </div>

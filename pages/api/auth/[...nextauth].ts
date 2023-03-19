@@ -4,7 +4,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 // import GitHubProvider from "next-auth/providers/github";
 
@@ -27,19 +27,7 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (!account || !profile || !user) return false;
-      if (account.provider === "google") {
-        return (profile as GoogleProfile).email_verified && (profile as GoogleProfile).email.endsWith("@bxscience.edu");
-      }
-      if (account.provider === "discord") {
-        return true;
-      }
-      /*
-      if (account.provider === "github") {
-        return true;
-      }
-      */
+    async signIn() {
       return false;
     },
   },
